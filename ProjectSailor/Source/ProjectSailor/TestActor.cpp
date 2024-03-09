@@ -15,7 +15,6 @@ ATestActor::ATestActor()
 void ATestActor::BeginPlay()
 {
 	Super::BeginPlay();
-	//RICKY LA chup*
 	
 }
 
