@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "InteractionComponent.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -69,6 +70,22 @@ void AProjectSailorCharacter::BeginPlay()
 	}
 }
 
+void AProjectSailorCharacter::InteractMethod()
+{
+	// Get the UInteractionComponent component
+	UInteractionComponent* InteractionComponent = GetComponentByClass<UInteractionComponent>();
+	if (InteractionComponent)
+	{
+		//give access to the pressE = true
+		InteractionComponent->PressedE();
+	InteractionComponent->PerformRaycast();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("InteractionComponent not found!"));
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -86,6 +103,9 @@ void AProjectSailorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AProjectSailorCharacter::Look);
+
+		// Interaction
+		EnhancedInputComponent->BindAction(Interaction, ETriggerEvent::Triggered, this, &AProjectSailorCharacter::InteractMethod);
 	}
 	else
 	{
