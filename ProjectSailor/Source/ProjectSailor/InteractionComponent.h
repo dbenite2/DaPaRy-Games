@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ObjectInteraction.h"
 #include "Components/ActorComponent.h"
 // #include "InteractionInterface.h"
 // #include "InteractWidget.h"
@@ -35,7 +36,9 @@ public:
 private:
     UWorld* World{ nullptr };
    
-    UFUNCTION() void Interact(UDialogueComponentNPC* dialogue);
+    UFUNCTION() void InteractNPC(UDialogueComponentNPC* npc);
+
+    UFUNCTION() void InteractObject(UObjectInteraction* object);
 
     UPROPERTY() bool pressedE = false;
     

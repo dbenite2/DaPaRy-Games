@@ -98,7 +98,20 @@ void UInteractionComponent::PerformRaycast()
 			if (pressedE)
 			{
 				//interact with HitResult
-				Interact(DialogueComponent);
+				InteractNPC(DialogueComponent);
+				pressedE = false;
+			}
+		}
+
+		UObjectInteraction* object = Cast<UObjectInteraction>(HitActor->GetComponentByClass(UObjectInteraction::StaticClass()));
+		if (object)
+		{
+			// widget->SetVisibility(ESlateVisibility::Visible);
+			// control if the key E is pressed
+			if (pressedE)
+			{
+				//interact with HitResult
+				InteractObject(object);
 				pressedE = false;
 			}
 		}
@@ -114,7 +127,7 @@ void UInteractionComponent::PerformRaycast()
     
 }
 
-void UInteractionComponent::Interact(UDialogueComponentNPC* dialogue)
+void UInteractionComponent::InteractNPC(UDialogueComponentNPC* dialogue)
 {
 	if (dialogue)
 	{
@@ -122,6 +135,18 @@ void UInteractionComponent::Interact(UDialogueComponentNPC* dialogue)
 		{
 			dialogue->ActivateObject();
 			dialogue->Interact_Implementation();
+		}
+	}
+}
+
+void UInteractionComponent::InteractObject(UObjectInteraction* object)
+{
+	if (object)
+	{
+		if(object->CanInteract_Implementation())
+		{
+			object->ActivateObject();
+			object->Interact_Implementation();
 		}
 	}
 }
