@@ -131,25 +131,22 @@ void UInteractionComponent::PerformRaycast()
 
 void UInteractionComponent::InteractNPC(UDialogueComponentNPC* dialogue)
 {
-	if (dialogue)
-	{
-		if(dialogue->CanInteract_Implementation())
+
+		if(dialogue&& dialogue->CanInteract_Implementation())
 		{
 			dialogue->ActivateObject();
 			dialogue->Interact_Implementation();
 		}
-	}
 }
 
 void UInteractionComponent::InteractObject(UObjectInteraction* object)
 {
-	if (object)
+	if (object && object->CanInteract_Implementation())
 	{
-		if(object->CanInteract_Implementation())
-		{
+		
 			object->ActivateObject();
 			object->Interact_Implementation();
-		}
+		
 	}
 }
 
