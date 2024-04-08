@@ -26,7 +26,7 @@ void UInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	StartInterface();
-	// widget->SetVisibility(ESlateVisibility::Hidden);
+	// TODO widget->SetVisibility(ESlateVisibility::Hidden);
 	// ...
 	
 }
@@ -78,7 +78,7 @@ void UInteractionComponent::PerformRaycast()
 	// Define the type of collision that is pawn
 	ECollisionChannel TraceChannel = ECC_Pawn;
 
-	// Converti to a valid argument of the LineTraceSingle
+	// Convert to a valid argument of the LineTraceSingle
 	ETraceTypeQuery TraceTypeQuery1 = UEngineTypes::ConvertToTraceType(TraceChannel);
 
 	//Make parameters of collision
@@ -93,7 +93,7 @@ void UInteractionComponent::PerformRaycast()
 		UDialogueComponentNPC* DialogueComponent = Cast<UDialogueComponentNPC>(HitActor->GetComponentByClass(UDialogueComponentNPC::StaticClass()));
 		if (DialogueComponent)
 		{
-			// widget->SetVisibility(ESlateVisibility::Visible);
+			// TODO widget->SetVisibility(ESlateVisibility::Visible);
 
 			// control if the key E is pressed
 			if (pressedE)
@@ -107,7 +107,7 @@ void UInteractionComponent::PerformRaycast()
 		UObjectInteraction* object = Cast<UObjectInteraction>(HitActor->GetComponentByClass(UObjectInteraction::StaticClass()));
 		if (object)
 		{
-			// widget->SetVisibility(ESlateVisibility::Visible);
+			// TODO widget->SetVisibility(ESlateVisibility::Visible);
 
 			// control if the key E is pressed
 			if (pressedE)
@@ -120,7 +120,7 @@ void UInteractionComponent::PerformRaycast()
 	}
 	else
 	{
-		// widget->SetVisibility(ESlateVisibility::Hidden);
+		// TODO widget->SetVisibility(ESlateVisibility::Hidden);
 	}
 		
 	
@@ -158,7 +158,7 @@ void UInteractionComponent::PressedE()
 
 void UInteractionComponent::StartInterface()
 {
-	//add widget canvas
+	//TODO add widget canvas
 	// if(widgetTemplate)
 	// {
 	// 	auto * PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController());
@@ -172,7 +172,7 @@ void UInteractionComponent::UpdateImageOfCanvas(UTexture2D* NewImage)
 {
 	//we access to the widget or canvas and the script that is connect to their BP, interactWidget
 	//where the image to change is located
-	// if (widget)
+	//TODO if (widget)
 	// {
 	// 	//access to canvas and his method passing as a parameter the image we want to change
 	// 	widget->UpdateObjectImage(NewImage);

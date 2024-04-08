@@ -24,8 +24,8 @@ protected:
     // Called when the game starts
     virtual void BeginPlay() override;
 
-    // UPROPERTY(EditDefaultsOnly, Category= "Interaction") TSubclassOf<UInteractWidget> widgetTemplate;
-    // UPROPERTY()UInteractWidget *widget = nullptr;
+    // TODO UPROPERTY(EditDefaultsOnly, Category= "Interaction") TSubclassOf<UInteractWidget> widgetTemplate;
+    // TODO UPROPERTY()UInteractWidget *widget = nullptr;
 
 
 
