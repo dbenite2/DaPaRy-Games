@@ -75,25 +75,26 @@ void UInteractionComponent::PerformRaycast()
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(player);
 
-	// Definir el tipo de traza como ECC_Pawn directamente
+	// Define the type of collision that is pawn
 	ECollisionChannel TraceChannel = ECC_Pawn;
 
-	// Convertir el tipo de traza a ETraceTypeQuery
+	// Converti to a valid argument of the LineTraceSingle
 	ETraceTypeQuery TraceTypeQuery1 = UEngineTypes::ConvertToTraceType(TraceChannel);
 
-	// Realizar el trazado de línea con el tipo de traza y los parámetros de colisión
+	//Make parameters of collision
 	bool bHit = UKismetSystemLibrary::LineTraceSingle(World, CameraLocation, RaycastEnd, TraceTypeQuery1, true, { player }, EDrawDebugTrace::ForDuration, HitResult, true);
 
-	//si ha golpeado el raycast
+	//if raycast hit
 	if (bHit)
 	{
-		//vemos el actor al que ha golpeado el raycast
+		//the actor that has hit the raycast
 		AActor* HitActor = HitResult.GetActor();
 
 		UDialogueComponentNPC* DialogueComponent = Cast<UDialogueComponentNPC>(HitActor->GetComponentByClass(UDialogueComponentNPC::StaticClass()));
 		if (DialogueComponent)
 		{
 			// widget->SetVisibility(ESlateVisibility::Visible);
+
 			// control if the key E is pressed
 			if (pressedE)
 			{
@@ -107,6 +108,7 @@ void UInteractionComponent::PerformRaycast()
 		if (object)
 		{
 			// widget->SetVisibility(ESlateVisibility::Visible);
+
 			// control if the key E is pressed
 			if (pressedE)
 			{

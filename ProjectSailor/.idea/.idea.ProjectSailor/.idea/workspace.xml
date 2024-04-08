@@ -10,41 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8edc1c4-5b0f-430c-8097-0ecb22a91b17" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/ThirdPerson/dialogue/IA_CharacterNPC.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/5/DZ/MYHYH5Q89U8YL4WJ5R62KC.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalObjects__/ThirdPerson/levels/dialogue/DialogueSystem/F/56/JLBFHF2WOXNQ7NXTJZRNV8.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/ProjectSailor/DialogueComponentNPC.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/ProjectSailor/DialogueComponentNPC.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/ProjectSailor/InteractionInterface.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/ProjectSailor/InteractionInterface.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectSailor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectSailor/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Input/IMC_Default.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Input/IMC_Default.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/dialogue/BP_Dialogue.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/dialogue/BP_Dialogue.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/1/MF/4DIYA53TX1WH4XDMMBJLO0.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/1/ZG/17TLUBK76D5JDMOWU6EY1B.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/2/QD/2LYO8PRJA1YXX4JIX1VB9E.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/3/DZ/BW79O54MLV5YU14LDL7UQY.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/3/GX/UXWORKMV56AUZG6HJR4QS3.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/3/SX/QJQTZK156IA73FF5NPQKTL.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/5/VY/81N8FL36LRQPI0F677QSU7.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/6/G6/0I4J52PNDXJLQ1OEG3OKTD.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/6/YV/FQDLOXYR1W5HBBA0VVYY2K.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/7/DC/I8IQTGPUQDEHDTIJIAL48C.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/8/8H/QM3Y7MMBBUNE46A35C9ML3.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/9/34/3ETARGZOGGM16BAFHE0QZF.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/9/7J/CCQQV4J5T0ZDPUXKG3UJSG.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/A/4L/SL8X0CUGF5S0LQGPYYB0VU.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/A/5X/QXOXD1494L2XIXB7XQSLQ4.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/A/RV/AAYTBPMQPJH815R8WEC8ZR.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/B/CK/M38BKPRT56OL0MK1K5BB8V.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/levels/dialogue/DialogueSystem/B/UN/CWLPEX80EDIH0CO517JZDN.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalObjects__/ThirdPerson/levels/dialogue/DialogueSystem/6/LP/7QQVL5Z0X9GG5LSSZBYU4F.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalObjects__/ThirdPerson/levels/dialogue/DialogueSystem/D/DF/MSVE5H1I2KPD5HGGSZP94I.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/ProjectSailorCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/ProjectSailorCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/ProjectSailorCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/ProjectSailorCharacter.h" afterDir="false" />
-    </list>
+    <list default="true" id="d8edc1c4-5b0f-430c-8097-0ecb22a91b17" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -598,7 +564,7 @@
       <workItem from="1709989702702" duration="10000" />
       <workItem from="1710872470814" duration="13000" />
       <workItem from="1712357493916" duration="671000" />
-      <workItem from="1712358187425" duration="23316000" />
+      <workItem from="1712358187425" duration="25843000" />
     </task>
     <servers />
   </component>
@@ -614,12 +580,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/Source/ProjectSailor/InteractionComponent.cpp</url>
-          <line>118</line>
+          <line>131</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/Source/ProjectSailor/InteractionComponent.cpp</url>
-          <line>122</line>
+          <line>135</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>
