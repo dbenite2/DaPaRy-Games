@@ -16,7 +16,6 @@ class PROJECTSAILOR_API UObjectInteraction : public UActorComponent,public IInte
 public:	
 	// Sets default values for this component's properties
 	UObjectInteraction();
-
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION() void ActivateObject();
@@ -35,5 +34,4 @@ private:
 	
 	UPROPERTY() bool accessFunctionality = false;
 	UPROPERTY() bool canMakeAction = true;
-
 };

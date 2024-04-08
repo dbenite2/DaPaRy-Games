@@ -13,9 +13,6 @@ class UInteractionInterface : public UInterface
 	GENERATED_BODY()
 };
 
-/**
- * 
- */
 class PROJECTSAILOR_API IInteractionInterface
 {
 	GENERATED_BODY()

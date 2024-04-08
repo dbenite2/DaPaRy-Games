@@ -1,9 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "InteractionComponent.h"
-#include "InteractionInterface.h"
 #include "DialogueComponentNPC.h"
 #include "ProjectSailorCharacter.h"
-#include "Camera/CameraComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -11,13 +9,9 @@
 // Sets default values for this component's properties
 UInteractionComponent::UInteractionComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
     //reference to world
 	World = GetWorld();
-
-	
 }
 
 
@@ -27,8 +21,6 @@ void UInteractionComponent::BeginPlay()
 	Super::BeginPlay();
 	StartInterface();
 	// TODO widget->SetVisibility(ESlateVisibility::Hidden);
-	// ...
-	
 }
 
 
@@ -36,9 +28,6 @@ void UInteractionComponent::BeginPlay()
 void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	//calls all the time to perform raycast
-	
-	// ...
 }
 
 
@@ -122,11 +111,6 @@ void UInteractionComponent::PerformRaycast()
 	{
 		// TODO widget->SetVisibility(ESlateVisibility::Hidden);
 	}
-		
-	
-	
-	
-    
 }
 
 void UInteractionComponent::InteractNPC(UDialogueComponentNPC* dialogue)
@@ -143,10 +127,8 @@ void UInteractionComponent::InteractObject(UObjectInteraction* object)
 {
 	if (object && object->CanInteract_Implementation())
 	{
-		
 			object->ActivateObject();
 			object->Interact_Implementation();
-		
 	}
 }
 

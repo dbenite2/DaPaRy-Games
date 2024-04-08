@@ -9,8 +9,6 @@ UObjectInteraction::UObjectInteraction()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -18,9 +16,6 @@ UObjectInteraction::UObjectInteraction()
 void UObjectInteraction::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 
@@ -32,7 +27,6 @@ void UObjectInteraction::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	{
 		//MAKE FUNCTIONALITY
 		UE_LOG(LogTemp, Warning, TEXT("Interact with Object done!"));
-		
 	}
 }
 
