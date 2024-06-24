@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "ProjectSailorCharacter.generated.h"
 
 class USpringArmComponent;
@@ -16,7 +17,7 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class AProjectSailorCharacter : public ACharacter
+class AProjectSailorCharacter : public ACharacter`
 {
 	GENERATED_BODY()
 

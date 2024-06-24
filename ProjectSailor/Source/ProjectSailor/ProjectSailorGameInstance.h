@@ -3,16 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PersistanceInterface.h"
+#include "PSSaveGame.h"
 #include "Engine/GameInstance.h"
 #include "ProjectSailorGameInstance.generated.h"
 
-class USaveGame;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSaveGameCompleted, UPSSaveGame*, SaveGameRef);
+
 /**
  * Game instance class for Project Sailor
  * handles the save system and persistant information of the game
  */
 UCLASS()
-class PROJECTSAILOR_API UProjectSailorGameInstance : public UGameInstance
+class PROJECTSAILOR_API UProjectSailorGameInstance : public UGameInstance, public IPersistanceInterface
 {
 	GENERATED_BODY()
 public:
@@ -27,11 +30,17 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Save")
 	TSubclassOf<USaveGame> SaveGameClass;
+	
+	UFUNCTION(BlueprintCallable)
+	virtual void RequestSave_Implementation(bool Async) override;
+
+	UPROPERTY(BlueprintAssignable, Category="Save")
+	FOnSaveGameCompleted OnSaveGameCompleted;
 
 protected:
 
 	UPROPERTY()
-	USaveGame* SaveGameRef;
+	UPSSaveGame* SaveGameRef;
 
 	UFUNCTION()
 	void OnGameSaved(const FString& SlotName, const int32 UserIndexToSave, bool bSuccess);
