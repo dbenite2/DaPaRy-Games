@@ -12,9 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d8edc1c4-5b0f-430c-8097-0ecb22a91b17" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectSailor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectSailor/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Levels/Assets/Level1.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/Assets/Level1.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/InteractionComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/InteractionComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/LevelStreamerActor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/LevelStreamerActor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Levels/Assets/Level2.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/Assets/Level2.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +23,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -200,7 +206,7 @@
       <workItem from="1712357493916" duration="671000" />
       <workItem from="1712358187425" duration="25843000" />
       <workItem from="1717775224466" duration="2303000" />
-      <workItem from="1719181597195" duration="2115000" />
+      <workItem from="1719181597195" duration="5990000" />
     </task>
     <servers />
   </component>
