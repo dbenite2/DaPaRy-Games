@@ -54,6 +54,8 @@ AProjectSailorCharacter::AProjectSailorCharacter()
 
 	PhysicsHandle = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("PhysicsHandle"));
 
+	hitComponent = CreateDefaultSubobject<UHItComponent>(TEXT("HitComponent"));
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -144,6 +146,13 @@ void AProjectSailorCharacter::GrapAndDragMethodPress()
 	}
 }
 
+void AProjectSailorCharacter::HitComponentAbility()
+{
+	UCameraComponent* camera = GetFollowCamera();
+	AActor* player = GetOwner();
+	hitComponent->HitAbility(camera, player);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -167,6 +176,8 @@ void AProjectSailorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 
 		// Grap & Drag
 		EnhancedInputComponent->BindAction(GrapAndDrag, ETriggerEvent::Triggered, this, &AProjectSailorCharacter::GrapAndDragMethodPress);
+
+		EnhancedInputComponent->BindAction(HitAbility, ETriggerEvent::Triggered, this, &AProjectSailorCharacter::HitComponentAbility);
 
 	}
 	else
