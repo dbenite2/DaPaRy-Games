@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Pickable_Object.h"
 #include "ProjectSailorCharacter.generated.h"
 
 class USpringArmComponent;
@@ -47,6 +49,9 @@ class AProjectSailorCharacter : public ACharacter
 	/** Look Interaction or Action*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* Interaction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* GrapAndDrag;
 	
 
 public:
@@ -69,16 +74,39 @@ protected:
 	// To add mapping context
 	virtual void BeginPlay();
 
+	virtual void Tick(float DeltaTime);
+
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	UPROPERTY()
+	bool IsGrabbingObject = false;
+
+	UPROPERTY()
+	FHitResult HitScore;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Components")
+	UPhysicsHandleComponent* PhysicsHandle;
+
+	UPROPERTY()
+	bool IsHolding = false;
+
+	UPROPERTY()
+	APickable_Object* GrabbedObject = nullptr;
+
+	UPROPERTY()
+	UPrimitiveComponent* ObjectComponent;
+
 
 private:
 	UFUNCTION()
 	void InteractMethod();
+
+	UFUNCTION()
+	void GrapAndDragMethodPress();
 	
 public:
 	

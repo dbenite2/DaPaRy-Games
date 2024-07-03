@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "InteractionComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -51,6 +52,8 @@ AProjectSailorCharacter::AProjectSailorCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	PhysicsHandle = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("PhysicsHandle"));
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -68,6 +71,21 @@ void AProjectSailorCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+	SetActorTickEnabled(false);
+}
+
+void AProjectSailorCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if(ObjectComponent)
+	{
+		FVector ActorLocation = GetActorLocation();
+		FVector CameraforwardVector = GetFollowCamera()->GetForwardVector() * 300.f;
+		
+		PhysicsHandle->SetTargetLocation(ActorLocation + CameraforwardVector);
+		ObjectComponent->SetRelativeRotation(GetFollowCamera()->GetComponentRotation());
+	}
 }
 
 void AProjectSailorCharacter::InteractMethod()
@@ -78,11 +96,51 @@ void AProjectSailorCharacter::InteractMethod()
 	{
 		//give access to the pressE = true
 		InteractionComponent->PressedE();
-	InteractionComponent->PerformRaycast();
+		InteractionComponent->PerformRaycast();
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("InteractionComponent not found!"));
+	}
+}
+
+void AProjectSailorCharacter::GrapAndDragMethodPress()
+{
+	if(!IsHolding)
+	{
+		UWorld* World = GetWorld();
+		FVector Start = GetActorLocation();
+		FVector End = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 1000;
+
+
+		bool bHit = UKismetSystemLibrary::LineTraceSingle(World, Start, End, TraceTypeQuery1, true, {}, EDrawDebugTrace::ForDuration, HitScore, true,  FLinearColor::Red, FLinearColor::Green);
+
+		if(bHit)
+		{
+			// player->GetPlayerViewPoint(CameraLocation, CameraRotation);
+			//FVector NewLocation = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 500;
+
+			//AActor* GrabbedObject = HitScore.GetActor();
+			GrabbedObject = Cast<APickable_Object>(HitScore.GetActor());
+			ObjectComponent = HitScore.GetComponent();
+
+			if(GrabbedObject)
+			{
+				GrabbedObject->PickedObject();
+				SetActorTickEnabled(true);
+				PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
+				IsHolding = true;
+			}
+		}
+	}
+	else
+	{
+		PhysicsHandle->ReleaseComponent();
+		GrabbedObject->DropObject();
+		SetActorTickEnabled(false);
+		GrabbedObject = nullptr;
+		ObjectComponent = nullptr;
+		IsHolding = false;					
 	}
 }
 
@@ -106,6 +164,10 @@ void AProjectSailorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 
 		// Interaction
 		EnhancedInputComponent->BindAction(Interaction, ETriggerEvent::Triggered, this, &AProjectSailorCharacter::InteractMethod);
+
+		// Grap & Drag
+		EnhancedInputComponent->BindAction(GrapAndDrag, ETriggerEvent::Triggered, this, &AProjectSailorCharacter::GrapAndDragMethodPress);
+
 	}
 	else
 	{
