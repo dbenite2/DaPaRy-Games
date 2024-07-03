@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "HItComponent.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
@@ -52,6 +53,9 @@ class AProjectSailorCharacter : public ACharacter
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* GrapAndDrag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* HitAbility;
 	
 
 public:
@@ -100,6 +104,9 @@ public:
 	UPROPERTY()
 	UPrimitiveComponent* ObjectComponent;
 
+	UPROPERTY()
+	UHItComponent* hitComponent;
+
 
 private:
 	UFUNCTION()
@@ -107,6 +114,9 @@ private:
 
 	UFUNCTION()
 	void GrapAndDragMethodPress();
+
+	UFUNCTION()
+	void HitComponentAbility();
 	
 public:
 	

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IDamageable.h"
 #include "Camera/CameraComponent.h"
 #include "Components/ActorComponent.h"
 #include "HItComponent.generated.h"
@@ -29,4 +30,7 @@ public:
 
 	UPROPERTY()
 	FHitResult HitScore;
+
+	UPROPERTY(EditAnywhere)
+	FVector offset = {0.f, 0.f, 50.f};
 };

@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IDamageable.h"
 #include "GameFramework/Actor.h"
 #include "Pickable_Object.generated.h"
 
 UCLASS()
-class PROJECTSAILOR_API APickable_Object : public AActor
+class PROJECTSAILOR_API APickable_Object : public AActor, public IIDamageable
 {
 	GENERATED_BODY()
 	
@@ -22,6 +23,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void TakeDamage(float damage) override;
 	
 	UFUNCTION()
 	void PickedObject();
