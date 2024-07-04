@@ -3,6 +3,6 @@
 
 #include "IDamageable.h"
 
-void IIDamageable::TakeDamage(float damage)
+void IIDamageable::TakeDamage()
 {
 }

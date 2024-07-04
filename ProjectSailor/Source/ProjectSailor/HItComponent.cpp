@@ -102,7 +102,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 			IIDamageable* DamageableActor = Cast<IIDamageable>(HitObject);
 			if (DamageableActor)
 			{
-				DamageableActor->TakeDamage(100.f);
+				DamageableActor->TakeDamage();
 			}
 			
 
