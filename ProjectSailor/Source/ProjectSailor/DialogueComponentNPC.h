@@ -5,6 +5,8 @@
 #include "InteractionInterface.h"
 #include "Components/Image.h"
 #include "GameFramework/Actor.h"
+
+
 #include "DialogueComponentNPC.generated.h"
 
 

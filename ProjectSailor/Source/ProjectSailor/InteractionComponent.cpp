@@ -1,6 +1,7 @@
 
 #include "InteractionComponent.h"
 #include "DialogueComponentNPC.h"
+#include "DialogueNPCCharacter.h"
 #include "ProjectSailorCharacter.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
@@ -79,20 +80,13 @@ void UInteractionComponent::PerformRaycast()
 		//the actor that has hit the raycast
 		AActor* HitActor = HitResult.GetActor();
 
-		UDialogueComponentNPC* DialogueComponent = Cast<UDialogueComponentNPC>(HitActor->GetComponentByClass(UDialogueComponentNPC::StaticClass()));
-		if (DialogueComponent)
+		// Check if the hit actor is an ADialogueNPCCharacter
+		ADialogueNPCCharacter* DialogueNPC = Cast<ADialogueNPCCharacter>(HitActor);
+		if (DialogueNPC)
 		{
-			// TODO widget->SetVisibility(ESlateVisibility::Visible);
-
-			// control if the key E is pressed
-			if (pressedE)
-			{
-				//interact with HitResult
-				InteractNPC(DialogueComponent);
-				pressedE = false;
-			}
+			DialogueNPC->ChangeToNextText();
 		}
-
+		
 		UObjectInteraction* object = Cast<UObjectInteraction>(HitActor->GetComponentByClass(UObjectInteraction::StaticClass()));
 		if (object)
 		{
