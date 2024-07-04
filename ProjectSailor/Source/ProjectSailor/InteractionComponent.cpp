@@ -36,75 +36,63 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 
 void UInteractionComponent::PerformRaycast()
 {
-	//gets a reference of player
-	APlayerController* PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController());
+	// Get the player controller
+    APlayerController* PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController());
+    if (!PlayerController) return;
 
-	// //gets a reference of Player proyecto
-	auto* player = Cast<AProjectSailorCharacter>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPawn());
+    // Get the player character
+    AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(PlayerController->GetPawn());
+    if (!PlayerCharacter) return;
 
-	//gets a reference of
-	if (!PlayerController) return;
+    // Get player's view point
+    FVector CameraLocation;
+    FRotator CameraRotation;
+    PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
-	//if the player exists we make a reference of cameraLocation and Rotation
-	FVector CameraLocation;
-	FRotator CameraRotation;
+    // Add a vertical offset to the camera location
+    CameraLocation.Z += 50.f;
 
-	//returns the point of the view of the player on the variables cameraLocation and rotation
-	PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
+    // Define the spherecast parameters
+    float SphereRadius = 100.f;
+    FVector SphereCastStart = CameraLocation;
+    FVector SphereCastEnd = SphereCastStart + CameraRotation.Vector() * 1000.f;
 
-	// Add a vertical offset to the camera location
-	CameraLocation.Z += 50.f;
+    // Setup collision parameters
+    FCollisionQueryParams SphereCollisionParams;
+    SphereCollisionParams.AddIgnoredActor(PlayerCharacter);
 
-	//calculate the end of the raycast and makes it unitary
-	FVector RaycastEnd = CameraLocation + CameraRotation.Vector() * 3000;
+    // Perform the spherecast
+    FHitResult HitResult;
+    bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), SphereCastStart, SphereCastEnd, SphereRadius, UEngineTypes::ConvertToTraceType(ECC_Pawn),
+                                                       false, { PlayerCharacter }, EDrawDebugTrace::ForDuration, HitResult, true);
 
-	//create hitResult
-	FHitResult HitResult;
+    if (bHit)
+    {
+        // Get the actor that was hit by the spherecast
+        AActor* HitActor = HitResult.GetActor();
 
-	//creates the variable
-	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredActor(player);
+        // Check if it's an ADialogueNPCCharacter
+        ADialogueNPCCharacter* DialogueNPC = Cast<ADialogueNPCCharacter>(HitActor);
+        if (DialogueNPC)
+        {
+            DialogueNPC->ChangeToNextText();
+        }
 
-	// Define the type of collision that is pawn
-	ECollisionChannel TraceChannel = ECC_Pawn;
-
-	// Convert to a valid argument of the LineTraceSingle
-	ETraceTypeQuery TraceTypeQuery1 = UEngineTypes::ConvertToTraceType(TraceChannel);
-
-	//Make parameters of collision
-	bool bHit = UKismetSystemLibrary::LineTraceSingle(World, CameraLocation, RaycastEnd, TraceTypeQuery1, true, { player }, EDrawDebugTrace::ForDuration, HitResult, true);
-
-	//if raycast hit
-	if (bHit)
-	{
-		//the actor that has hit the raycast
-		AActor* HitActor = HitResult.GetActor();
-
-		// Check if the hit actor is an ADialogueNPCCharacter
-		ADialogueNPCCharacter* DialogueNPC = Cast<ADialogueNPCCharacter>(HitActor);
-		if (DialogueNPC)
-		{
-			DialogueNPC->ChangeToNextText();
-		}
-		
-		UObjectInteraction* object = Cast<UObjectInteraction>(HitActor->GetComponentByClass(UObjectInteraction::StaticClass()));
-		if (object)
-		{
-			// TODO widget->SetVisibility(ESlateVisibility::Visible);
-
-			// control if the key E is pressed
-			if (pressedE)
-			{
-				//interact with HitResult
-				InteractObject(object);
-				pressedE = false;
-			}
-		}
-	}
-	else
-	{
-		// TODO widget->SetVisibility(ESlateVisibility::Hidden);
-	}
+        // Perform object interaction if E key is pressed
+        if (pressedE)
+        {
+            UObjectInteraction* ObjectInteraction = Cast<UObjectInteraction>(HitActor->GetComponentByClass(UObjectInteraction::StaticClass()));
+            if (ObjectInteraction)
+            {
+                InteractObject(ObjectInteraction);
+            }
+            pressedE = false;
+        }
+    }
+    else
+    {
+        // Handle visibility or any other logic when no object is hit
+    }
 }
 
 void UInteractionComponent::InteractNPC(UDialogueComponentNPC* dialogue)
