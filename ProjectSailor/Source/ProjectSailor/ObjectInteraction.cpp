@@ -25,8 +25,7 @@ void UObjectInteraction::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if(accessFunctionality)
 	{
-		//MAKE FUNCTIONALITY
-		UE_LOG(LogTemp, Warning, TEXT("Interact with Object done!"));
+		
 	}
 }
 
@@ -38,7 +37,8 @@ void UObjectInteraction::ActivateObject()
 void UObjectInteraction::Interact_Implementation()
 {
 	IInteractionInterface::Interact_Implementation();
-	ActivateObject();
+	//MAKE FUNCTIONALITY
+	UE_LOG(LogTemp, Warning, TEXT("Interact with Object done!"));
 }
 
 bool UObjectInteraction::CanInteract_Implementation()
