@@ -45,8 +45,8 @@ void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, 
 			// Add it to the viewport if it's valid
 			if (DialogueWidget)
 			{
-				DialogueWidget->AddToViewport();
-				DialogueWidget->UpdateText(FText::FromString(TEXT("Soy un aventurero")));
+				SetWidget(true);
+				DialogueWidget->UpdateText(DialogueTexts[CurrentTextIndex]);
 			}
 		}
 	}
@@ -62,18 +62,52 @@ void ADialogueNPCCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AA
 		{
 			if (DialogueWidget)
 			{
-				DialogueWidget->RemoveFromViewport();
-				DialogueWidget = nullptr;
+				SetWidget(false);
 			}
 		}
 	}
 	
 }
 
-// Called to bind functionality to input
-void ADialogueNPCCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ADialogueNPCCharacter::SetWidget(bool set)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	if(set)
+	{
+		DialogueWidget->AddToViewport();
+	}
+	else
+	{
+		//restart dialogue
+		CurrentTextIndex = 0;
+		if(DialogueWidget)
+		{
+			DialogueWidget->RemoveFromViewport();
+			DialogueWidget = nullptr;
+		}
+		
+	}
 }
+
+void ADialogueNPCCharacter::ChangeToNextText()
+{
+	if (DialogueTexts.Num() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("DialogueTexts array is empty!"));
+		return;
+	}
+
+	// Increment index
+	CurrentTextIndex++;
+	// Wrap around the index to stay within bounds
+	CurrentTextIndex %= DialogueTexts.Num();
+
+	
+	// Update text on the widget
+	if (DialogueWidget)
+	{
+		DialogueWidget->UpdateText(DialogueTexts[CurrentTextIndex]);
+	}
+}
+
+
 

@@ -11,20 +11,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8edc1c4-5b0f-430c-8097-0ecb22a91b17" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Blueprints/dialogue/NPCS/BP_DialogueNPCCode.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Interface/dialogue/WB_DialogueCode.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/ProjectSailor/DialogueNPCCharacter.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/ProjectSailor/DialogueNPCCharacter.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/ProjectSailor/DialogueWidget.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/ProjectSailor/DialogueWidget.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectSailor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectSailor/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_LevelStreamerActor.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_LevelStreamerActor.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/dialogue/NPCS/IA_CharacterNPC.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/dialogue/NPCS/IA_CharacterNPC.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Interface/dialogue/WB_DialogueNPC.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Interface/dialogue/WB_DialogueNPC.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/dialogue/NPCS/IA_CharacterNPC.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Interface/dialogue/WB_DialogueCode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Interface/dialogue/WB_DialogueCode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Interface/dialogue/WB_DialogueNPC.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Levels/Level_beach_01.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/Level_beach_01.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSailor.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSailor.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/DialogueComponentNPC.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/DialogueComponentNPC.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/MainMenu.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/MainMenu.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/DialogueNPCCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/DialogueNPCCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/DialogueNPCCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/DialogueNPCCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/InteractionComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/InteractionComponent.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +30,16 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -102,28 +107,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;C++ Project.ProjectSailor.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "C++ Project.ProjectSailor.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "DPR-DialogSystemc++",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\pgmla\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\pgmla\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\pgmla\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\pgmla\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
+      "C:\\Users\\pgmla\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\pgmla\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="C++ Project.ProjectSailor">
     <configuration name="ProjectSailor" type="CppProject" factoryName="C++ Project">
       <configuration_1>
@@ -253,7 +258,7 @@
       <workItem from="1717775224466" duration="2303000" />
       <workItem from="1719181597195" duration="6586000" />
       <workItem from="1720107743785" duration="313000" />
-      <workItem from="1720108074053" duration="5005000" />
+      <workItem from="1720108074053" duration="8829000" />
     </task>
     <servers />
   </component>
@@ -269,13 +274,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/Source/ProjectSailor/InteractionComponent.cpp</url>
-          <line>131</line>
+          <line>125</line>
           <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Source/ProjectSailor/DialogueNPCCharacter.cpp</url>
-          <line>3</line>
-          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

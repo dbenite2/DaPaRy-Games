@@ -37,11 +37,22 @@ public:
 	TSubclassOf<class UUserWidget> DialogueWidgetClass;
 
 private:
+	UPROPERTY()
 	UDialogueWidget* DialogueWidget;
+	int32 CurrentTextIndex;
 
-public:	
+	UFUNCTION()
+	void SetWidget(bool set);
+
+public:
+	UFUNCTION()
+	void ChangeToNextText();
 	
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(EditAnywhere)
+	TArray<FText> DialogueTexts;
+
+
+
+	
 };
