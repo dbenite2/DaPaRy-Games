@@ -41,13 +41,8 @@ void APickable_Object::DropObject()
 	mesh->SetAngularDamping(0.05f);
 }
 
-void APickable_Object::TakeDamage(float damage)
+void APickable_Object::TakeDamage()
 {
-	// if(HealthComponent)
-	// {
-	// 	HealthComponent->ModifyHealth(damage);
-	// }
-
 	Destroy();
 }
 
