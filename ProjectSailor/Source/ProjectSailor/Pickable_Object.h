@@ -24,7 +24,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void TakeDamage(float damage) override;
+	virtual void TakeDamage() override;
 	
 	UFUNCTION()
 	void PickedObject();
