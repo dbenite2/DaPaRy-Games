@@ -43,6 +43,10 @@ void UCommonButton::OnClicked() {
 	if (bResumeGame) {
 		//
 	}
+
+	if (bEmmitEvent) {
+		OnButtonClicked.Broadcast();
+	}
 }
 
 void UCommonButton::OnHover() {

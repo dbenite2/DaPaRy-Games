@@ -13,8 +13,7 @@ class UCommonButton;
  * 
  */
 UCLASS()
-class PROJECTSAILOR_API UMainMenu : public UUserWidget
-{
+class PROJECTSAILOR_API UMainMenu : public UUserWidget {
 	GENERATED_BODY()
 
 	virtual void NativeConstruct() override;
@@ -33,4 +32,11 @@ class PROJECTSAILOR_API UMainMenu : public UUserWidget
 
 	UPROPERTY(EditDefaultsOnly, meta=(BindWidget))
 	UCommonButton* QuitButton{nullptr};
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveWidget();
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UUserWidget> OptionsWidget{nullptr};
 };

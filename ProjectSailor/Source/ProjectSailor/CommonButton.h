@@ -5,9 +5,10 @@
 #include "Blueprint/UserWidget.h"
 #include "CommonButton.generated.h"
 
-
 class UTextBlock;
 class UButton;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnButtonClicked);
 
 UCLASS()
 class PROJECTSAILOR_API UCommonButton : public UUserWidget
@@ -23,6 +24,9 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ButtonText{nullptr};
+
+	UPROPERTY(BlueprintAssignable, Category="Events")
+	FOnButtonClicked OnButtonClicked;
 
 	virtual void NativeConstruct() override;
 
@@ -43,6 +47,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Level System")
 	bool bResumeGame{false};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Level System")
+	bool bEmmitEvent{false};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Button Text")
 	FText ButtonLabel;
