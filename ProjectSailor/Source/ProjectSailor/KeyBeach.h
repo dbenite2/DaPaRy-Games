@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IDamageable.h"
 #include "GameFramework/Actor.h"
 #include "KeyBeach.generated.h"
 
 UCLASS()
-class PROJECTSAILOR_API AKeyBeach : public AActor
+class PROJECTSAILOR_API AKeyBeach : public AActor, public IIDamageable
 {
 	GENERATED_BODY()
     
