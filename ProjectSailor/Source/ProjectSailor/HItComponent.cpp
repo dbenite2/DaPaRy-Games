@@ -3,6 +3,8 @@
 
 #include "HItComponent.h"
 
+#include "KeyBeach.h"
+#include "ObjectInteraction.h"
 #include "Pickable_Object.h"
 #include "ProjectSailorCharacter.h"
 #include "Kismet/GameplayStatics.h"
@@ -41,42 +43,35 @@ void UHItComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 {
 	UWorld* World = GetWorld();
+	// Get the player controller
 	APlayerController* PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController());
-
-	// //gets a reference of Player proyecto
-	auto* player = Cast<AProjectSailorCharacter>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPawn());
-
-	//gets a reference of
 	if (!PlayerController) return;
 
-	//if the player exists we make a reference of cameraLocation and Rotation
+	// Get the player character
+	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(PlayerController->GetPawn());
+	if (!PlayerCharacter) return;
+
+	// Get player's view point
 	FVector CameraLocation;
 	FRotator CameraRotation;
-
-	//returns the point of the view of the player on the variables cameraLocation and rotation
 	PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
 	// Add a vertical offset to the camera location
 	CameraLocation.Z += 50.f;
 
-	//calculate the end of the raycast and makes it unitary
-	FVector RaycastEnd = CameraLocation + CameraRotation.Vector() * 3000;
+	// Define the spherecast parameters
+	float SphereRadius = 100.f;
+	FVector SphereCastStart = CameraLocation;
+	FVector SphereCastEnd = SphereCastStart + CameraRotation.Vector() * 1000.f;
 
-	//create hitResult
+	// Setup collision parameters
+	FCollisionQueryParams SphereCollisionParams;
+	SphereCollisionParams.AddIgnoredActor(PlayerCharacter);
+
+	// Perform the spherecast
 	FHitResult HitResult;
-
-	//creates the variable
-	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredActor(player);
-
-	// Define the type of collision that is pawn
-	ECollisionChannel TraceChannel = ECC_Pawn;
-
-	// Convert to a valid argument of the LineTraceSingle
-	ETraceTypeQuery TraceTypeQuery1 = UEngineTypes::ConvertToTraceType(TraceChannel);
-
-	//Make parameters of collision
-	bool bHit = UKismetSystemLibrary::LineTraceSingle(World, CameraLocation, RaycastEnd, TraceTypeQuery1, true, { player }, EDrawDebugTrace::ForDuration, HitResult, true);
+	bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), SphereCastStart, SphereCastEnd, SphereRadius, UEngineTypes::ConvertToTraceType(ECC_Pawn),
+													   false, { PlayerCharacter }, EDrawDebugTrace::ForDuration, HitResult, true);
 
 	if(bHit)
 	{
@@ -98,6 +93,23 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 			// {
 			// 	
 			// }
+
+			// Check if the hit object has an ObjectInteraction component
+			UActorComponent* ObjectInteractionComponent = HitObject->GetComponentByClass(UObjectInteraction::StaticClass());
+			if(ObjectInteractionComponent)
+			{
+				// Check if the hit object's name is "BP_KeyBeach"
+				if(HitObject->GetName().Contains(TEXT("BP_KeyBeach")))
+				{
+					// Cast the HitObject to KeyBeach and call ActivateKeyPhysics if the cast is successful
+					AKeyBeach* KeyBeachActor = Cast<AKeyBeach>(HitObject);
+					if(KeyBeachActor)
+					{
+						KeyBeachActor->ActivateKeyPhysics();
+					}
+					
+				}
+			}
 			
 			IIDamageable* DamageableActor = Cast<IIDamageable>(HitObject);
 			if (DamageableActor)
