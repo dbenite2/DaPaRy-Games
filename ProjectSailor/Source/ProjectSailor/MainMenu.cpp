@@ -2,6 +2,7 @@
 
 #include "MainMenu.h"
 
+#include "CommonButton.h"
 #include "Kismet/GameplayStatics.h"
 
 void UMainMenu::NativeConstruct() {
@@ -14,6 +15,18 @@ void UMainMenu::NativeConstruct() {
 		PlayerController->SetInputMode(InputMode);
 		PlayerController->bShowMouseCursor = true;
 	}
+
+	if (OptionsButton) {
+		OptionsButton->OnButtonClicked.AddDynamic(this, &UMainMenu::RemoveWidget);
+	}
 }
 
-
+void UMainMenu::RemoveWidget() {
+	RemoveFromParent();
+	if (OptionsWidget) {
+		UUserWidget* newWidget = CreateWidget<UUserWidget>(GetWorld(), OptionsWidget);
+		if (newWidget) {
+			newWidget->AddToViewport();
+		}
+	}
+}
