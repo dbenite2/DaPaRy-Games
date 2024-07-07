@@ -3,6 +3,7 @@
 #include "MainMenu.h"
 
 #include "CommonButton.h"
+#include "OptionsMenu.h"
 #include "Kismet/GameplayStatics.h"
 
 void UMainMenu::NativeConstruct() {
@@ -17,16 +18,21 @@ void UMainMenu::NativeConstruct() {
 	}
 
 	if (OptionsButton) {
-		OptionsButton->OnButtonClicked.AddDynamic(this, &UMainMenu::RemoveWidget);
+		OptionsButton->OnButtonClicked.AddUniqueDynamic(this, &UMainMenu::RemoveWidget);
 	}
 }
 
 void UMainMenu::RemoveWidget() {
 	RemoveFromParent();
-	if (OptionsWidget) {
+	if (ExternalWidget) {
+		ExternalWidget->AddToViewport(1);
+	}
+	if (OptionsWidget && !ExternalWidget) {
 		UUserWidget* newWidget = CreateWidget<UUserWidget>(GetWorld(), OptionsWidget);
 		if (newWidget) {
-			newWidget->AddToViewport();
+			ExternalWidget = Cast<UOptionsMenu>(newWidget);
+			ExternalWidget->InitialWidget = this;
+			ExternalWidget->AddToViewport(1);
 		}
 	}
 }
