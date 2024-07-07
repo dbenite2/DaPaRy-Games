@@ -72,15 +72,27 @@ class PROJECTSAILOR_API UOptionsMenu : public UUserWidget
 	void UpdateWindowModeText();
 
 	UFUNCTION()
-	void ChangeResolutionSize();
+	void ChangeResolutionSize(bool bNextOption);
+
+	UFUNCTION()
+	void UpdateResolutionText();
 
 	UFUNCTION()
 	void ApplyNewSettings();
 
+	UFUNCTION()
+	void ChangeResolutionWrapperIncrease();
+
+	UFUNCTION()
+	void ChangeResolutionWrapperDecrease();
+
 	EWindowMode::Type WindowModeToApply;
+	FIntPoint ResolutionToApply;
+	TArray<FIntPoint> Resolutions;
+	int32 CurrentResolutionIndex;
 
 public:
 
 	UPROPERTY(EditDefaultsOnly, Category="UI")
-	TSubclassOf<UUserWidget> InitialWidget{nullptr};
+	UUserWidget* InitialWidget{nullptr};
 };

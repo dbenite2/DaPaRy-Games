@@ -6,12 +6,11 @@
 #include "Blueprint/UserWidget.h"
 #include "MainMenu.generated.h"
 
+class UOptionsMenu;
 class UImage;
 class UTextBlock;
 class UCommonButton;
-/**
- * 
- */
+
 UCLASS()
 class PROJECTSAILOR_API UMainMenu : public UUserWidget {
 	GENERATED_BODY()
@@ -35,6 +34,9 @@ class PROJECTSAILOR_API UMainMenu : public UUserWidget {
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveWidget();
+
+	UPROPERTY()
+	UOptionsMenu* ExternalWidget{nullptr};
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
