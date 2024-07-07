@@ -56,18 +56,25 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 	FRotator CameraRotation;
 	PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
-	// Add a vertical offset to the camera location
-	CameraLocation.Z += 50.f;
+	// Get player's forward vector and location
+	FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
+	FVector PlayerLocation = PlayerCharacter->GetActorLocation();
 
 	// Define the spherecast parameters
 	float SphereRadius = 100.f;
-	FVector SphereCastStart = CameraLocation;
-	FVector SphereCastEnd = SphereCastStart + CameraRotation.Vector() * 1000.f;
+
+	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
+	FVector SphereCastStart = PlayerLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f); // Adjust this value as needed
+
+	// Define the end location of the spherecast based on camera direction
+	FVector SphereCastEnd = SphereCastStart + CameraRotation.Vector() * 1000.f; // Adjust this value as needed
 
 	// Setup collision parameters
 	FCollisionQueryParams SphereCollisionParams;
 	SphereCollisionParams.AddIgnoredActor(PlayerCharacter);
 
+	
+	
 	// Perform the spherecast
 	FHitResult HitResult;
 	bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), SphereCastStart, SphereCastEnd, SphereRadius, UEngineTypes::ConvertToTraceType(ECC_Pawn),
@@ -94,21 +101,20 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 			// 	
 			// }
 
-			// Check if the hit object has an ObjectInteraction component
-			UActorComponent* ObjectInteractionComponent = HitObject->GetComponentByClass(UObjectInteraction::StaticClass());
-			if(ObjectInteractionComponent)
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Hit Object: %s"), *HitObject->GetName()));
+
+			// Check if the hit object implements the InteractionInterface
+			if (HitObject->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
 			{
-				// Check if the hit object's name is "BP_KeyBeach"
-				if(HitObject->GetName().Contains(TEXT("BP_KeyBeach")))
-				{
+				
 					// Cast the HitObject to KeyBeach and call ActivateKeyPhysics if the cast is successful
 					AKeyBeach* KeyBeachActor = Cast<AKeyBeach>(HitObject);
 					if(KeyBeachActor)
 					{
-						KeyBeachActor->ActivateKeyPhysics();
+						KeyBeachActor->Interact_Implementation();
 					}
 					
-				}
+				
 			}
 			
 			IIDamageable* DamageableActor = Cast<IIDamageable>(HitObject);
