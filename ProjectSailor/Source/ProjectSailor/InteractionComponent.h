@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Baculo.h"
 #include "ObjectInteraction.h"
 #include "Components/ActorComponent.h"
 #include "InteractionComponent.generated.h"

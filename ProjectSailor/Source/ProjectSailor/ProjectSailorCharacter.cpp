@@ -108,49 +108,55 @@ void AProjectSailorCharacter::InteractMethod()
 
 void AProjectSailorCharacter::GrapAndDragMethodPress()
 {
-	if(!IsHolding)
+	if(baculoIsActive)
 	{
-		UWorld* World = GetWorld();
-		FVector Start = GetActorLocation();
-		FVector End = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 1000;
-
-
-		bool bHit = UKismetSystemLibrary::LineTraceSingle(World, Start, End, TraceTypeQuery1, true, {}, EDrawDebugTrace::ForDuration, HitScore, true,  FLinearColor::Red, FLinearColor::Green);
-
-		if(bHit)
+		if(!IsHolding)
 		{
-			// player->GetPlayerViewPoint(CameraLocation, CameraRotation);
-			//FVector NewLocation = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 500;
+			UWorld* World = GetWorld();
+			FVector Start = GetActorLocation();
+			FVector End = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 1000;
 
-			//AActor* GrabbedObject = HitScore.GetActor();
-			GrabbedObject = Cast<APickable_Object>(HitScore.GetActor());
-			ObjectComponent = HitScore.GetComponent();
 
-			if(GrabbedObject)
+			bool bHit = UKismetSystemLibrary::LineTraceSingle(World, Start, End, TraceTypeQuery1, true, {}, EDrawDebugTrace::ForDuration, HitScore, true,  FLinearColor::Red, FLinearColor::Green);
+
+			if(bHit)
 			{
-				GrabbedObject->PickedObject();
-				SetActorTickEnabled(true);
-				PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
-				IsHolding = true;
+				// player->GetPlayerViewPoint(CameraLocation, CameraRotation);
+				//FVector NewLocation = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 500;
+
+				//AActor* GrabbedObject = HitScore.GetActor();
+				GrabbedObject = Cast<APickable_Object>(HitScore.GetActor());
+				ObjectComponent = HitScore.GetComponent();
+
+				if(GrabbedObject)
+				{
+					GrabbedObject->PickedObject();
+					SetActorTickEnabled(true);
+					PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
+					IsHolding = true;
+				}
 			}
 		}
-	}
-	else
-	{
-		PhysicsHandle->ReleaseComponent();
-		GrabbedObject->DropObject();
-		SetActorTickEnabled(false);
-		GrabbedObject = nullptr;
-		ObjectComponent = nullptr;
-		IsHolding = false;					
+		else
+		{
+			PhysicsHandle->ReleaseComponent();
+			GrabbedObject->DropObject();
+			SetActorTickEnabled(false);
+			GrabbedObject = nullptr;
+			ObjectComponent = nullptr;
+			IsHolding = false;					
+		}
 	}
 }
 
 void AProjectSailorCharacter::HitComponentAbility()
 {
-	UCameraComponent* camera = GetFollowCamera();
-	AActor* player = GetOwner();
-	hitComponent->HitAbility(camera, player);
+	if(baculoIsActive)
+	{
+		UCameraComponent* camera = GetFollowCamera();
+		AActor* player = GetOwner();
+		hitComponent->HitAbility(camera, player);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
