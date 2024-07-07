@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "InteractionComponent.h"
+#include "SailorController.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -156,9 +157,9 @@ void AProjectSailorCharacter::HitComponentAbility()
 //////////////////////////////////////////////////////////////////////////
 // Input
 
-void AProjectSailorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	// Set up action bindings
+void AProjectSailorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
+
+	ASailorController* PlayerController = Cast<ASailorController>(GetController());
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
 		// Jumping
@@ -178,6 +179,8 @@ void AProjectSailorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 		EnhancedInputComponent->BindAction(GrapAndDrag, ETriggerEvent::Triggered, this, &AProjectSailorCharacter::GrapAndDragMethodPress);
 
 		EnhancedInputComponent->BindAction(HitAbility, ETriggerEvent::Triggered, this, &AProjectSailorCharacter::HitComponentAbility);
+
+		EnhancedInputComponent->BindAction(PauseMenuInput, ETriggerEvent::Triggered, PlayerController, &ASailorController::ShowPauseMenu);
 
 	}
 	else

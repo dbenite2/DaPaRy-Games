@@ -3,6 +3,7 @@
 
 #include "CommonButton.h"
 
+#include "SailorController.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
@@ -14,9 +15,9 @@ void UCommonButton::NativeConstruct() {
 	World = GetWorld();
 
 	if (Button) {
-		Button->OnClicked.AddDynamic(this, &UCommonButton::OnClicked);
-		Button->OnHovered.AddDynamic(this, &UCommonButton::OnHover);
-		Button->OnUnhovered.AddDynamic(this, &UCommonButton::OnUnHover);
+		Button->OnClicked.AddUniqueDynamic(this, &UCommonButton::OnClicked);
+		Button->OnClicked.AddUniqueDynamic(this, &UCommonButton::OnHover);
+		Button->OnClicked.AddUniqueDynamic(this, &UCommonButton::OnUnHover);
 	}
 
 	if (ButtonText) {
@@ -41,7 +42,8 @@ void UCommonButton::OnClicked() {
 	}
 
 	if (bResumeGame) {
-		//
+		ASailorController* Owner = Cast<ASailorController>(GetOwningPlayer());
+		Owner->UnPauseGame();
 	}
 
 	if (bEmmitEvent) {

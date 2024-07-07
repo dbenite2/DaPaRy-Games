@@ -1,6 +1,5 @@
 // Property of DaPaRy Games
 
-
 #include "OptionsMenu.h"
 
 #include "CommonButton.h"
@@ -11,35 +10,39 @@
 void UOptionsMenu::NativeConstruct() {
 	Super::NativeConstruct();
 
+	Resolutions.Add(FIntPoint(1920, 1080));
+	Resolutions.Add(FIntPoint(1280, 720));
+	Resolutions.Add(FIntPoint(800, 600));
+
 	if (BackButton) {
-		BackButton->OnButtonClicked.AddDynamic(this, &UOptionsMenu::SwitchWidget);
+		BackButton->OnButtonClicked.AddUniqueDynamic(this, &UOptionsMenu::SwitchWidget);
 	}
 	if (ApplyButton) {
-		ApplyButton->OnButtonClicked.AddDynamic(this, &UOptionsMenu::ApplyNewSettings);
+		ApplyButton->OnButtonClicked.AddUniqueDynamic(this, &UOptionsMenu::ApplyNewSettings);
 	}
 	if (DecreaseResolutionButton && IncreaseResolutionButton) {
-		DecreaseResolutionButton->OnClicked.AddDynamic(this, &UOptionsMenu::ChangeResolutionSize);
-		IncreaseResolutionButton->OnClicked.AddDynamic(this, &UOptionsMenu::ChangeResolutionSize);
+		IncreaseResolutionButton->OnClicked.AddUniqueDynamic(this, &UOptionsMenu::ChangeResolutionWrapperIncrease);
+		DecreaseResolutionButton->OnClicked.AddUniqueDynamic(this, &UOptionsMenu::ChangeResolutionWrapperDecrease);
 	}
 	if (IncreaseWindowButton && DecreaseWindowButton) {
-		IncreaseWindowButton->OnClicked.AddDynamic(this, &UOptionsMenu::ChangeWindowMode);
-		DecreaseWindowButton->OnClicked.AddDynamic(this, &UOptionsMenu::ChangeWindowMode);
+		IncreaseWindowButton->OnClicked.AddUniqueDynamic(this, &UOptionsMenu::ChangeWindowMode);
+		DecreaseWindowButton->OnClicked.AddUniqueDynamic(this, &UOptionsMenu::ChangeWindowMode);
 	}
 
 	UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
 	if (UserSettings) {
 		WindowModeToApply = UserSettings->GetFullscreenMode();
+		ResolutionToApply = UserSettings->GetScreenResolution();
+		CurrentResolutionIndex = Resolutions.IndexOfByKey(ResolutionToApply);
 		UpdateWindowModeText();
+		UpdateResolutionText();
 	}
 }
 
 void UOptionsMenu::SwitchWidget() {
 	RemoveFromParent();
 	if (InitialWidget) {
-		UUserWidget* newWidget = CreateWidget<UUserWidget>(GetWorld(), InitialWidget);
-		if (newWidget) {
-			newWidget->AddToViewport();
-		}
+		InitialWidget->AddToViewport(0);
 	}
 }
 
@@ -80,12 +83,36 @@ void UOptionsMenu::UpdateWindowModeText() {
 	}
 }
 
-void UOptionsMenu::ChangeResolutionSize() {
+void UOptionsMenu::ChangeResolutionSize(bool bNextOption) {
+	CurrentResolutionIndex = bNextOption ?
+		(CurrentResolutionIndex + 1) % Resolutions.Num() :
+		(CurrentResolutionIndex - 1  + Resolutions.Num()) % Resolutions.Num();
+	
+	ResolutionToApply = Resolutions[CurrentResolutionIndex];
+	UpdateResolutionText();
+}
+
+void UOptionsMenu::UpdateResolutionText() {
+	if (ResolutionText) {
+		const int XValue = ResolutionToApply.X;
+		const int YValue = ResolutionToApply.Y;
+		FText Value = FText::FromString(FString::Printf(TEXT("%d x %d"), XValue, YValue));
+		ResolutionText->SetText(Value);
+	}
 }
 
 void UOptionsMenu::ApplyNewSettings() {
 	if (UGameUserSettings* UserSettings = GEngine->GetGameUserSettings()) {
 		UserSettings->SetFullscreenMode(WindowModeToApply);
+		UserSettings->SetScreenResolution(ResolutionToApply);
 		UserSettings->ApplySettings(false);
 	}
+}
+
+void UOptionsMenu::ChangeResolutionWrapperIncrease() {
+	ChangeResolutionSize(true);
+}
+
+void UOptionsMenu::ChangeResolutionWrapperDecrease() {
+	ChangeResolutionSize(false);
 }
