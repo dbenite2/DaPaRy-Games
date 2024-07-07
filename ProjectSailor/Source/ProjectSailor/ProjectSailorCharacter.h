@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Baculo.h"
 #include "HItComponent.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
@@ -107,6 +108,9 @@ public:
 
 	UPROPERTY()
 	UHItComponent* hitComponent;
+
+	UPROPERTY()
+	bool baculoIsActive = false;
 
 
 private:
