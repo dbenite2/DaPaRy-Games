@@ -21,6 +21,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, Category = "Materials")
+	UMaterialInterface* MaterialInterface;
+
+	UPROPERTY(EditAnywhere, Category = "Materials")
+	FName BrightnessParameterName = "glow";
+
 public:    
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -32,4 +38,10 @@ public:
 	void ActivateKeyPhysics();
 
 	virtual void Interact_Implementation() override;
+
+private:
+	FTimerHandle TimerHandle_Blink;
+
+	UFUNCTION()
+	void BlinkEffect();
 };
