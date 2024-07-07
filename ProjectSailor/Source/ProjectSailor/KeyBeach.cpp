@@ -32,8 +32,16 @@ void AKeyBeach::Tick(float DeltaTime)
 
 }
 
+
+
 void AKeyBeach::ActivateKeyPhysics()
 {
 	KeyMesh->SetSimulatePhysics(true);
+}
+
+void AKeyBeach::Interact_Implementation()
+{
+	IInteractionInterface::Interact_Implementation();
+	ActivateKeyPhysics();
 }
 

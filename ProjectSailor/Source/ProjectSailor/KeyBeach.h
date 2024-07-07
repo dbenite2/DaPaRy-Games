@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "IDamageable.h"
+
+#include "InteractionInterface.h"
 #include "GameFramework/Actor.h"
 #include "KeyBeach.generated.h"
 
 UCLASS()
-class PROJECTSAILOR_API AKeyBeach : public AActor, public IIDamageable
+class PROJECTSAILOR_API AKeyBeach : public AActor,  public IInteractionInterface
 {
 	GENERATED_BODY()
     
@@ -29,4 +30,6 @@ public:
 
 	// Function to initialize the key position and physics
 	void ActivateKeyPhysics();
+
+	virtual void Interact_Implementation() override;
 };
