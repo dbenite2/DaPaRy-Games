@@ -91,6 +91,16 @@ void AProjectSailorCharacter::Tick(float DeltaTime)
 	}
 }
 
+bool AProjectSailorCharacter::HasKeyBeach()
+{
+	return hasKeyBeach;
+}
+
+void AProjectSailorCharacter::SetHasKeyBeach(bool set)
+{
+	hasKeyBeach = set;
+}
+
 void AProjectSailorCharacter::InteractMethod()
 {
 	// Get the UInteractionComponent component

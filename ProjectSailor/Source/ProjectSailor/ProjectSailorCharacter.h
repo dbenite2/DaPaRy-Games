@@ -101,6 +101,15 @@ public:
 	bool IsHolding = false;
 
 	UPROPERTY()
+	bool hasKeyBeach = false;
+
+	UFUNCTION()
+	bool HasKeyBeach();
+
+	UFUNCTION()
+	void SetHasKeyBeach(bool set);
+
+	UPROPERTY()
 	APickable_Object* GrabbedObject = nullptr;
 
 	UPROPERTY()
