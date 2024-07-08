@@ -69,6 +69,7 @@ void AKeyBeach::Interact_Implementation()
 {
 	IInteractionInterface::Interact_Implementation();
 	ActivateKeyPhysics();
+	ModifyCableComponent();
 }
 
 void AKeyBeach::BlinkEffect()
@@ -101,6 +102,25 @@ void AKeyBeach::BlinkEffect()
 		{
 			DynamicMaterialInstance->SetScalarParameterValue(BrightnessParameterName, Brightness);
 		}
+	}
+}
+
+void AKeyBeach::ModifyCableComponent()
+{
+	if (BP_Rope)
+	{
+
+		// Obtener los componentes del Blueprint
+		UCableComponent* CableComponent = BP_Rope->FindComponentByClass<UCableComponent>();
+		
+			if (CableComponent)
+			{
+				// Se encontró el UCableComponent, ahora desactivar el attach
+				CableComponent->bAttachEnd = false;
+            
+				// Aquí podrías hacer otras operaciones con CableComponent si es necesario
+			}
+		
 	}
 }
 
