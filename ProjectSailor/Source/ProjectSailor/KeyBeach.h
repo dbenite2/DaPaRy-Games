@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
 #include "InteractionInterface.h"
+#include "CableComponent.h"
 #include "Components/SphereComponent.h" // Include the SphereComponent header
 #include "GameFramework/Actor.h"
 #include "KeyBeach.generated.h"
@@ -34,6 +34,14 @@ protected:
 	// Overlap event function
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+
+	// Reference to the Blueprint
+	UPROPERTY(EditAnywhere, Category = "Blueprints")
+	AActor* BP_Rope;
+
+	
+	
 public:    
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -51,4 +59,7 @@ private:
 
 	UFUNCTION()
 	void BlinkEffect();
+
+	UFUNCTION()
+	void ModifyCableComponent();
 };
