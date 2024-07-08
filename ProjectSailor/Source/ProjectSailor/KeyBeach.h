@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 
 #include "InteractionInterface.h"
+#include "Components/SphereComponent.h" // Include the SphereComponent header
 #include "GameFramework/Actor.h"
 #include "KeyBeach.generated.h"
 
@@ -17,6 +18,9 @@ public:
 	// Sets default values for this actor's properties
 	AKeyBeach();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USphereComponent* SphereCollider; // Declare the SphereComponent
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -27,6 +31,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Materials")
 	FName BrightnessParameterName = "glow";
 
+	// Overlap event function
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 public:    
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

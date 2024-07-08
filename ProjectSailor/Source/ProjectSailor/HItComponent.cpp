@@ -61,7 +61,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 	FVector PlayerLocation = PlayerCharacter->GetActorLocation();
 
 	// Define the spherecast parameters
-	float SphereRadius = 100.f;
+	float SphereRadius = 150.f;
 
 	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
 	FVector SphereCastStart = PlayerLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f); // Adjust this value as needed
