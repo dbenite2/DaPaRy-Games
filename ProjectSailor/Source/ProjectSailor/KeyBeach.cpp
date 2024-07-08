@@ -3,6 +3,7 @@
 
 #include "KeyBeach.h"
 
+#include "ProjectSailorCharacter.h"
 #include "Components/SphereComponent.h"
 
 // Sets default values
@@ -45,10 +46,24 @@ void AKeyBeach::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
 {
 	if (OtherActor && (OtherActor != this))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Overlap detected with %s"), *OtherActor->GetName());
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Overlap detected with %s"), *OtherActor->GetName()));
+		// UE_LOG(LogTemp, Warning, TEXT("Overlap detected with %s"), *OtherActor->GetName());
+		// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Overlap detected with %s"), *OtherActor->GetName()));
 
-		// Implement specific behavior for overlap here if needed
+		//if it has physics, the hit has been done and if the overlap is the player
+		if(hasPhysics)
+		{
+			// Verifica si OtherActor es de tipo AProjectSailorCharacter
+			AProjectSailorCharacter* SailorCharacter = Cast<AProjectSailorCharacter>(OtherActor);
+			if (SailorCharacter)
+			{
+				SailorCharacter->SetHasKeyBeach(true);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Key Taken")));
+				//hide object
+				SetActorHiddenInGame(true);
+				//quit collisions
+				SetActorEnableCollision(false);
+			}
+		}
 	}
 }
 
@@ -63,6 +78,7 @@ void AKeyBeach::Tick(float DeltaTime)
 void AKeyBeach::ActivateKeyPhysics()
 {
 	KeyMesh->SetSimulatePhysics(true);
+	hasPhysics = true;
 }
 
 void AKeyBeach::Interact_Implementation()

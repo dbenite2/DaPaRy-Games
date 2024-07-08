@@ -40,6 +40,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Blueprints")
 	AActor* BP_Rope;
 
+	UPROPERTY()
+	bool hasPhysics = false;
+
 	
 	
 public:    
