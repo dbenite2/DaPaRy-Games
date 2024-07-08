@@ -3,6 +3,8 @@
 
 #include "KeyBeach.h"
 
+#include "Components/SphereComponent.h"
+
 // Sets default values
 AKeyBeach::AKeyBeach()
 {
@@ -15,6 +17,14 @@ AKeyBeach::AKeyBeach()
 	KeyMesh->SetSimulatePhysics(false);
 	KeyMesh->SetCollisionProfileName(TEXT("PhysicsActor"));
 
+	// Create and initialize the sphere collider
+	SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollider"));
+	SphereCollider->SetupAttachment(RootComponent); // Attach the sphere collider to the root component
+	SphereCollider->SetSphereRadius(300.f); // Adjust the radius as needed
+	SphereCollider->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+	SphereCollider->SetGenerateOverlapEvents(true);
+
+	SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AKeyBeach::OnOverlapBegin);
 	
 	MaterialInterface = nullptr;
 	
@@ -29,6 +39,17 @@ void AKeyBeach::BeginPlay()
 	// Llamar a la función de parpadeo cada cierto intervalo de tiempo
 	GetWorldTimerManager().SetTimer(TimerHandle_Blink, this, &AKeyBeach::BlinkEffect, 0.5f, true);
 	
+}
+
+void AKeyBeach::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor && (OtherActor != this))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Overlap detected with %s"), *OtherActor->GetName());
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Overlap detected with %s"), *OtherActor->GetName()));
+
+		// Implement specific behavior for overlap here if needed
+	}
 }
 
 // Called every frame
