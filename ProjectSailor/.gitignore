@@ -3,7 +3,7 @@
 .vsconfig
 
 # Rider user specific files
-.idea/
+.idea
 
 # Compiled Object files
 *.slo
