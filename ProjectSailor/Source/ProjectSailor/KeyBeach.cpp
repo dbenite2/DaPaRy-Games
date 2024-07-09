@@ -56,7 +56,7 @@ void AKeyBeach::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
 			AProjectSailorCharacter* SailorCharacter = Cast<AProjectSailorCharacter>(OtherActor);
 			if (SailorCharacter)
 			{
-				SailorCharacter->SetHasKeyBeach(true);
+				SailorCharacter->SetHaveKeyBeach(true);
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Key Taken")));
 				//hide object
 				SetActorHiddenInGame(true);

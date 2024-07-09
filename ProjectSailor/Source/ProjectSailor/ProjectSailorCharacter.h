@@ -101,13 +101,13 @@ public:
 	bool IsHolding = false;
 
 	UPROPERTY()
-	bool hasKeyBeach = false;
+	bool HaveKeyBeach = false;
 
 	UFUNCTION()
-	bool HasKeyBeach();
+	bool GetHaveKeyBeach();
 
 	UFUNCTION()
-	void SetHasKeyBeach(bool set);
+	void SetHaveKeyBeach(bool Value);
 
 	UPROPERTY()
 	APickable_Object* GrabbedObject = nullptr;
