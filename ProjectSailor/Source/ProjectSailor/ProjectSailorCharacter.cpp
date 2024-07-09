@@ -91,14 +91,14 @@ void AProjectSailorCharacter::Tick(float DeltaTime)
 	}
 }
 
-bool AProjectSailorCharacter::HasKeyBeach()
+bool AProjectSailorCharacter::GetHaveKeyBeach()
 {
-	return hasKeyBeach;
+	return HaveKeyBeach;
 }
 
-void AProjectSailorCharacter::SetHasKeyBeach(bool set)
+void AProjectSailorCharacter::SetHaveKeyBeach(bool Value)
 {
-	hasKeyBeach = set;
+	HaveKeyBeach = Value;
 }
 
 void AProjectSailorCharacter::InteractMethod()
