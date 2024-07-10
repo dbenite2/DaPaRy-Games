@@ -5,25 +5,21 @@
 
 
 #include "DialogueNPCCharacter.h"
+
+#include "DialogDataAsset.h"
 #include "ProjectSailorCharacter.h"
 
 
-// Sets default values
-ADialogueNPCCharacter::ADialogueNPCCharacter()
-{
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ADialogueNPCCharacter::ADialogueNPCCharacter() {
 	PrimaryActorTick.bCanEverTick = true;
-
 	
 	// Create the trigger zone and attach it to the root component
 	TriggerZone = CreateDefaultSubobject<USphereComponent>(TEXT("TriggerZone"));
 	TriggerZone->SetupAttachment(RootComponent);
 	TriggerZone->InitSphereRadius(300.0f);
 	TriggerZone->SetCollisionProfileName(TEXT("Trigger"));
-
-	// Bind the overlap event
+	
 	TriggerZone->OnComponentBeginOverlap.AddDynamic(this, &ADialogueNPCCharacter::OnOverlapBegin);
-	// Bind the overlap event
 	TriggerZone->OnComponentEndOverlap.AddDynamic(this, &ADialogueNPCCharacter::OnOverlapEnd);
 }
 
@@ -34,19 +30,22 @@ void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, 
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
 	if (PlayerCharacter)
 	{
+		const FLevelStatus CurrentState = PlayerCharacter->GetLevelStatus();
+		CurrentDialogSet.Empty();
+		SetCurrentDialogSet(CurrentState);
+		
 		if (DialogueWidgetClass)
 		{
 			// Create the widget if it's not already created
 			if (!DialogueWidget)
 			{
 				DialogueWidget = CreateWidget<UDialogueWidget>(GetWorld(), DialogueWidgetClass);
-			}
-            
-			// Add it to the viewport if it's valid
-			if (DialogueWidget)
-			{
-				SetWidget(true);
-				DialogueWidget->UpdateText(DialogueTexts[CurrentTextIndex]);
+				// Add it to the viewport if it's valid
+				if (DialogueWidget && CurrentDialogSet.Num() > 0)
+				{
+					SetWidget(true);
+					DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
+				}
 			}
 		}
 	}
@@ -81,7 +80,7 @@ void ADialogueNPCCharacter::SetWidget(bool set)
 		CurrentTextIndex = 0;
 		if(DialogueWidget)
 		{
-			DialogueWidget->RemoveFromViewport();
+			DialogueWidget->RemoveFromParent();
 			DialogueWidget = nullptr;
 		}
 		
@@ -90,24 +89,46 @@ void ADialogueNPCCharacter::SetWidget(bool set)
 
 void ADialogueNPCCharacter::ChangeToNextText()
 {
-	if (DialogueTexts.Num() == 0)
+	if (CurrentDialogSet.Num() == 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("DialogueTexts array is empty!"));
 		return;
 	}
-
+	
 	// Increment index
 	CurrentTextIndex++;
+
+	if (CurrentTextIndex >= CurrentDialogSet.Num()) {
+		SetWidget(false);
+		return;
+	}
 	// Wrap around the index to stay within bounds
-	CurrentTextIndex %= DialogueTexts.Num();
+	// CurrentTextIndex %= DialogueTextsSet1.Num();
 
 	
 	// Update text on the widget
 	if (DialogueWidget)
 	{
-		DialogueWidget->UpdateText(DialogueTexts[CurrentTextIndex]);
+		DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
 	}
 }
 
-
-
+void ADialogueNPCCharacter::SetCurrentDialogSet(FLevelStatus PlayerStatus) {
+	if (PlayerStatus.bInitial) {
+		if (Dialogs->ObjectsArray.IsValidIndex(0)) {
+			CurrentDialogSet = Dialogs->ObjectsArray[0].Texts;
+			return;
+		}
+	}
+	if (PlayerStatus.bGoal1Complete && !PlayerStatus.bGoal2Complete) {
+		if (Dialogs->ObjectsArray.IsValidIndex(1)) {
+			CurrentDialogSet = Dialogs->ObjectsArray[1].Texts;
+			return;
+		}
+	}
+	if (PlayerStatus.bGoal2Complete) {
+		if (Dialogs->ObjectsArray.IsValidIndex(2)) {
+			CurrentDialogSet = Dialogs->ObjectsArray[2].Texts;
+		}
+	}
+}

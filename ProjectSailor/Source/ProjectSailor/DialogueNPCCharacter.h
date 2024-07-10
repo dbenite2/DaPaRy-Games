@@ -9,6 +9,9 @@
 #include "Components/SphereComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "DialogueNPCCharacter.generated.h"
+class UDialogDataAsset;
+struct FLevelStatus;
+
 UCLASS()
 class PROJECTSAILOR_API ADialogueNPCCharacter : public ACharacter
 {
@@ -34,7 +37,7 @@ public:
 
 	// Widget to display when overlapping
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
-	TSubclassOf<class UUserWidget> DialogueWidgetClass;
+	TSubclassOf<UUserWidget> DialogueWidgetClass;
 
 private:
 	UPROPERTY()
@@ -44,15 +47,16 @@ private:
 	UFUNCTION()
 	void SetWidget(bool set);
 
+	UPROPERTY()
+	TArray<FText> CurrentDialogSet;
+
+	UFUNCTION()
+	void SetCurrentDialogSet(FLevelStatus PlayerStatus);
+
 public:
 	UFUNCTION()
 	void ChangeToNextText();
 	
-
 	UPROPERTY(EditAnywhere)
-	TArray<FText> DialogueTexts;
-
-
-
-	
+	UDialogDataAsset* Dialogs{nullptr};
 };
