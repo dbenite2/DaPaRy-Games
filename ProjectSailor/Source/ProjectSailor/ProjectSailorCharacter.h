@@ -125,6 +125,8 @@ public:
 	UPROPERTY()
 	bool IsHolding = false;
 
+	
+
 	UPROPERTY()
 	bool HaveKeyBeach = false;
 
