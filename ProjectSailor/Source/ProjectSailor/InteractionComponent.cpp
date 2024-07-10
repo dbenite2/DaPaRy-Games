@@ -1,11 +1,8 @@
 
 #include "InteractionComponent.h"
-#include "DialogueComponentNPC.h"
 #include "DialogueNPCCharacter.h"
 #include "ProjectSailorCharacter.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Kismet/GameplayStatics.h"
-
 
 // Sets default values for this component's properties
 UInteractionComponent::UInteractionComponent()
@@ -93,16 +90,6 @@ void UInteractionComponent::PerformRaycast()
     {
         // Handle visibility or any other logic when no object is hit
     }
-}
-
-void UInteractionComponent::InteractNPC(UDialogueComponentNPC* dialogue)
-{
-
-		if(dialogue&& dialogue->CanInteract_Implementation())
-		{
-			dialogue->ActivateObject();
-			dialogue->Interact_Implementation();
-		}
 }
 
 void UInteractionComponent::InteractObject(UObjectInteraction* object)

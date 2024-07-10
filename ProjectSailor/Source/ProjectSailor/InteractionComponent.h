@@ -33,8 +33,6 @@ public:
     
 private:
     UWorld* World{ nullptr };
-   
-    UFUNCTION() void InteractNPC(UDialogueComponentNPC* npc);
 
     UFUNCTION() void InteractObject(UObjectInteraction* object);
 

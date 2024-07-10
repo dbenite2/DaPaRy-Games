@@ -58,7 +58,7 @@ void APickable_Crosier::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 		
 		if (baculoComponent) {
 			baculoComponent->AttachToComponent(PlayerCharacter->GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
-			PlayerCharacter->baculoIsActive = true;
+			PlayerCharacter->SetBaculoIsActive(true);
 			Destroy();
 		}
 	}

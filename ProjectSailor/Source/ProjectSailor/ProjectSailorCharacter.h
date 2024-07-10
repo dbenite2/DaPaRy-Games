@@ -19,6 +19,31 @@ struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
+USTRUCT(BlueprintType)
+struct FLevelStatus {
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bInitial;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bGoal1Complete;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bGoal2Complete;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bGoal3Complete;
+
+	FLevelStatus() {
+		bInitial = true;
+		bGoal1Complete = false;
+		bGoal2Complete = false;
+		bGoal3Complete = false;
+	}
+	
+};
+
 UCLASS(config=Game)
 class AProjectSailorCharacter : public ACharacter
 {
@@ -109,6 +134,12 @@ public:
 	UFUNCTION()
 	void SetHaveKeyBeach(bool Value);
 
+	UFUNCTION()
+	void SetBaculoIsActive(bool Value);
+
+	UFUNCTION()
+	bool GetBaculoIsActive();
+
 	UPROPERTY()
 	APickable_Object* GrabbedObject = nullptr;
 
@@ -118,11 +149,13 @@ public:
 	UPROPERTY()
 	UHItComponent* hitComponent;
 
-	UPROPERTY()
-	bool baculoIsActive = false;
-
+	UFUNCTION()
+	FLevelStatus GetLevelStatus();
 
 private:
+	UPROPERTY()
+	bool baculoIsActive{false};
+	
 	UFUNCTION()
 	void InteractMethod();
 
@@ -131,6 +164,9 @@ private:
 
 	UFUNCTION()
 	void HitComponentAbility();
+
+	UPROPERTY()
+	FLevelStatus LevelStatus;
 	
 };
 
