@@ -11,6 +11,7 @@
 #include "Pickable_Object.h"
 #include "ProjectSailorCharacter.generated.h"
 
+class UInteractionComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
@@ -125,8 +126,6 @@ public:
 	UPROPERTY()
 	bool IsHolding = false;
 
-	
-
 	UPROPERTY()
 	bool HaveKeyBeach = false;
 
@@ -150,6 +149,9 @@ public:
 
 	UPROPERTY()
 	UHItComponent* hitComponent;
+
+	UPROPERTY()
+	UInteractionComponent* InteractionComponent;
 
 	UFUNCTION()
 	FLevelStatus GetLevelStatus();

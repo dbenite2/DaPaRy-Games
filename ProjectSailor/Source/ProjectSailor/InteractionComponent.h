@@ -7,50 +7,45 @@
 #include "Components/ActorComponent.h"
 #include "InteractionComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteract);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class PROJECTSAILOR_API UInteractionComponent : public UActorComponent
-{
+class PROJECTSAILOR_API UInteractionComponent : public UActorComponent {
     GENERATED_BODY()
 
-public:	
-    // Sets default values for this component's properties
-    UInteractionComponent();
+    UPROPERTY()
+    UWorld* World{ nullptr };
 
+    UPROPERTY() bool pressedE = false;
+    
+    UFUNCTION()
+    void StartInterface();
+    
+    UFUNCTION()
+    void UpdateImageOfCanvas(UTexture2D* NewImage);
+
+    UFUNCTION() void InteractObject(UObjectInteraction* object);
+    
 protected:
-    // Called when the game starts
     virtual void BeginPlay() override;
 
     // TODO UPROPERTY(EditDefaultsOnly, Category= "Interaction") TSubclassOf<UInteractWidget> widgetTemplate;
     // TODO UPROPERTY()UInteractWidget *widget = nullptr;
 
-
-
-public:	
-    // Called every frame
-    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-    UFUNCTION() void PerformRaycast();
-    
-private:
-    UWorld* World{ nullptr };
-
-    UFUNCTION() void InteractObject(UObjectInteraction* object);
-
-    UPROPERTY() bool pressedE = false;
-    
-
-    
-    
-
 public:
-
-    //auxiliarMethods
-    UFUNCTION() void PressedE();
-
-private:
+    
+    UInteractionComponent();
+    
+    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+    
     UFUNCTION()
-    void StartInterface();
+    void PerformRaycast();
+
+    UPROPERTY()
+    FOnInteract OnInteract;
+
     UFUNCTION()
-    void UpdateImageOfCanvas(UTexture2D* NewImage);
+    void SetEKeyPressed(bool Value);
+    
 };
 

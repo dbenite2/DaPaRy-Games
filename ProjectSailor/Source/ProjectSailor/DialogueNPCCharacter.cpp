@@ -3,12 +3,9 @@
 
 #include "DialogueNPCCharacter.h"
 
-
-#include "DialogueNPCCharacter.h"
-
 #include "DialogDataAsset.h"
 #include "ProjectSailorCharacter.h"
-
+#include "InteractionComponent.h"
 
 ADialogueNPCCharacter::ADialogueNPCCharacter() {
 	PrimaryActorTick.bCanEverTick = true;
@@ -21,28 +18,25 @@ ADialogueNPCCharacter::ADialogueNPCCharacter() {
 	
 	TriggerZone->OnComponentBeginOverlap.AddDynamic(this, &ADialogueNPCCharacter::OnOverlapBegin);
 	TriggerZone->OnComponentEndOverlap.AddDynamic(this, &ADialogueNPCCharacter::OnOverlapEnd);
+	
 }
 
 void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult){
 	// Check if the overlapping actor is of class AProjectSailorCharacter
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
-	if (PlayerCharacter)
-	{
+	if (PlayerCharacter) {
 		const FLevelStatus CurrentState = PlayerCharacter->GetLevelStatus();
+		SetUpEventSubscription(PlayerCharacter);
 		CurrentDialogSet.Empty();
 		SetCurrentDialogSet(CurrentState);
 		
-		if (DialogueWidgetClass)
-		{
+		if (DialogueWidgetClass) {
 			// Create the widget if it's not already created
-			if (!DialogueWidget)
-			{
+			if (!DialogueWidget) {
 				DialogueWidget = CreateWidget<UDialogueWidget>(GetWorld(), DialogueWidgetClass);
 				// Add it to the viewport if it's valid
-				if (DialogueWidget && CurrentDialogSet.Num() > 0)
-				{
+				if (DialogueWidget && CurrentDialogSet.Num() > 0) {
 					SetWidget(true);
 					DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
 				}
@@ -52,15 +46,12 @@ void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, 
 }
 
 void ADialogueNPCCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	if (OtherActor && (OtherActor != this))
-	{
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
+	if (OtherActor && (OtherActor != this)) {
 		AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
-		if (PlayerCharacter)
-		{
-			if (DialogueWidget)
-			{
+		if (PlayerCharacter) {
+			PlayerCharacter->InteractionComponent->OnInteract.RemoveDynamic(this, &ADialogueNPCCharacter::ChangeToNextText);
+			if (DialogueWidget) {
 				SetWidget(false);
 			}
 		}
@@ -87,10 +78,8 @@ void ADialogueNPCCharacter::SetWidget(bool set)
 	}
 }
 
-void ADialogueNPCCharacter::ChangeToNextText()
-{
-	if (CurrentDialogSet.Num() == 0)
-	{
+void ADialogueNPCCharacter::ChangeToNextText() {
+	if (CurrentDialogSet.Num() == 0) {
 		UE_LOG(LogTemp, Warning, TEXT("DialogueTexts array is empty!"));
 		return;
 	}
@@ -107,8 +96,7 @@ void ADialogueNPCCharacter::ChangeToNextText()
 
 	
 	// Update text on the widget
-	if (DialogueWidget)
-	{
+	if (DialogueWidget) {
 		DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
 	}
 }
@@ -132,3 +120,8 @@ void ADialogueNPCCharacter::SetCurrentDialogSet(FLevelStatus PlayerStatus) {
 		}
 	}
 }
+
+void ADialogueNPCCharacter::SetUpEventSubscription(AProjectSailorCharacter* Player) {
+	Player->InteractionComponent->OnInteract.AddUniqueDynamic(this, &ADialogueNPCCharacter::ChangeToNextText);
+}
+

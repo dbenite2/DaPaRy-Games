@@ -57,6 +57,9 @@ AProjectSailorCharacter::AProjectSailorCharacter()
 
 	hitComponent = CreateDefaultSubobject<UHItComponent>(TEXT("HitComponent"));
 
+	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
+	
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -115,37 +118,29 @@ void AProjectSailorCharacter::SetBaculoIsActive(bool Value) {
 	}
 }
 
-void AProjectSailorCharacter::InteractMethod()
-{
-	// Get the UInteractionComponent component
-	UInteractionComponent* InteractionComponent = GetComponentByClass<UInteractionComponent>();
-	if (InteractionComponent)
-	{
-		//give access to the pressE = true
-		InteractionComponent->PressedE();
-		InteractionComponent->PerformRaycast();
-	}
-	else
-	{
+void AProjectSailorCharacter::InteractMethod() {
+
+	if (!InteractionComponent) {
 		UE_LOG(LogTemp, Warning, TEXT("InteractionComponent not found!"));
+		return;
 	}
+	
+	InteractionComponent->SetEKeyPressed(true);
+	InteractionComponent->PerformRaycast();
 }
 
-void AProjectSailorCharacter::GrapAndDragMethodPress()
-{
-	if(baculoIsActive)
-	{
-		if(!IsHolding)
-		{
+void AProjectSailorCharacter::GrapAndDragMethodPress() {
+	if(baculoIsActive) {
+		if(!IsHolding) {
 			UWorld* World = GetWorld();
 			FVector Start = GetActorLocation();
 			FVector End = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 1000;
 
+			bool bHit = UKismetSystemLibrary::LineTraceSingle(World, Start, End, TraceTypeQuery1,
+				true, {}, EDrawDebugTrace::ForDuration, HitScore, true,
+				FLinearColor::Red, FLinearColor::Green);
 
-			bool bHit = UKismetSystemLibrary::LineTraceSingle(World, Start, End, TraceTypeQuery1, true, {}, EDrawDebugTrace::ForDuration, HitScore, true,  FLinearColor::Red, FLinearColor::Green);
-
-			if(bHit)
-			{
+			if(bHit) {
 				// player->GetPlayerViewPoint(CameraLocation, CameraRotation);
 				//FVector NewLocation = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 500;
 
@@ -153,8 +148,7 @@ void AProjectSailorCharacter::GrapAndDragMethodPress()
 				GrabbedObject = Cast<APickable_Object>(HitScore.GetActor());
 				ObjectComponent = HitScore.GetComponent();
 
-				if(GrabbedObject)
-				{
+				if(GrabbedObject) {
 					GrabbedObject->PickedObject();
 					SetActorTickEnabled(true);
 					PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
@@ -162,8 +156,7 @@ void AProjectSailorCharacter::GrapAndDragMethodPress()
 				}
 			}
 		}
-		else
-		{
+		else {
 			PhysicsHandle->ReleaseComponent();
 			GrabbedObject->DropObject();
 			SetActorTickEnabled(false);
@@ -174,10 +167,8 @@ void AProjectSailorCharacter::GrapAndDragMethodPress()
 	}
 }
 
-void AProjectSailorCharacter::HitComponentAbility()
-{
-	if(baculoIsActive)
-	{
+void AProjectSailorCharacter::HitComponentAbility() {
+	if(baculoIsActive) {
 		UCameraComponent* camera = GetFollowCamera();
 		AActor* player = GetOwner();
 		hitComponent->HitAbility(camera, player);
@@ -219,13 +210,11 @@ void AProjectSailorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 	}
 }
 
-void AProjectSailorCharacter::Move(const FInputActionValue& Value)
-{
+void AProjectSailorCharacter::Move(const FInputActionValue& Value) {
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
-	{
+	if (Controller != nullptr) {
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -242,13 +231,11 @@ void AProjectSailorCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
-void AProjectSailorCharacter::Look(const FInputActionValue& Value)
-{
+void AProjectSailorCharacter::Look(const FInputActionValue& Value) {
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
-	{
+	if (Controller != nullptr) {
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);

@@ -11,33 +11,24 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "UObject/ICookInfo.h"
 
-// Sets default values for this component's properties
 UHItComponent::UHItComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
+
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+
 }
 
 
-// Called when the game starts
+
 void UHItComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
-
-// Called every frame
 void UHItComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
@@ -64,7 +55,8 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 	float SphereRadius = 150.f;
 
 	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
-	FVector SphereCastStart = PlayerLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f); // Adjust this value as needed
+	// TODO: Set value as a parameter in class
+	FVector SphereCastStart = PlayerLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f);
 
 	// Define the end location of the spherecast based on camera direction
 	FVector SphereCastEnd = SphereCastStart + CameraRotation.Vector() * 1000.f; // Adjust this value as needed
@@ -72,13 +64,12 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 	// Setup collision parameters
 	FCollisionQueryParams SphereCollisionParams;
 	SphereCollisionParams.AddIgnoredActor(PlayerCharacter);
-
-	
 	
 	// Perform the spherecast
 	FHitResult HitResult;
-	bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), SphereCastStart, SphereCastEnd, SphereRadius, UEngineTypes::ConvertToTraceType(ECC_Pawn),
-													   false, { PlayerCharacter }, EDrawDebugTrace::ForDuration, HitResult, true);
+	bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), SphereCastStart, SphereCastEnd, SphereRadius,
+		UEngineTypes::ConvertToTraceType(ECC_Pawn),false,
+		{ PlayerCharacter }, EDrawDebugTrace::ForDuration, HitResult, true);
 
 	if(bHit)
 	{
