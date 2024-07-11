@@ -9,6 +9,7 @@
 #include "Components/SphereComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "DialogueNPCCharacter.generated.h"
+class AProjectSailorCharacter;
 class UDialogDataAsset;
 struct FLevelStatus;
 
@@ -52,6 +53,9 @@ private:
 
 	UFUNCTION()
 	void SetCurrentDialogSet(FLevelStatus PlayerStatus);
+
+	UFUNCTION()
+	void SetUpEventSubscription(AProjectSailorCharacter* Player);
 
 public:
 	UFUNCTION()

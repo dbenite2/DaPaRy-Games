@@ -5,8 +5,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values for this component's properties
-UInteractionComponent::UInteractionComponent()
-{
+UInteractionComponent::UInteractionComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
     //reference to world
 	World = GetWorld();
@@ -14,8 +13,7 @@ UInteractionComponent::UInteractionComponent()
 
 
 // Called when the game starts
-void UInteractionComponent::BeginPlay()
-{
+void UInteractionComponent::BeginPlay() {
 	Super::BeginPlay();
 	StartInterface();
 	// TODO widget->SetVisibility(ESlateVisibility::Hidden);
@@ -23,16 +21,14 @@ void UInteractionComponent::BeginPlay()
 
 
 // Called every frame
-void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
+void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
+void UInteractionComponent::PerformRaycast() {
 
-
-
-void UInteractionComponent::PerformRaycast()
-{
+	OnInteract.Broadcast();
+	
 	// Get the player controller
     APlayerController* PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController());
     if (!PlayerController) return;
@@ -46,13 +42,20 @@ void UInteractionComponent::PerformRaycast()
     FRotator CameraRotation;
     PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
-    // Add a vertical offset to the camera location
-    CameraLocation.Z += 50.f;
+	// Get player's forward vector and location
+	FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
+	FVector PlayerLocation = PlayerCharacter->GetActorLocation();
 
     // Define the spherecast parameters
     float SphereRadius = 100.f;
-    FVector SphereCastStart = CameraLocation;
-    FVector SphereCastEnd = SphereCastStart + CameraRotation.Vector() * 1000.f;
+	
+	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
+	// TODO: Set value as a parameter in class
+	FVector SphereCastStart = PlayerLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f);
+	
+	// Define the end location of the spherecast based on camera direction
+	// TODO: Set value as a parameter in class
+	FVector SphereCastEnd = SphereCastStart + CameraRotation.Vector() * 1000.f;
 
     // Setup collision parameters
     FCollisionQueryParams SphereCollisionParams;
@@ -61,54 +64,39 @@ void UInteractionComponent::PerformRaycast()
     // Perform the spherecast
     FHitResult HitResult;
     bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), SphereCastStart, SphereCastEnd, SphereRadius, UEngineTypes::ConvertToTraceType(ECC_Pawn),
-                                                       false, { PlayerCharacter }, EDrawDebugTrace::ForDuration, HitResult, true);
+                                                       false, { PlayerCharacter }, EDrawDebugTrace::None, HitResult, true);
 
-    if (bHit)
-    {
+    if (bHit) {
         // Get the actor that was hit by the spherecast
         AActor* HitActor = HitResult.GetActor();
 
-        // Check if it's an ADialogueNPCCharacter
-        ADialogueNPCCharacter* DialogueNPC = Cast<ADialogueNPCCharacter>(HitActor);
-        if (DialogueNPC)
-        {
-            DialogueNPC->ChangeToNextText();
-        }
-
         // Perform object interaction if E key is pressed
-        if (pressedE)
-        {
+        if (pressedE) {
             UObjectInteraction* ObjectInteraction = Cast<UObjectInteraction>(HitActor->GetComponentByClass(UObjectInteraction::StaticClass()));
-            if (ObjectInteraction)
-            {
+            if (ObjectInteraction) {
                 InteractObject(ObjectInteraction);
             }
             pressedE = false;
         }
     }
-    else
-    {
+    else {
         // Handle visibility or any other logic when no object is hit
     }
 }
 
-void UInteractionComponent::InteractObject(UObjectInteraction* object)
-{
-	if (object && object->CanInteract_Implementation())
-	{
+void UInteractionComponent::InteractObject(UObjectInteraction* object) {
+	if (object && object->CanInteract_Implementation()) {
 			object->ActivateObject();
 			object->Interact_Implementation();
 	}
 }
 
-void UInteractionComponent::PressedE()
-{
-	pressedE = true;
+void UInteractionComponent::SetEKeyPressed(bool Value) {
+	pressedE = Value;
 }
 
 
-void UInteractionComponent::StartInterface()
-{
+void UInteractionComponent::StartInterface() {
 	//TODO add widget canvas
 	// if(widgetTemplate)
 	// {
@@ -119,8 +107,7 @@ void UInteractionComponent::StartInterface()
 	// }
 }
 
-void UInteractionComponent::UpdateImageOfCanvas(UTexture2D* NewImage)
-{
+void UInteractionComponent::UpdateImageOfCanvas(UTexture2D* NewImage) {
 	//we access to the widget or canvas and the script that is connect to their BP, interactWidget
 	//where the image to change is located
 	//TODO if (widget)
@@ -130,6 +117,3 @@ void UInteractionComponent::UpdateImageOfCanvas(UTexture2D* NewImage)
 	// 	widget->SetVisibility(ESlateVisibility::Visible);
 	// }
 }
-
-
-
