@@ -2,7 +2,7 @@
 
 
 #include "GenericGeometricPuzzlePiece.h"
-
+#include "Components/PointLightComponent.h"
 #include "Components/BoxComponent.h"
 
 // Sets default values
@@ -28,13 +28,20 @@ AGenericGeometricPuzzlePiece::AGenericGeometricPuzzlePiece()
 	// Create and attach the trigger box component
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
 	TriggerBox->SetupAttachment(RootComponent);
-	TriggerBox->SetBoxExtent(FVector(150.f, 150.f, 150.f));
+	TriggerBox->SetBoxExtent(FVector(150.f, 150.f, 50.f));
 	TriggerBox->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
 	TriggerBox->SetCollisionProfileName(TEXT("Trigger"));
 
 	// Bind events to the trigger box
 	TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &AGenericGeometricPuzzlePiece::OnOverlapBegin);
 	TriggerBox->OnComponentEndOverlap.AddDynamic(this, &AGenericGeometricPuzzlePiece::OnOverlapEnd);
+
+	//Create and attach the point light component
+	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight"));
+	PointLight->SetupAttachment(RootComponent);
+	PointLight->SetRelativeLocation(FVector(0.f, 0.f, 100.f)); // Adjust the location as needed
+	PointLight->SetVisibility(false); // Initially hidden
+
 
 }
 
@@ -66,7 +73,42 @@ void AGenericGeometricPuzzlePiece::OnOverlapBegin(UPrimitiveComponent* Overlappe
 
 		if(!isCorrect)
 		{
-			//TO-DO--> teleport 
+			//TO-DO--> teleport
+			if (BP_InitialPosition)
+			{
+				FVector InitialPosition = BP_InitialPosition->GetActorLocation();
+				FVector PlayerPosition = OtherActor->GetActorLocation();
+
+				// Set the player's X and Y to the InitialPosition's X and Y, keep the player's Z
+				PlayerPosition.X = InitialPosition.X;
+				PlayerPosition.Y = InitialPosition.Y;
+				PlayerPosition.Z = InitialPosition.Z + 100.f;
+
+				OtherActor->SetActorLocation(PlayerPosition);
+			}
+		}
+		else
+		{
+			// Set light color based on NameFigureStep
+			if (NameFigureStep == "Cross")
+			{
+				PointLight->SetLightColor(FLinearColor::Red);
+			}
+			else if (NameFigureStep == "Circle")
+			{
+				PointLight->SetLightColor(FLinearColor::Blue);
+			}
+			else if (NameFigureStep == "Square")
+			{
+				PointLight->SetLightColor(FLinearColor::Yellow);
+			}
+			else if (NameFigureStep == "Triangle")
+			{
+				PointLight->SetLightColor(FLinearColor::Green);
+			}
+
+			PointLight->SetVisibility(true);
+
 		}
 	}
 }
