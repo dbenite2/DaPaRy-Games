@@ -8,6 +8,7 @@
 
 class UBoxComponent;
 class UPointLightComponent;
+class UParticleSystemComponent;
 UCLASS()
 class PROJECTSAILOR_API AGenericGeometricPuzzlePiece : public AActor
 {
@@ -34,6 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Figure")
 	bool isCorrect;
 
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	UParticleSystemComponent* incorrectParticleSystem;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -41,10 +45,12 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	
 
 private:
 	UPROPERTY(VisibleAnywhere)
-	class UBoxComponent* TriggerBox;
+	UBoxComponent* TriggerBox;
 
 	UPROPERTY(VisibleAnywhere)
 	UPointLightComponent* PointLight;
@@ -52,6 +58,8 @@ private:
 	// Reference to the Blueprint
 	UPROPERTY(EditAnywhere, Category = "Blueprints")
 	AActor* BP_InitialPosition;
+
+	
 
 
 	UFUNCTION()

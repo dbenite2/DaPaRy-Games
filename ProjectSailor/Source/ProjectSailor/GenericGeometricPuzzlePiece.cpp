@@ -4,6 +4,7 @@
 #include "GenericGeometricPuzzlePiece.h"
 #include "Components/PointLightComponent.h"
 #include "Components/BoxComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
 AGenericGeometricPuzzlePiece::AGenericGeometricPuzzlePiece()
@@ -41,6 +42,11 @@ AGenericGeometricPuzzlePiece::AGenericGeometricPuzzlePiece()
 	PointLight->SetupAttachment(RootComponent);
 	PointLight->SetRelativeLocation(FVector(0.f, 0.f, 100.f)); // Adjust the location as needed
 	PointLight->SetVisibility(false); // Initially hidden
+
+	// Create and attach the particle system component
+	incorrectParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("IncorrectParticleSystem"));
+	incorrectParticleSystem->SetupAttachment(RootComponent);
+	incorrectParticleSystem->bAutoActivate = false; // Disable auto-activation
 
 
 }
@@ -118,7 +124,13 @@ void AGenericGeometricPuzzlePiece::OnOverlapEnd(UPrimitiveComponent* OverlappedC
 {
 	if (OtherActor && (OtherActor != this))
 	{
-		
+		if(!isCorrect)
+		{
+			if (incorrectParticleSystem)
+			{
+				incorrectParticleSystem->ActivateSystem();
+			}
+		}
 		
 	}
 }
