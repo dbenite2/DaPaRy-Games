@@ -3,19 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "LevelStreamerActor.h"
-#include "Components/PointLightComponent.h"
+#include "DoorWay.h"
 #include "GameFramework/Actor.h"
-#include "DoorWay.generated.h"
+#include "Game_Manager.generated.h"
 
 UCLASS()
-class PROJECTSAILOR_API ADoorWay : public AActor
+class PROJECTSAILOR_API AGame_Manager : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ADoorWay();
+	AGame_Manager();
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,13 +24,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	ALevelStreamerActor* LevelStreamerActor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<ADoorWay*> MiArray;
 
-	UPROPERTY(EditAnywhere)
-	UPointLightComponent* pointLight;
+	UPROPERTY()
+	TSubclassOf<ADoorWay> doorWay;
 
-	UPROPERTY(EditAnywhere)
-	bool LevelDone = false;
-
+	UFUNCTION()
+	void TurnOnPortal(int32 index);
 };
