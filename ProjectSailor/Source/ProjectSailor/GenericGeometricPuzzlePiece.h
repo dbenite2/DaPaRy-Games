@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "GenericGeometricPuzzlePiece.generated.h"
 
+class UBoxComponent;
+class UPointLightComponent;
 UCLASS()
 class PROJECTSAILOR_API AGenericGeometricPuzzlePiece : public AActor
 {
@@ -43,6 +45,14 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere)
 	class UBoxComponent* TriggerBox;
+
+	UPROPERTY(VisibleAnywhere)
+	UPointLightComponent* PointLight;
+
+	// Reference to the Blueprint
+	UPROPERTY(EditAnywhere, Category = "Blueprints")
+	AActor* BP_InitialPosition;
+
 
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
