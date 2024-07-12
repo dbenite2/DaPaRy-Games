@@ -3,9 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DialogDataAsset.h"
 #include "DialogueWidget.h"
+#include "Components/SphereComponent.h"
+#include "ProjectSailorCharacter.h"
 #include "GameFramework/Actor.h"
+#include "Blueprint/UserWidget.h"
 #include "GhostNPC.generated.h"
+class AProjectSailorCharacter;
+class UDialogDataAsset;
+struct FLevelStatus;
 
 UCLASS()
 class PROJECTSAILOR_API AGhostNPC : public AActor
@@ -33,16 +40,26 @@ public:
 private:
 	UPROPERTY()
 	UDialogueWidget* DialogueWidget;
+	
 	int32 CurrentTextIndex;
 
 	UFUNCTION()
 	void SetWidget(bool set);
+
+	UFUNCTION()
+	void SetCurrentDialogSet(FLevelStatus PlayerStatus);
+
+	UFUNCTION()
+	void SetUpEventSubscription(AProjectSailorCharacter* Player);
 public:	
 	UFUNCTION()
 	void ChangeToNextText();
 	
 
 	UPROPERTY(EditAnywhere)
-	TArray<FText> DialogueTexts;
+	TArray<FText> CurrentDialogSet;
+
+	UPROPERTY(EditAnywhere)
+	UDialogDataAsset* Dialogs{nullptr};
 
 };

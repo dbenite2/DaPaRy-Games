@@ -3,9 +3,8 @@
 
 #include "GhostNPC.h"
 
+#include "InteractionComponent.h"
 #include "ProjectSailorCharacter.h"
-#include "Blueprint/UserWidget.h"
-#include "Components/SphereComponent.h"
 
 // Sets default values
 AGhostNPC::AGhostNPC()
@@ -31,19 +30,20 @@ void AGhostNPC::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
 	if (PlayerCharacter)
 	{
-		if (DialogueWidgetClass)
-		{
+		const FLevelStatus CurrentState = PlayerCharacter->GetLevelStatus();
+		SetUpEventSubscription(PlayerCharacter);
+		CurrentDialogSet.Empty();
+		SetCurrentDialogSet(CurrentState);
+		
+		if (DialogueWidgetClass) {
 			// Create the widget if it's not already created
-			if (!DialogueWidget)
-			{
+			if (!DialogueWidget) {
 				DialogueWidget = CreateWidget<UDialogueWidget>(GetWorld(), DialogueWidgetClass);
-			}
-            
-			// Add it to the viewport if it's valid
-			if (DialogueWidget)
-			{
-				SetWidget(true);
-				DialogueWidget->UpdateText(DialogueTexts[CurrentTextIndex]);
+				// Add it to the viewport if it's valid
+				if (DialogueWidget && CurrentDialogSet.Num() > 0) {
+					SetWidget(true);
+					DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
+				}
 			}
 		}
 	}
@@ -57,8 +57,8 @@ void AGhostNPC::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 		AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
 		if (PlayerCharacter)
 		{
-			if (DialogueWidget)
-			{
+			PlayerCharacter->InteractionComponent->OnInteract.RemoveDynamic(this, &AGhostNPC::ChangeToNextText);
+			if (DialogueWidget) {
 				SetWidget(false);
 			}
 		}
@@ -87,22 +87,48 @@ void AGhostNPC::SetWidget(bool set)
 
 void AGhostNPC::ChangeToNextText()
 {
-	if (DialogueTexts.Num() == 0)
-	{
+	if (CurrentDialogSet.Num() == 0) {
 		UE_LOG(LogTemp, Warning, TEXT("DialogueTexts array is empty!"));
 		return;
 	}
-
+	
 	// Increment index
 	CurrentTextIndex++;
+
+	if (CurrentTextIndex >= CurrentDialogSet.Num()) {
+		SetWidget(false);
+		return;
+	}
 	// Wrap around the index to stay within bounds
-	CurrentTextIndex %= DialogueTexts.Num();
+	// CurrentTextIndex %= DialogueTextsSet1.Num();
 
 	
 	// Update text on the widget
-	if (DialogueWidget)
-	{
-		DialogueWidget->UpdateText(DialogueTexts[CurrentTextIndex]);
+	if (DialogueWidget) {
+		DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
 	}
 }
 
+void AGhostNPC::SetCurrentDialogSet(FLevelStatus PlayerStatus) {
+	if (PlayerStatus.bInitial) {
+		if (Dialogs->ObjectsArray.IsValidIndex(0)) {
+			CurrentDialogSet = Dialogs->ObjectsArray[0].Texts;
+			return;
+		}
+	}
+	if (PlayerStatus.bGoal1Complete && !PlayerStatus.bGoal2Complete) {
+		if (Dialogs->ObjectsArray.IsValidIndex(1)) {
+			CurrentDialogSet = Dialogs->ObjectsArray[1].Texts;
+			return;
+		}
+	}
+	if (PlayerStatus.bGoal2Complete) {
+		if (Dialogs->ObjectsArray.IsValidIndex(2)) {
+			CurrentDialogSet = Dialogs->ObjectsArray[2].Texts;
+		}
+	}
+}
+
+void AGhostNPC::SetUpEventSubscription(AProjectSailorCharacter* Player) {
+	Player->InteractionComponent->OnInteract.AddUniqueDynamic(this, &AGhostNPC::ChangeToNextText);
+}
