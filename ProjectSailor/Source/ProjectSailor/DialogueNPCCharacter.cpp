@@ -6,6 +6,7 @@
 #include "DialogDataAsset.h"
 #include "ProjectSailorCharacter.h"
 #include "InteractionComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 ADialogueNPCCharacter::ADialogueNPCCharacter() {
 	PrimaryActorTick.bCanEverTick = true;
@@ -25,8 +26,11 @@ void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, 
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult){
 	// Check if the overlapping actor is of class AProjectSailorCharacter
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
-	if (PlayerCharacter) {
-		const FLevelStatus CurrentState = PlayerCharacter->GetLevelStatus();
+	USailorInstance* GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(this));
+	if (PlayerCharacter && GameManager) {
+		FString CurrentLevelName = GetWorld()->GetMapName();
+		CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+		const FLevelStatus CurrentState = GameManager->GetCurrentLevelStatus(CurrentLevelName);
 		SetUpEventSubscription(PlayerCharacter);
 		CurrentDialogSet.Empty();
 		SetCurrentDialogSet(CurrentState);

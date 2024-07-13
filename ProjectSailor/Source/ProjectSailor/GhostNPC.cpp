@@ -5,6 +5,7 @@
 
 #include "InteractionComponent.h"
 #include "ProjectSailorCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AGhostNPC::AGhostNPC()
@@ -28,9 +29,11 @@ void AGhostNPC::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
 {
 	// Check if the overlapping actor is of class AProjectSailorCharacter
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
-	if (PlayerCharacter)
-	{
-		const FLevelStatus CurrentState = PlayerCharacter->GetLevelStatus();
+	USailorInstance* GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(this));
+	if (PlayerCharacter) {
+		FString CurrentLevelName = GetWorld()->GetMapName();
+		CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+		const FLevelStatus CurrentState = GameManager->GetCurrentLevelStatus(CurrentLevelName);
 		SetUpEventSubscription(PlayerCharacter);
 		CurrentDialogSet.Empty();
 		SetCurrentDialogSet(CurrentState);
@@ -78,7 +81,7 @@ void AGhostNPC::SetWidget(bool set)
 		CurrentTextIndex = 0;
 		if(DialogueWidget)
 		{
-			DialogueWidget->RemoveFromViewport();
+			DialogueWidget->RemoveFromParent();
 			DialogueWidget = nullptr;
 		}
 		

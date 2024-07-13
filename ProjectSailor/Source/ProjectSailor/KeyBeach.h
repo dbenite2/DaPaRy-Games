@@ -9,50 +9,43 @@
 #include "GameFramework/Actor.h"
 #include "KeyBeach.generated.h"
 
+class USailorInstance;
+
 UCLASS()
 class PROJECTSAILOR_API AKeyBeach : public AActor,  public IInteractionInterface
 {
 	GENERATED_BODY()
     
 public:    
-	// Sets default values for this actor's properties
 	AKeyBeach();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	USphereComponent* SphereCollider; // Declare the SphereComponent
+	USphereComponent* SphereCollider; 
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = "Materials")
-	UMaterialInterface* MaterialInterface;
+	UMaterialInterface* MaterialInterface{nullptr};
 
 	UPROPERTY(EditAnywhere, Category = "Materials")
 	FName BrightnessParameterName = "glow";
-
-	// Overlap event function
+	
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-
-	// Reference to the Blueprint
+	
 	UPROPERTY(EditAnywhere, Category = "Blueprints")
-	AActor* BP_Rope;
+	AActor* BP_Rope{nullptr};
 
 	UPROPERTY()
-	bool hasPhysics = false;
+	bool hasPhysics{false};
 
-	
-	
 public:    
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UStaticMeshComponent* KeyMesh;
-
-	// Function to initialize the key position and physics
+	UStaticMeshComponent* KeyMesh{nullptr};
+	
 	void ActivateKeyPhysics();
 
 	virtual void Interact_Implementation() override;
@@ -65,4 +58,7 @@ private:
 
 	UFUNCTION()
 	void ModifyCableComponent();
+
+	UPROPERTY()
+	USailorInstance* GameManager{nullptr};
 };

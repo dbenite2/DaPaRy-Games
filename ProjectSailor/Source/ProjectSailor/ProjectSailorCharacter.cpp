@@ -100,22 +100,14 @@ bool AProjectSailorCharacter::GetHaveKeyBeach() {
 
 void AProjectSailorCharacter::SetHaveKeyBeach(bool Value) {
 	HaveKeyBeach = Value;
-	if (Value) {
-		LevelStatus.bGoal2Complete = true;
-	}
 }
 
 bool AProjectSailorCharacter::GetBaculoIsActive() {
 	return baculoIsActive;
 }
 
-
 void AProjectSailorCharacter::SetBaculoIsActive(bool Value) {
 	baculoIsActive = Value;
-	if (Value) {
-		LevelStatus.bInitial = false;
-		LevelStatus.bGoal1Complete = true;
-	}
 }
 
 void AProjectSailorCharacter::InteractMethod() {
@@ -240,8 +232,4 @@ void AProjectSailorCharacter::Look(const FInputActionValue& Value) {
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
-}
-
-FLevelStatus AProjectSailorCharacter::GetLevelStatus() {
-		return LevelStatus;
 }
