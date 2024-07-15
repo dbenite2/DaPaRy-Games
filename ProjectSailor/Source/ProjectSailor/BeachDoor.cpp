@@ -4,6 +4,7 @@
 
 #include "ProjectSailorCharacter.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 ABeachDoor::ABeachDoor() {
 	PrimaryActorTick.bCanEverTick = true;
@@ -70,8 +71,14 @@ void ABeachDoor::Tick(float DeltaTime) {
 
 void ABeachDoor::OnTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	AProjectSailorCharacter* Player = Cast<AProjectSailorCharacter>(OtherActor);
-	if (Player && Player->GetHaveKeyBeach()) {
-		bActivateDoors = true;
+	USailorInstance* GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(this));
+	FString CurrentLevelName = GetWorld()->GetMapName();
+	CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+	if (Player) {
+		if (GameManager->GetCurrentLevelStatus(CurrentLevelName).bGoal2Complete) {
+			bActivateDoors = true;
+			GameManager->SetCurrentLevelStatus(CurrentLevelName, 0);
+		}
 	}
 }
 

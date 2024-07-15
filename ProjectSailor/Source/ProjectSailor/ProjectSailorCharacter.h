@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Baculo.h"
 #include "HItComponent.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Pickable_Object.h"
+#include "SailorInstance.h"
 #include "ProjectSailorCharacter.generated.h"
 
 class UInteractionComponent;
@@ -19,31 +19,6 @@ class UInputAction;
 struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
-
-USTRUCT(BlueprintType)
-struct FLevelStatus {
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bInitial;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bGoal1Complete;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bGoal2Complete;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bGoal3Complete;
-
-	FLevelStatus() {
-		bInitial = true;
-		bGoal1Complete = false;
-		bGoal2Complete = false;
-		bGoal3Complete = false;
-	}
-	
-};
 
 UCLASS(config=Game)
 class AProjectSailorCharacter : public ACharacter
@@ -153,9 +128,6 @@ public:
 	UPROPERTY()
 	UInteractionComponent* InteractionComponent;
 
-	UFUNCTION()
-	FLevelStatus GetLevelStatus();
-
 private:
 	UPROPERTY()
 	bool baculoIsActive{false};
@@ -168,9 +140,5 @@ private:
 
 	UFUNCTION()
 	void HitComponentAbility();
-
-	UPROPERTY()
-	FLevelStatus LevelStatus;
-	
 };
 

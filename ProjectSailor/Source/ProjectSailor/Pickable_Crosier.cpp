@@ -5,6 +5,7 @@
 
 #include "ProjectSailorCharacter.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APickable_Crosier::APickable_Crosier()
@@ -41,12 +42,13 @@ void APickable_Crosier::Tick(float DeltaTime)
 }
 
 void APickable_Crosier::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
+	USailorInstance* GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(this));
+	FString CurrentLevelName = GetWorld()->GetMapName();
+	CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
 
-	if(PlayerCharacter)
-	{
+	if(PlayerCharacter && GameManager) {
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = PlayerCharacter->GetOwner();
 		SpawnParams.Instigator = PlayerCharacter->GetInstigator();
@@ -59,6 +61,7 @@ void APickable_Crosier::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 		if (baculoComponent) {
 			baculoComponent->AttachToComponent(PlayerCharacter->GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
 			PlayerCharacter->SetBaculoIsActive(true);
+			GameManager->SetCurrentLevelStatus(CurrentLevelName, 1);
 			Destroy();
 		}
 	}
