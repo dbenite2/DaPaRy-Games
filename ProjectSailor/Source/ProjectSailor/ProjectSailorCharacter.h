@@ -11,6 +11,7 @@
 #include "SailorInstance.h"
 #include "ProjectSailorCharacter.generated.h"
 
+class UMovementComponent;
 class UInteractionComponent;
 class USpringArmComponent;
 class UCameraComponent;
@@ -113,7 +114,7 @@ public:
 	UFUNCTION()
 	void SetBaculoIsActive(bool Value);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	bool GetBaculoIsActive();
 
 	UPROPERTY()
@@ -128,6 +129,8 @@ public:
 	UPROPERTY()
 	UInteractionComponent* InteractionComponent;
 
+	void PlayCharacterMontage(UAnimMontage* MontageToPlay);
+
 private:
 	UPROPERTY()
 	bool baculoIsActive{false};
@@ -140,5 +143,14 @@ private:
 
 	UFUNCTION()
 	void HitComponentAbility();
+
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	UAnimMontage* AnimationMontage;
+
+	void OnMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
+	UPROPERTY()
+	UCharacterMovementComponent* MoveCompRef{nullptr};
+
 };
 
