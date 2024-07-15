@@ -59,15 +59,14 @@ AProjectSailorCharacter::AProjectSailorCharacter()
 
 	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
 	
-
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
 
 void AProjectSailorCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	MoveCompRef = GetCharacterMovement();
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -79,6 +78,7 @@ void AProjectSailorCharacter::BeginPlay()
 	}
 
 	SetActorTickEnabled(false);
+	PlayCharacterMontage(AnimationMontage);
 }
 
 void AProjectSailorCharacter::Tick(float DeltaTime)
@@ -232,4 +232,23 @@ void AProjectSailorCharacter::Look(const FInputActionValue& Value) {
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AProjectSailorCharacter::PlayCharacterMontage(UAnimMontage* MontageToPlay) {
+	if(!MontageToPlay) return;
+	
+	if (UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance()) {
+		AnimInstance->Montage_Play(MontageToPlay);
+		FOnMontageEnded EndDelegate;
+		EndDelegate.BindUObject(this, &AProjectSailorCharacter::OnMontageEnded);
+		AnimInstance->Montage_SetEndDelegate(EndDelegate);
+		if (MoveCompRef) {
+			MoveCompRef->DisableMovement();
+		}
+	}
+}
+
+void AProjectSailorCharacter::OnMontageEnded(UAnimMontage* Montage, bool bInterrupted) {
+	if (!MoveCompRef) return;
+	MoveCompRef->SetMovementMode(MOVE_Walking);
 }

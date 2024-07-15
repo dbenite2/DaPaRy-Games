@@ -39,6 +39,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 	TSubclassOf<ABaculo> baculoClass;
 
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	UAnimMontage* Montage{nullptr};
+
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, 
 						class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 

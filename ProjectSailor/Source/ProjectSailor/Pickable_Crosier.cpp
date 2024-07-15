@@ -59,6 +59,7 @@ void APickable_Crosier::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 		baculoComponent = GetWorld()->SpawnActor<ABaculo>(baculoClass, SpawnLocation, SpawnRotation, SpawnParams);
 		
 		if (baculoComponent) {
+			PlayerCharacter->PlayCharacterMontage(Montage);
 			baculoComponent->AttachToComponent(PlayerCharacter->GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
 			PlayerCharacter->SetBaculoIsActive(true);
 			GameManager->SetCurrentLevelStatus(CurrentLevelName, 1);
