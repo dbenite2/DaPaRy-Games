@@ -2,6 +2,8 @@
 
 
 #include "GenericGeometricPuzzlePiece.h"
+
+#include "ProjectSailorCharacter.h"
 #include "Components/PointLightComponent.h"
 #include "Components/BoxComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -40,9 +42,11 @@ AGenericGeometricPuzzlePiece::AGenericGeometricPuzzlePiece()
 	//Create and attach the point light component
 	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight"));
 	PointLight->SetupAttachment(RootComponent);
-	PointLight->AttenuationRadius = 200.0f;
-	PointLight->SetRelativeLocation(FVector(0.f, 0.f, 100.f)); // Adjust the location as needed
+	PointLight->AttenuationRadius = 150.0f;
+	PointLight->SetRelativeLocation(FVector(0.f, 0.f, 80.f)); // Adjust the location as needed
 	PointLight->SetVisibility(false); // Initially hidden
+	PointLight->Intensity = 25000.f;
+
 
 	// Create and attach the particle system component
 	incorrectParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("IncorrectParticleSystem"));
@@ -71,51 +75,55 @@ void AGenericGeometricPuzzlePiece::OnOverlapBegin(UPrimitiveComponent* Overlappe
 {
 	if (OtherActor && (OtherActor != this))
 	{
-		// UE_LOG(LogTemp, Warning, TEXT("Overlap Begin with %s"), *OtherActor->GetName());
-		// UE_LOG(LogTemp, Warning, TEXT("Figure Step: %s"), *NameFigureStep);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Figure Step: %s"), *NameFigureStep));
-
-		// Implement specific behavior for overlap begin here if needed
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Figure correct: %s"), isCorrect ? TEXT("true") : TEXT("false")));
-
-		if(!isCorrect)
+		AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
+		if (PlayerCharacter)
 		{
-			//TO-DO--> teleport
-			if (BP_InitialPosition)
-			{
-				FVector InitialPosition = BP_InitialPosition->GetActorLocation();
-				FVector PlayerPosition = OtherActor->GetActorLocation();
+			// UE_LOG(LogTemp, Warning, TEXT("Overlap Begin with %s"), *OtherActor->GetName());
+			// UE_LOG(LogTemp, Warning, TEXT("Figure Step: %s"), *NameFigureStep);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Figure Step: %s"), *NameFigureStep));
 
-				// Set the player's X and Y to the InitialPosition's X and Y, keep the player's Z
-				PlayerPosition.X = InitialPosition.X;
-				PlayerPosition.Y = InitialPosition.Y;
-				PlayerPosition.Z = InitialPosition.Z + 100.f;
+			// Implement specific behavior for overlap begin here if needed
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Figure correct: %s"), isCorrect ? TEXT("true") : TEXT("false")));
 
-				OtherActor->SetActorLocation(PlayerPosition);
-			}
-		}
-		else
-		{
-			// Set light color based on NameFigureStep
-			if (NameFigureStep == "Cross")
+			if(!isCorrect)
 			{
-				PointLight->SetLightColor(FLinearColor::Red);
-			}
-			else if (NameFigureStep == "Circle")
-			{
-				PointLight->SetLightColor(FLinearColor::Blue);
-			}
-			else if (NameFigureStep == "Square")
-			{
-				PointLight->SetLightColor(FLinearColor::Yellow);
-			}
-			else if (NameFigureStep == "Triangle")
-			{
-				PointLight->SetLightColor(FLinearColor::Green);
-			}
+				//TO-DO--> teleport
+				if (BP_InitialPosition)
+				{
+					FVector InitialPosition = BP_InitialPosition->GetActorLocation();
+					FVector PlayerPosition = OtherActor->GetActorLocation();
 
-			PointLight->SetVisibility(true);
+					// Set the player's X and Y to the InitialPosition's X and Y, keep the player's Z
+					PlayerPosition.X = InitialPosition.X;
+					PlayerPosition.Y = InitialPosition.Y;
+					PlayerPosition.Z = InitialPosition.Z + 100.f;
 
+					OtherActor->SetActorLocation(PlayerPosition);
+				}
+			}
+			else
+			{
+				// Set light color based on NameFigureStep
+				if (NameFigureStep == "Cross")
+				{
+					PointLight->SetLightColor(FLinearColor::Red);
+				}
+				else if (NameFigureStep == "Circle")
+				{
+					PointLight->SetLightColor(FLinearColor::Blue);
+				}
+				else if (NameFigureStep == "Square")
+				{
+					PointLight->SetLightColor(FLinearColor::Yellow);
+				}
+				else if (NameFigureStep == "Triangle")
+				{
+					PointLight->SetLightColor(FLinearColor::Green);
+				}
+
+				PointLight->SetVisibility(true);
+
+			}
 		}
 	}
 }
