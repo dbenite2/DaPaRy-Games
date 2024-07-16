@@ -40,6 +40,7 @@ AGenericGeometricPuzzlePiece::AGenericGeometricPuzzlePiece()
 	//Create and attach the point light component
 	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight"));
 	PointLight->SetupAttachment(RootComponent);
+	PointLight->AttenuationRadius = 200.0f;
 	PointLight->SetRelativeLocation(FVector(0.f, 0.f, 100.f)); // Adjust the location as needed
 	PointLight->SetVisibility(false); // Initially hidden
 
