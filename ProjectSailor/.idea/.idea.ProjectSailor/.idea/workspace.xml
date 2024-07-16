@@ -10,9 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8edc1c4-5b0f-430c-8097-0ecb22a91b17" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/GenericGeometricPuzzlePiece.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/GenericGeometricPuzzlePiece.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="d8edc1c4-5b0f-430c-8097-0ecb22a91b17" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -213,7 +211,7 @@
       <workItem from="1720722303107" duration="4607000" />
       <workItem from="1721037201897" duration="2483000" />
       <workItem from="1721054666299" duration="7678000" />
-      <workItem from="1721123027066" duration="701000" />
+      <workItem from="1721123027066" duration="1393000" />
     </task>
     <servers />
   </component>
