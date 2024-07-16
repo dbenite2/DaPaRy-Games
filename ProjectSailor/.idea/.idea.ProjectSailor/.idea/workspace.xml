@@ -10,16 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8edc1c4-5b0f-430c-8097-0ecb22a91b17" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ProjectSailor/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProjectSailor/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/gameplay/cave/geometricPuzzle/c++/BP_GeometricPuzzle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/gameplay/cave/geometricPuzzle/c++/BP_GeometricPuzzle.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/gameplay/cave/geometricPuzzle/c++/BP_InitialPlatform.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/gameplay/cave/geometricPuzzle/c++/BP_InitialPlatform.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/gameplay/cave/geometricPuzzle/c++/childs/BP_GeometricPuzzleX.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/gameplay/cave/geometricPuzzle/c++/childs/BP_GeometricPuzzleX.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/DeepElderCaves/Blueprints/BP_GroundLamp_Lit_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/DeepElderCaves/Blueprints/BP_GroundLamp_Lit_01.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Interface/WBP_PauseMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Interface/WBP_PauseMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Levels/Level_cave_02.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/Level_cave_02.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ProjectSailor/GenericGeometricPuzzlePiece.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ProjectSailor/GenericGeometricPuzzlePiece.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="d8edc1c4-5b0f-430c-8097-0ecb22a91b17" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -204,7 +195,7 @@
       <workItem from="1721037201897" duration="2483000" />
       <workItem from="1721054666299" duration="7678000" />
       <workItem from="1721123027066" duration="3803000" />
-      <workItem from="1721138663889" duration="3656000" />
+      <workItem from="1721138663889" duration="4376000" />
     </task>
     <servers />
   </component>
