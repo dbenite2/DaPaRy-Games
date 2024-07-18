@@ -11,6 +11,8 @@
 #include "SailorInstance.h"
 #include "ProjectSailorCharacter.generated.h"
 
+class ABaculo;
+class APickable_Crosier;
 class UMovementComponent;
 class UInteractionComponent;
 class USpringArmComponent;
@@ -129,6 +131,12 @@ public:
 	UPROPERTY()
 	UInteractionComponent* InteractionComponent;
 
+	UPROPERTY(BlueprintReadWrite)
+	APickable_Crosier* Crosier{nullptr};
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bCanJump{false};
+
 	void PlayCharacterMontage(UAnimMontage* MontageToPlay);
 
 private:
@@ -151,6 +159,11 @@ private:
 
 	UPROPERTY()
 	UCharacterMovementComponent* MoveCompRef{nullptr};
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ABaculo> StaffClass;
+
+	void CheckLevelAndAttachStaff();
 
 };
 

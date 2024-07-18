@@ -65,9 +65,11 @@ void AProjectSailorCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+	SetActorTickEnabled(false);
+	
+	CheckLevelAndAttachStaff();
 
 	MoveCompRef = GetCharacterMovement();
-
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -76,8 +78,7 @@ void AProjectSailorCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
-	SetActorTickEnabled(false);
+	
 	PlayCharacterMontage(AnimationMontage);
 }
 
@@ -251,4 +252,24 @@ void AProjectSailorCharacter::PlayCharacterMontage(UAnimMontage* MontageToPlay) 
 void AProjectSailorCharacter::OnMontageEnded(UAnimMontage* Montage, bool bInterrupted) {
 	if (!MoveCompRef) return;
 	MoveCompRef->SetMovementMode(MOVE_Walking);
+}
+
+void AProjectSailorCharacter::CheckLevelAndAttachStaff() {
+	FString CurrentLevelName = GetWorld()->GetMapName();
+	CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+	if (CurrentLevelName == FString("Level_beach_01")) return;
+	if (!StaffClass) return;
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = GetOwner();
+	SpawnParams.Instigator = GetInstigator();
+			
+	FVector SpawnLocation = GetMesh()->GetSocketLocation(FName("WeaponSocket"));
+	FRotator SpawnRotation = GetMesh()->GetSocketRotation(FName("WeaponSocket"));
+	ABaculo* StaffComponent = GetWorld()->SpawnActor<ABaculo>(StaffClass, SpawnLocation, SpawnRotation, SpawnParams);
+	if (StaffComponent) {
+		StaffComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
+		SetBaculoIsActive(true);
+	}
+	AnimationMontage = nullptr;
 }

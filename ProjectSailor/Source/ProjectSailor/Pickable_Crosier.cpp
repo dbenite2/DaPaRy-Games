@@ -49,22 +49,25 @@ void APickable_Crosier::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 	CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
 
 	if(PlayerCharacter && GameManager) {
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = PlayerCharacter->GetOwner();
-		SpawnParams.Instigator = PlayerCharacter->GetInstigator();
-			
-		FVector SpawnLocation = PlayerCharacter->GetMesh()->GetSocketLocation(FName("WeaponSocket"));
-		FRotator SpawnRotation = PlayerCharacter->GetMesh()->GetSocketRotation(FName("WeaponSocket"));
-		
-		baculoComponent = GetWorld()->SpawnActor<ABaculo>(baculoClass, SpawnLocation, SpawnRotation, SpawnParams);
-		
-		if (baculoComponent) {
-			PlayerCharacter->PlayCharacterMontage(Montage);
-			baculoComponent->AttachToComponent(PlayerCharacter->GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
-			PlayerCharacter->SetBaculoIsActive(true);
-			GameManager->SetCurrentLevelStatus(CurrentLevelName, 1);
-			Destroy();
-		}
+		PlayerCharacter->Crosier = this;
+		PlayerCharacter->PlayCharacterMontage(Montage);
+		GameManager->SetCurrentLevelStatus(CurrentLevelName, 1);
 	}
 }
 
+void APickable_Crosier::PickObject(AProjectSailorCharacter* PlayerCharacter) {
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = PlayerCharacter->GetOwner();
+	SpawnParams.Instigator = PlayerCharacter->GetInstigator();
+			
+	FVector SpawnLocation = PlayerCharacter->GetMesh()->GetSocketLocation(FName("WeaponSocket"));
+	FRotator SpawnRotation = PlayerCharacter->GetMesh()->GetSocketRotation(FName("WeaponSocket"));
+		
+	baculoComponent = GetWorld()->SpawnActor<ABaculo>(baculoClass, SpawnLocation, SpawnRotation, SpawnParams);
+	if (baculoComponent) {
+		
+		baculoComponent->AttachToComponent(PlayerCharacter->GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
+		PlayerCharacter->SetBaculoIsActive(true);
+		Destroy();
+	}
+}
