@@ -10,6 +10,6 @@ public class ProjectSailor : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "CableComponent" });
-		PrivateDependencyModuleNames.AddRange(new string[] { "CableComponent" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "CableComponent", "Niagara" });
 	}
 }
