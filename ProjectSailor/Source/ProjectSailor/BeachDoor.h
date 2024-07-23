@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "BeachDoor.generated.h"
 
+enum ParticleSystemLODMethod : int;
 class UBoxComponent;
 
 UCLASS()
@@ -50,6 +51,16 @@ class PROJECTSAILOR_API ABeachDoor : public AActor {
 
 	UPROPERTY(EditDefaultsOnly)
 	int RightDoorRotationGoal{270};
+
+	UPROPERTY(VisibleAnywhere, Category="Effects")
+	UParticleSystemComponent* RightDoorParticle{nullptr};
+	
+	UPROPERTY(VisibleAnywhere, Category="Effects")
+	UParticleSystemComponent* LeftDoorParticle{nullptr};
+	
+	UPROPERTY(EditDefaultsOnly, Category="Effects")
+	UParticleSystem* ParticleSystem{nullptr};
+	
 	
 	float TimeCounter{0.f};
 	

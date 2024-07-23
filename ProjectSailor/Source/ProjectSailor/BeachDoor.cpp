@@ -5,6 +5,7 @@
 #include "ProjectSailorCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
 
 ABeachDoor::ABeachDoor() {
 	PrimaryActorTick.bCanEverTick = true;
@@ -35,11 +36,24 @@ ABeachDoor::ABeachDoor() {
 
 	DoorTrigger->OnComponentBeginOverlap.AddDynamic(this, &ABeachDoor::OnTriggerBeginOverlap);
 
+	RightDoorParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Right Door Particles"));
+	RightDoorParticle->SetupAttachment(RightDoor);
+	RightDoorParticle->SetVisibility(false);
+	RightDoorParticle->bAutoActivate = false;
+	
+	LeftDoorParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Left Door Particles"));
+	LeftDoorParticle->SetupAttachment(LeftDoor);
+	LeftDoorParticle->SetVisibility(false);
+	LeftDoorParticle->bAutoActivate = false;
+
 }
 
 void ABeachDoor::BeginPlay() {
 	Super::BeginPlay();
-	
+	if (ParticleSystem) {
+		RightDoorParticle->SetTemplate(ParticleSystem);
+		// LeftDoorParticle->SetTemplate(ParticleSystem);
+	}
 }
 
 void ABeachDoor::Tick(float DeltaTime) {
@@ -51,6 +65,8 @@ void ABeachDoor::Tick(float DeltaTime) {
 
 		if (Value > 1.f) {
 			bActivateDoors = false;
+			RightDoorParticle->DeactivateSystem();
+			LeftDoorParticle->DeactivateSystem();
 			Value = 1.f;
 		}
 		const float AnimationEval = AnimationCurve.ExternalCurve ? AnimationCurve.ExternalCurve->GetFloatValue(Value) :
@@ -77,6 +93,10 @@ void ABeachDoor::OnTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 	if (Player) {
 		if (GameManager->GetCurrentLevelStatus(CurrentLevelName).bGoal2Complete) {
 			bActivateDoors = true;
+			RightDoorParticle->SetVisibility(true);
+			RightDoorParticle->ActivateSystem();
+			LeftDoorParticle->SetVisibility(true);
+			LeftDoorParticle->ActivateSystem();
 			GameManager->SetCurrentLevelStatus(CurrentLevelName, 0);
 		}
 	}
