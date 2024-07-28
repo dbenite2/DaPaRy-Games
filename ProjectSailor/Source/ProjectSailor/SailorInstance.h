@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "AudioManager.h"
 #include "SailorInstance.generated.h"
 
 USTRUCT(BlueprintType)
@@ -67,12 +68,19 @@ class PROJECTSAILOR_API USailorInstance : public UGameInstance
 
 	void SetLevelGoals(FLevelStatus& CurrentLevel, int32 GoalIndex);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", meta = (AllowPrivateAccess = "true"))
+	UAudioManager* AudioManager;
+
 public:
 
 	USailorInstance();
+
+	virtual void PostInitProperties() override;
 	
 	FLevelStatus GetCurrentLevelStatus(const FString& LevelName) const;
 
 	void SetCurrentLevelStatus(const FString& LevelName, int32 GoalIndex);
-	
+
+	UFUNCTION(BlueprintCallable, Category = "Audio")
+	UAudioManager* GetAudioManager() const;
 };
