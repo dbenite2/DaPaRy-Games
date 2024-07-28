@@ -27,5 +27,16 @@ public:
 	UStaticMeshComponent * baculo  = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	USceneComponent* Root;
+	USceneComponent* Root{nullptr};
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Decorations")
+	USkeletalMeshComponent* Octopus{nullptr};
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Animation")
+	UAnimMontage* GrabAnimMontage;
+
+	UFUNCTION()
+	void PlayAnimMontage();
+
+	void OnMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 };

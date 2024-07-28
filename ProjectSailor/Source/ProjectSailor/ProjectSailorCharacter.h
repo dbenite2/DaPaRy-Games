@@ -101,9 +101,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "Components")
 	UPhysicsHandleComponent* PhysicsHandle;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	bool IsHolding = false;
-
+	
 	UPROPERTY()
 	bool HaveKeyBeach = false;
 
@@ -139,6 +139,9 @@ public:
 
 	void PlayCharacterMontage(UAnimMontage* MontageToPlay);
 
+	UPROPERTY(BlueprintReadOnly)
+	FVector LimbPosition;
+
 private:
 	UPROPERTY()
 	bool baculoIsActive{false};
@@ -162,6 +165,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ABaculo> StaffClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	ABaculo* StaffComponent{nullptr};
 
 	void CheckLevelAndAttachStaff();
 

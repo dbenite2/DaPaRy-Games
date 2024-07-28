@@ -14,6 +14,9 @@ ABaculo::ABaculo()
 
 	baculo = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunMesh"));
 	baculo->SetupAttachment(Root);
+
+	Octopus = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Octopus Skeleton"));
+	Octopus->SetupAttachment(baculo);
 }
 
 // Called when the game starts or when spawned
@@ -28,5 +31,20 @@ void ABaculo::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ABaculo::PlayAnimMontage() {
+	
+	if(!GrabAnimMontage) return;
+	
+	if (UAnimInstance* AnimInstance = Octopus->GetAnimInstance()) {
+		AnimInstance->Montage_Play(GrabAnimMontage);
+		FOnMontageEnded EndDelegate;
+		EndDelegate.BindUObject(this, &ThisClass::OnMontageEnded);
+		AnimInstance->Montage_SetEndDelegate(EndDelegate);
+	}
+}
+
+void ABaculo::OnMontageEnded(UAnimMontage* Montage, bool bInterrupted) {
 }
 

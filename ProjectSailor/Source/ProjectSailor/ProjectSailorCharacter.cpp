@@ -65,7 +65,7 @@ void AProjectSailorCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-	SetActorTickEnabled(false);
+	SetActorTickEnabled(true);
 	
 	CheckLevelAndAttachStaff();
 
@@ -85,6 +85,8 @@ void AProjectSailorCharacter::BeginPlay()
 void AProjectSailorCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	LimbPosition = GetFollowCamera()->GetForwardVector();
+	UE_LOG(LogTemp, Log,TEXT("Camera Direction: %f"), LimbPosition.X);
 	if(ObjectComponent)
 	{
 		FVector ActorLocation = GetActorLocation();
@@ -129,6 +131,8 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 			FVector Start = GetActorLocation();
 			FVector End = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 1000;
 
+			StaffComponent->PlayAnimMontage();
+
 			bool bHit = UKismetSystemLibrary::LineTraceSingle(World, Start, End, TraceTypeQuery1,
 				true, {}, EDrawDebugTrace::ForDuration, HitScore, true,
 				FLinearColor::Red, FLinearColor::Green);
@@ -139,11 +143,10 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 
 				//AActor* GrabbedObject = HitScore.GetActor();
 				GrabbedObject = Cast<APickable_Object>(HitScore.GetActor());
-				ObjectComponent = HitScore.GetComponent();
-
+			
 				if(GrabbedObject) {
+					ObjectComponent = HitScore.GetComponent();
 					GrabbedObject->PickedObject();
-					SetActorTickEnabled(true);
 					PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
 					IsHolding = true;
 				}
@@ -155,13 +158,14 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 			SetActorTickEnabled(false);
 			GrabbedObject = nullptr;
 			ObjectComponent = nullptr;
-			IsHolding = false;					
+			IsHolding = false;
 		}
 	}
 }
 
 void AProjectSailorCharacter::HitComponentAbility() {
 	if(baculoIsActive) {
+		StaffComponent->PlayAnimMontage();
 		UCameraComponent* camera = GetFollowCamera();
 		AActor* player = GetOwner();
 		hitComponent->HitAbility(camera, player);
@@ -266,8 +270,8 @@ void AProjectSailorCharacter::CheckLevelAndAttachStaff() {
 			
 	FVector SpawnLocation = GetMesh()->GetSocketLocation(FName("WeaponSocket"));
 	FRotator SpawnRotation = GetMesh()->GetSocketRotation(FName("WeaponSocket"));
-	ABaculo* StaffComponent = GetWorld()->SpawnActor<ABaculo>(StaffClass, SpawnLocation, SpawnRotation, SpawnParams);
-	if (StaffComponent) {
+	StaffComponent = GetWorld()->SpawnActor<ABaculo>(StaffClass, SpawnLocation, SpawnRotation, SpawnParams);
+	if (StaffComponent != nullptr) {
 		StaffComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
 		SetBaculoIsActive(true);
 	}
