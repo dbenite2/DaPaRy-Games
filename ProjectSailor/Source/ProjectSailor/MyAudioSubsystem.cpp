@@ -18,7 +18,7 @@ void UMyAudioSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	
 	// Inicialización del subsistema (ej: carga de pistas de música)
 	
-	PlayMusic("MainMenu");
+	
 }
 
 void UMyAudioSubsystem::Deinitialize()
