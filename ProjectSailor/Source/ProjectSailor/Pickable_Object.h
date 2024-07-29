@@ -8,7 +8,7 @@
 #include "Pickable_Object.generated.h"
 
 UCLASS()
-class PROJECTSAILOR_API APickable_Object : public AActor, public IIDamageable
+class PROJECTSAILOR_API APickable_Object : public AActor
 {
 	GENERATED_BODY()
 	
@@ -24,7 +24,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void TakeDamage() override;
+	// virtual void TakeDamage() override;
 	
 	UFUNCTION()
 	void PickedObject();
