@@ -24,6 +24,9 @@ class PROJECTSAILOR_API UOptionsMenu : public UUserWidget
 	UImage* MenuBackground{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, meta=(BindWidget))
+	UImage* ImageTitle{nullptr};
+	
+	UPROPERTY(EditDefaultsOnly, meta=(BindWidget))
 	UTextBlock* MenuTitle{nullptr};
 
 	UPROPERTY(EditDefaultsOnly, meta=(BindWidget))

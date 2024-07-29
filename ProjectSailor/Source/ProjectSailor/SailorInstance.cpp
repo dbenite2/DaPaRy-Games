@@ -1,7 +1,8 @@
 // Property of DaPaRy Games
-
-
 #include "SailorInstance.h"
+
+#include "Kismet/GameplayStatics.h"
+
 
 USailorInstance::USailorInstance() {
 	GameState = new FCompletedLevelState();
@@ -12,8 +13,18 @@ USailorInstance::USailorInstance() {
 
 	LevelStatusMap.Add("Level_beach_01", GameState->Tutorial);
 	LevelStatusMap.Add("Level_cave_02", GameState->FirstLevel);
-	LevelStatusMap.Add("RickyTestLevel", GameState->SecondLevel);
+	LevelStatusMap.Add("PabloTestLevel", GameState->SecondLevel);
 	LevelStatusMap.Add("thirdLevel", GameState->ThirdLevel);
+
+	
+}
+
+void USailorInstance::PostInitProperties()
+{
+	Super::PostInitProperties();
+
+	
+	
 }
 
 
@@ -29,6 +40,8 @@ void USailorInstance::SetCurrentLevelStatus(const FString& LevelName, int32 Goal
 		SetLevelGoals(*Status, GoalIndex);
 	}
 }
+
+
 
 void USailorInstance::SetLevelGoals(FLevelStatus& CurrentLevel,int32 GoalIndex) {
 	switch (GoalIndex) {
