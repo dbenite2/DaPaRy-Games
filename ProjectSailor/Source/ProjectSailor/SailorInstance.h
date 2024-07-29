@@ -67,12 +67,17 @@ class PROJECTSAILOR_API USailorInstance : public UGameInstance
 
 	void SetLevelGoals(FLevelStatus& CurrentLevel, int32 GoalIndex);
 
+
+
 public:
 
 	USailorInstance();
+
+	virtual void PostInitProperties() override;
 	
 	FLevelStatus GetCurrentLevelStatus(const FString& LevelName) const;
 
 	void SetCurrentLevelStatus(const FString& LevelName, int32 GoalIndex);
-	
+
+
 };
