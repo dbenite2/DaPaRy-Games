@@ -1,7 +1,7 @@
 // Property of DaPaRy Games
-
-
 #include "SailorInstance.h"
+
+#include "Kismet/GameplayStatics.h"
 
 
 USailorInstance::USailorInstance() {
@@ -13,16 +13,17 @@ USailorInstance::USailorInstance() {
 
 	LevelStatusMap.Add("Level_beach_01", GameState->Tutorial);
 	LevelStatusMap.Add("Level_cave_02", GameState->FirstLevel);
-	LevelStatusMap.Add("RickyTestLevel", GameState->SecondLevel);
+	LevelStatusMap.Add("PabloTestLevel", GameState->SecondLevel);
 	LevelStatusMap.Add("thirdLevel", GameState->ThirdLevel);
 
-	AudioManager = CreateDefaultSubobject<UAudioManager>(TEXT("AudioManager"));
+	
 }
 
 void USailorInstance::PostInitProperties()
 {
 	Super::PostInitProperties();
 
+	
 	
 }
 
@@ -40,10 +41,7 @@ void USailorInstance::SetCurrentLevelStatus(const FString& LevelName, int32 Goal
 	}
 }
 
-UAudioManager* USailorInstance::GetAudioManager() const
-{
-	return AudioManager;
-}
+
 
 void USailorInstance::SetLevelGoals(FLevelStatus& CurrentLevel,int32 GoalIndex) {
 	switch (GoalIndex) {

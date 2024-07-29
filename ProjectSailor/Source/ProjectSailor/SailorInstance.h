@@ -68,8 +68,7 @@ class PROJECTSAILOR_API USailorInstance : public UGameInstance
 
 	void SetLevelGoals(FLevelStatus& CurrentLevel, int32 GoalIndex);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio", meta = (AllowPrivateAccess = "true"))
-	UAudioManager* AudioManager;
+
 
 public:
 
@@ -81,6 +80,5 @@ public:
 
 	void SetCurrentLevelStatus(const FString& LevelName, int32 GoalIndex);
 
-	UFUNCTION(BlueprintCallable, Category = "Audio")
-	UAudioManager* GetAudioManager() const;
+
 };
