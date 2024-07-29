@@ -7,23 +7,40 @@
 
 UMyAudioSubsystem::UMyAudioSubsystem()
 {
-	
+	AudioComponent = nullptr;
 }
 
 void UMyAudioSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-
 	
-	
-	// Inicialización del subsistema (ej: carga de pistas de música)
-	
-	
+	// Crear el AudioComponent y asignar al Subsystem
+	if (!AudioComponent)
+	{
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			AudioComponent = NewObject<UAudioComponent>(World);
+			if (AudioComponent)
+			{
+				AudioComponent->RegisterComponent(); // Necesario para que funcione
+			}
+			// Necesario para que funcione
+		}
+	}
 }
 
 void UMyAudioSubsystem::Deinitialize()
 {
-	
+	if (AudioComponent)
+	{
+		if (AudioComponent->IsRegistered())
+		{
+			// AudioComponent->Stop();
+			AudioComponent->UnregisterComponent();
+		}
+		AudioComponent = nullptr; // Limpiar el puntero después de usarlo
+	}
 	Super::Deinitialize();
 }
 
@@ -33,12 +50,10 @@ void UMyAudioSubsystem::PlayMusic(const FString& MusicName)
 	{
 		if (USoundWave* SoundWave = *SoundWavePtr)
 		{
-			// Obtener el contexto del mundo de manera segura
-			UWorld* World = GetWorld();
-			if (World)
+			if (AudioComponent)
 			{
-				// Reproducir música usando UGameplayStatics
-				UGameplayStatics::PlaySound2D(World, SoundWave);
+				AudioComponent->SetSound(SoundWave);
+				AudioComponent->Play();
 			}
 		}
 	}
