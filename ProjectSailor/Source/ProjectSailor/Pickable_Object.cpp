@@ -41,8 +41,8 @@ void APickable_Object::DropObject()
 	mesh->SetAngularDamping(0.05f);
 }
 
-void APickable_Object::TakeDamage()
-{
-	Destroy();
-}
+// void APickable_Object::TakeDamage()
+// {
+// 	Destroy();
+// }
 
