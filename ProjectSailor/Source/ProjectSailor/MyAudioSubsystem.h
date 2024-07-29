@@ -23,15 +23,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Audio")
 	void PlayMusic(const FString& MusicName);
 
+	UFUNCTION(BlueprintCallable, Category = "Audio")
+	void PlaySFX1(const FString& MusicName);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
 	TMap<FString, USoundWave*> MusicTracks;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	TMap<FString, USoundWave*> SFXTracks;
 
 protected:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 	
 private:
-	UAudioComponent* AudioComponent;
+	UAudioComponent* MusicComponent;
+
+	UAudioComponent* SFX1Component;
 	
 };
