@@ -11,14 +11,14 @@ AAmbientSFXSound::AAmbientSFXSound()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
-	RootComponent = BoxComponent;
+	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	RootComponent = SphereComponent;
 
-	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AAmbientSFXSound::OnOverlapBegin);
-
-	// Configura el tamaño del BoxComponent según sea necesario
-	BoxComponent->SetBoxExtent(FVector(100.f, 100.f, 100.f));
+	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AAmbientSFXSound::OnOverlapBegin);
+	SphereComponent->OnComponentEndOverlap.AddDynamic(this, &AAmbientSFXSound::OnOverlapEnd);
 	
+	// Configura el tamaño del BoxComponent según sea necesario
+	SphereComponent->InitSphereRadius(300.0f);
 }
 
 // Called when the game starts or when spawned
@@ -48,10 +48,34 @@ void AAmbientSFXSound::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 	{
 		if (AudioSubsystem )
 		{
-			AudioSubsystem->PlaySFX1(nameSFXProximity);
+			//play start sound
+			if(nameSFXProximityBegin!="")
+			{
+				AudioSubsystem->PlaySFX1(nameSFXProximityBegin);
+			}
+			
 		}
 	}
 }
 
-
-
+void AAmbientSFXSound::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor && (OtherActor != this) && OtherActor->IsA(AProjectSailorCharacter::StaticClass()))
+	{
+		if (AudioSubsystem )
+		{
+			//finish startSound
+			if(nameSFXProximityBegin!="")
+			{
+				AudioSubsystem->StopSFX1(nameSFXProximityBegin);
+			}
+			//startEndSound
+			if(nameSFXProximityEnd!="")
+			{
+				AudioSubsystem->PlaySFX1(nameSFXProximityEnd);
+			}
+			
+		}
+	}
+}
