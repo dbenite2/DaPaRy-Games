@@ -5,9 +5,11 @@
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
 #include "Sound/SoundWave.h"
-#include "MyAudioSubsystem.h"
+
+
 #include "AmbientSFXSound.generated.h"
 
+class AMyAudioSubsystemActor;
 class USphereComponent;
 UCLASS()
 class PROJECTSAILOR_API AAmbientSFXSound : public AActor
@@ -38,6 +40,6 @@ private:
 	USphereComponent* SphereComponent;
 
 	UPROPERTY()
-	UMyAudioSubsystem* AudioSubsystem;
+	AMyAudioSubsystemActor* AudioSubsystemActor;
 
 };

@@ -3,7 +3,9 @@
 
 #include "AmbientSFXSound.h"
 
+#include "MyAudioSubsystemActor.h"
 #include "ProjectSailorCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AAmbientSFXSound::AAmbientSFXSound()
@@ -19,6 +21,7 @@ AAmbientSFXSound::AAmbientSFXSound()
 	
 	// Configura el tamaño del BoxComponent según sea necesario
 	SphereComponent->InitSphereRadius(300.0f);
+	AudioSubsystemActor = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -29,14 +32,10 @@ void AAmbientSFXSound::BeginPlay()
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		UGameInstance* GameInstance = World->GetGameInstance();
-		if (GameInstance)
+		AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(World, AMyAudioSubsystemActor::StaticClass()));
+		if (!AudioSubsystemActor)
 		{
-			AudioSubsystem = GameInstance->GetSubsystem<UMyAudioSubsystem>();
-			if (!AudioSubsystem)
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Failed to get UMyAudioSubsystem from GameInstance!"));
-			}
+			UE_LOG(LogTemp, Warning, TEXT("Failed to get UMyAudioSubsystem from GameInstance!"));
 		}
 	}
 }
@@ -46,14 +45,15 @@ void AAmbientSFXSound::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 {
 	if (OtherActor && (OtherActor != this) && OtherActor->IsA(AProjectSailorCharacter::StaticClass()))
 	{
-		if (AudioSubsystem )
+		if (AudioSubsystemActor)
 		{
 			//play start sound
 			if(nameSFXProximityBegin!="")
 			{
-				AudioSubsystem->PlaySFX1(nameSFXProximityBegin);
+				//por si habia algun sonido pendiente
+				AudioSubsystemActor->StopSFX1();
+				AudioSubsystemActor->PlaySFX1(nameSFXProximityBegin);
 			}
-			
 		}
 	}
 }
@@ -63,19 +63,18 @@ void AAmbientSFXSound::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor*
 {
 	if (OtherActor && (OtherActor != this) && OtherActor->IsA(AProjectSailorCharacter::StaticClass()))
 	{
-		if (AudioSubsystem )
+		if (AudioSubsystemActor )
 		{
 			//finish startSound
 			if(nameSFXProximityBegin!="")
 			{
-				AudioSubsystem->StopSFX1(nameSFXProximityBegin);
+				AudioSubsystemActor->StopSFX1();
 			}
 			//startEndSound
 			if(nameSFXProximityEnd!="")
 			{
-				AudioSubsystem->PlaySFX1(nameSFXProximityEnd);
+				AudioSubsystemActor->PlaySFX1(nameSFXProximityEnd);
 			}
-			
 		}
 	}
 }
