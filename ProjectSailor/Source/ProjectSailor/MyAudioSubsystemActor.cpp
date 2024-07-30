@@ -10,13 +10,14 @@ AMyAudioSubsystemActor::AMyAudioSubsystemActor()
 	, SFX2Component(nullptr)
 {
 	// Constructor initialization if needed
+	
 }
 
 void AMyAudioSubsystemActor::BeginPlay()
 {
 	Super::BeginPlay();
-
 	InitializeAudioComponents();
+	
 }
 
 void AMyAudioSubsystemActor::InitializeAudioComponents()
