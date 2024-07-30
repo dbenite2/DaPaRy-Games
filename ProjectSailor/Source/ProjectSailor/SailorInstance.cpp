@@ -1,6 +1,7 @@
 // Property of DaPaRy Games
 #include "SailorInstance.h"
 
+#include "MyAudioSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -23,6 +24,7 @@ void USailorInstance::PostInitProperties()
 {
 	Super::PostInitProperties();
 
+	
 	
 	
 }
@@ -61,4 +63,5 @@ void USailorInstance::SetLevelGoals(FLevelStatus& CurrentLevel,int32 GoalIndex) 
 		break;
 	}
 }
+
 

@@ -12,4 +12,8 @@ AProjectSailorGameMode::AProjectSailorGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+	
 }
+
+
+

@@ -13,6 +13,8 @@ class AProjectSailorGameMode : public AGameModeBase
 
 public:
 	AProjectSailorGameMode();
+
+
 };
 
 

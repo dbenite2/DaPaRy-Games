@@ -1,31 +1,33 @@
 // Property of DaPaRy Games
 
 
-#include "AmbientSFXSound.h"
+#include "AmbientMusicSound.h"
 
 #include "MyAudioSubsystemActor.h"
 #include "ProjectSailorCharacter.h"
+
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
-AAmbientSFXSound::AAmbientSFXSound()
+AAmbientMusicSound::AAmbientMusicSound()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	RootComponent = SphereComponent;
 
-	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AAmbientSFXSound::OnOverlapBegin);
-	SphereComponent->OnComponentEndOverlap.AddDynamic(this, &AAmbientSFXSound::OnOverlapEnd);
+	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AAmbientMusicSound::OnOverlapBegin);
+	SphereComponent->OnComponentEndOverlap.AddDynamic(this, &AAmbientMusicSound::OnOverlapEnd);
 	
 	// Configura el tamaño del BoxComponent según sea necesario
 	SphereComponent->InitSphereRadius(300.0f);
 	AudioSubsystemActor = nullptr;
+
 }
 
 // Called when the game starts or when spawned
-void AAmbientSFXSound::BeginPlay()
+void AAmbientMusicSound::BeginPlay()
 {
 	Super::BeginPlay();
 	// Obtener el GameInstance y encontrar el UMyAudioSubsystem
@@ -40,7 +42,7 @@ void AAmbientSFXSound::BeginPlay()
 	}
 }
 
-void AAmbientSFXSound::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+void AAmbientMusicSound::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor && (OtherActor != this) && OtherActor->IsA(AProjectSailorCharacter::StaticClass()))
@@ -51,30 +53,33 @@ void AAmbientSFXSound::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, 
 			if(nameSFXProximityBegin!="")
 			{
 				//por si habia algun sonido pendiente
-				AudioSubsystemActor->StopSFX1();
-				AudioSubsystemActor->PlaySFX1(nameSFXProximityBegin);
+				AudioSubsystemActor->StopMusic();
+				AudioSubsystemActor->PlayMusic(nameSFXProximityBegin);
 			}
 		}
 	}
 }
 
-void AAmbientSFXSound::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+void AAmbientMusicSound::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	if (OtherActor && (OtherActor != this) && OtherActor->IsA(AProjectSailorCharacter::StaticClass()))
 	{
 		if (AudioSubsystemActor )
 		{
-			//finish startSound
+			//finish startSound if endSound has something
 			if(nameSFXProximityBegin!="")
 			{
-				AudioSubsystemActor->StopSFX1();
+				AudioSubsystemActor->StopMusic();
 			}
 			//startEndSound
 			if(nameSFXProximityEnd!="")
 			{
-				AudioSubsystemActor->PlaySFX1(nameSFXProximityEnd);
+				AudioSubsystemActor->PlayMusic(nameSFXProximityEnd);
 			}
 		}
 	}
 }
+
+
+

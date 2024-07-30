@@ -1,23 +1,23 @@
 // Property of DaPaRy Games
 
 #pragma once
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
 #include "Sound/SoundWave.h"
+#include "AmbientMusicSound.generated.h"
 
-
-#include "AmbientSFXSound.generated.h"
 
 class AMyAudioSubsystemActor;
 class USphereComponent;
 UCLASS()
-class PROJECTSAILOR_API AAmbientSFXSound : public AActor
+class PROJECTSAILOR_API AAmbientMusicSound : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	AAmbientSFXSound();
+	AAmbientMusicSound();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
 	FString nameSFXProximityBegin;
