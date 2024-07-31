@@ -34,4 +34,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess="true"), Category="Components")
 	float TargetZ;
+
+	UFUNCTION()
+	void Despawn();
+
+	UPROPERTY(EditAnywhere, Category = "Blueprints")
+	AActor* BP_InitialPosition;
 };

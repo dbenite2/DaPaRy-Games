@@ -3,6 +3,13 @@
 
 #include "MushroomActor.h"
 
+#include "MushroomButtonActor.h"
+#include "UObject/ConstructorHelpers.h"
+
+/**
+ * Muhsroom Actor Appears When MushroomButtomActor is hit, and move down until SpawnLocation. Then wait 16 seconds and desapear
+ **/
+
 // Sets default values
 AMushroomActor::AMushroomActor()
 {
@@ -32,11 +39,22 @@ void AMushroomActor::Tick(float DeltaTime)
 	if (CurrentLocation.Z > TargetZ)
 	{
 		CurrentLocation.Z -= FallingSpeed * DeltaTime;
-		if (CurrentLocation.Z < TargetZ)
+		if (CurrentLocation.Z <= TargetZ)
 		{
 			CurrentLocation.Z = TargetZ;
+		
+			FTimerHandle DespawnTimerHandle;
+			GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle, this, &AMushroomActor::Despawn, 16.0f, false);
 		}
 		SetActorLocation(CurrentLocation);
-	}
+	}	
 }
 
+void AMushroomActor::Despawn()
+{
+	BP_InitialPosition->SetActorHiddenInGame(false);
+	BP_InitialPosition->SetActorEnableCollision(true);
+
+	this->SetActorHiddenInGame(true);
+	this->SetActorEnableCollision(false);
+}

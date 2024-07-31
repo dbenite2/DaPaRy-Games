@@ -27,10 +27,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
+	void SpawnMushroom();
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Trigger")
 	USceneComponent* DefaultSceneRoot;
 	
@@ -43,13 +42,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Trigger")
 	UPointLightComponent* PointLight;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Trigger")
-	UBoxComponent* TriggerBox;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Trigger")
 	FVector SpawnLocation;
 
 	UPROPERTY(EditAnywhere, Category = "Blueprints")
-	TSubclassOf<AActor> BP_InitialPosition;
-
+	AActor* BP_InitialPosition;
 };
