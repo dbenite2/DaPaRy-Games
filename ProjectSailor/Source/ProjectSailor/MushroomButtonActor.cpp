@@ -6,6 +6,10 @@
 #include "Components/PointLightComponent.h"
 #include "UObject/ConstructorHelpers.h"
 
+/**
+ *Button that make appear the mushroom and deasepear when hit.
+ **/
+
 // Sets default values
 AMushroomButtonActor::AMushroomButtonActor()
 {
@@ -26,30 +30,12 @@ AMushroomButtonActor::AMushroomButtonActor()
 	CircleMesh->SetRelativeLocation(FVector(0.f, 0.f, 33.f));
 	CircleMesh->SetRelativeScale3D(FVector(3.f, 3.f, 0.01f));
 
-	// Create and attach the trigger box component
-	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
-	TriggerBox->SetupAttachment(RootComponent);
-	TriggerBox->SetBoxExtent(FVector(250.f, 250.f, 50.f));
-	TriggerBox->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
-	TriggerBox->SetCollisionProfileName(TEXT("Trigger"));
-	
-	
-	TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &AMushroomButtonActor::OnOverlapBegin);
-
-	//RootComponent = TriggerBox;
-
 	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight"));
 	PointLight->SetupAttachment(CircleMesh);
 	PointLight->AttenuationRadius = 150.0f;
 	PointLight->SetRelativeLocation(FVector(0.f, 0.f, 80.f));
 	PointLight->SetVisibility(false);
 	PointLight->Intensity = 25000.f;
-
-	static ConstructorHelpers::FClassFinder<AActor> MushroomBPClass(TEXT("/Game/Path/To/BP_MushroomActor.BP_MushroomActor_C"));
-	if (MushroomBPClass.Class != nullptr)
-	{
-		BP_InitialPosition = MushroomBPClass.Class;
-	}
 }
 
 // Called when the game starts or when spawned
@@ -66,16 +52,13 @@ void AMushroomButtonActor::Tick(float DeltaTime)
 
 }
 
-void AMushroomButtonActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AMushroomButtonActor::SpawnMushroom()
 {
-	
-	UE_LOG(LogTemp, Warning, TEXT("Hit detected with actor: %s"), *OtherActor->GetName());
-	
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = this;
+	BP_InitialPosition->SetActorLocation(SpawnLocation);
+	BP_InitialPosition->SetActorHiddenInGame(false);
+	BP_InitialPosition->SetActorEnableCollision(true);
 
-	FRotator SpawnRotation = FRotator::ZeroRotator;
-
-	GetWorld()->SpawnActor<AActor>(BP_InitialPosition, SpawnLocation, SpawnRotation, SpawnParams);
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
 }
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "IDamageable.h"
+#include "MushroomButtonActor.h"
 #include "Camera/CameraComponent.h"
 #include "Components/ActorComponent.h"
 #include "HItComponent.generated.h"

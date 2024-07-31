@@ -113,6 +113,12 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 			{
 				DamageableActor->TakeDamage();
 			}
+
+			AMushroomButtonActor* MushroomButton = Cast<AMushroomButtonActor>(HitObject);
+			if(MushroomButton)
+			{
+				MushroomButton->SpawnMushroom();
+			}
 		}
 	}
 }
