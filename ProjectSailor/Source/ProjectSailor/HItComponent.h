@@ -9,6 +9,7 @@
 #include "Components/ActorComponent.h"
 #include "HItComponent.generated.h"
 
+class AMyAudioSubsystemActor;
 class AKeyBeach;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTSAILOR_API UHItComponent : public UActorComponent
