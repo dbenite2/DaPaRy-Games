@@ -3,6 +3,7 @@
 
 #include "KeyBeach.h"
 
+#include "MyAudioSubsystemActor.h"
 #include "ProjectSailorCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -53,6 +54,10 @@ void AKeyBeach::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Key Taken")));
 				SetActorHiddenInGame(true);
 				SetActorEnableCollision(false);
+				//sound keyTaken
+				// Obtiene el actor de audio y detiene cualquier sonido pendiente
+				AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+				AudioSubsystemActor->PlaySFX1("keyTaken");
 			}
 		}
 	}

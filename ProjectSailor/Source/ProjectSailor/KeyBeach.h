@@ -10,6 +10,7 @@
 #include "KeyBeach.generated.h"
 
 class USailorInstance;
+class AMyAudioSubsystemActor;
 
 UCLASS()
 class PROJECTSAILOR_API AKeyBeach : public AActor,  public IInteractionInterface
