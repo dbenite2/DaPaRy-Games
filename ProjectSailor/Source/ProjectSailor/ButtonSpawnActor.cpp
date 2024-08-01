@@ -1,26 +1,24 @@
 // Property of DaPaRy Games
 
 
-#include "MushroomButtonActor.h"
+#include "ButtonSpawnActor.h"
 #include "Components/BoxComponent.h"
 #include "Components/PointLightComponent.h"
 #include "UObject/ConstructorHelpers.h"
 
-/**
- *Button that make appear the mushroom and deasepear when hit.
- **/
-
 // Sets default values
-AMushroomButtonActor::AMushroomButtonActor()
+AButtonSpawnActor::AButtonSpawnActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
 
-	DefaultSceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
-	RootComponent = DefaultSceneRoot;
+	DefaultRoot = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
+	RootComponent = DefaultRoot;
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
-	BaseMesh->SetupAttachment(DefaultSceneRoot);
+	BaseMesh->SetupAttachment(DefaultRoot);
 
 	// Create and attach the cube mesh component
 	CircleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CubeMesh"));
@@ -39,25 +37,33 @@ AMushroomButtonActor::AMushroomButtonActor()
 }
 
 // Called when the game starts or when spawned
-void AMushroomButtonActor::BeginPlay()
+void AButtonSpawnActor::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	
 }
 
 // Called every frame
-void AMushroomButtonActor::Tick(float DeltaTime)
+void AButtonSpawnActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void AMushroomButtonActor::SpawnMushroom()
+void AButtonSpawnActor::SpawnActor()
 {
-	BP_InitialPosition->SetActorLocation(SpawnLocation);
-	BP_InitialPosition->SetActorHiddenInGame(false);
-	BP_InitialPosition->SetActorEnableCollision(true);
+	if(BP_ActorSpawnable!=nullptr)
+	{
+		//put position 
+		BP_ActorSpawnable->SetActorLocation(SpawnLocation);
+		//appears cube and add physics
+		BP_ActorSpawnable->SetActorHiddenInGame(false);
+		BP_ActorSpawnable->SetActorEnableCollision(true);
 
-	SetActorHiddenInGame(true);
-	SetActorEnableCollision(false);
+		//hide button
+		SetActorHiddenInGame(true);
+		SetActorEnableCollision(false);
+	}
 }
 

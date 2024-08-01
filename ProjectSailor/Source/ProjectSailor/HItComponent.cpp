@@ -3,6 +3,7 @@
 
 #include "HItComponent.h"
 
+#include "ButtonSpawnActor.h"
 #include "KeyBeach.h"
 #include "MyAudioSubsystemActor.h"
 #include "ObjectInteraction.h"
@@ -122,6 +123,12 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 			if(MushroomButton)
 			{
 				MushroomButton->SpawnMushroom();
+			}
+
+			AButtonSpawnActor* SpawnActorButton = Cast<AButtonSpawnActor>(HitObject);
+			if(SpawnActorButton)
+			{
+				SpawnActorButton->SpawnActor();
 			}
 		}
 	}
