@@ -8,7 +8,7 @@
 
 enum ParticleSystemLODMethod : int;
 class UBoxComponent;
-
+class AMyAudioSubsystemActor;
 UCLASS()
 class PROJECTSAILOR_API ABeachDoor : public AActor {
 	GENERATED_BODY()

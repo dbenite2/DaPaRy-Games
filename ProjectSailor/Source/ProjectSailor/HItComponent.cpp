@@ -100,7 +100,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 			{
 				//sound Hit
 				AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-				AudioSubsystemActor->PlaySFX1("tentaculo1");
+				AudioSubsystemActor->PlaySFX2("tentaculo1");
 					// Cast the HitObject to KeyBeach and call ActivateKeyPhysics if the cast is successful
 					AKeyBeach* KeyBeachActor = Cast<AKeyBeach>(HitObject);
 					if(KeyBeachActor)

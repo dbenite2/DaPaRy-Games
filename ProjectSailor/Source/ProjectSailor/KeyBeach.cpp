@@ -73,7 +73,7 @@ void AKeyBeach::ActivateKeyPhysics() {
 	hasPhysics = true;
 	//sound hit
 	AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-	AudioSubsystemActor->PlaySFX2("hitAttackMagic2");
+	AudioSubsystemActor->PlaySFX1("hitAttackMagic2");
 }
 
 void AKeyBeach::Interact_Implementation() {
