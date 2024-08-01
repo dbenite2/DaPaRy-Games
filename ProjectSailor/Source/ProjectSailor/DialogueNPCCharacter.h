@@ -11,6 +11,7 @@
 #include "DialogueNPCCharacter.generated.h"
 class AProjectSailorCharacter;
 class UDialogDataAsset;
+class AMyAudioSubsystemActor;
 struct FLevelStatus;
 
 UCLASS()
@@ -40,6 +41,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<UUserWidget> DialogueWidgetClass;
 
+	UPROPERTY(BlueprintReadWrite,EditAnywhere, Category = "Audio")
+	TArray<FText> RandomSoundDialogue;
 private:
 	UPROPERTY()
 	UDialogueWidget* DialogueWidget;
@@ -57,6 +60,9 @@ private:
 	UFUNCTION()
 	void SetUpEventSubscription(AProjectSailorCharacter* Player);
 
+	UFUNCTION()
+	void PlayRandomSound();
+	
 public:
 	UFUNCTION()
 	void ChangeToNextText();

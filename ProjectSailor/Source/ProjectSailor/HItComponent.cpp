@@ -4,6 +4,7 @@
 #include "HItComponent.h"
 
 #include "KeyBeach.h"
+#include "MyAudioSubsystemActor.h"
 #include "ObjectInteraction.h"
 #include "Pickable_Object.h"
 #include "ProjectSailorCharacter.h"
@@ -97,11 +98,14 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 			// Check if the hit object implements the InteractionInterface
 			if (HitObject->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
 			{
-				
+				//sound Hit
+				AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+				AudioSubsystemActor->PlaySFX2("tentaculo1");
 					// Cast the HitObject to KeyBeach and call ActivateKeyPhysics if the cast is successful
 					AKeyBeach* KeyBeachActor = Cast<AKeyBeach>(HitObject);
 					if(KeyBeachActor)
 					{
+						
 						KeyBeachActor->Interact_Implementation();
 					}
 					

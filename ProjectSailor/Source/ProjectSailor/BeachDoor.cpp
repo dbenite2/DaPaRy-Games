@@ -2,6 +2,7 @@
 
 #include "BeachDoor.h"
 
+#include "MyAudioSubsystemActor.h"
 #include "ProjectSailorCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -98,6 +99,9 @@ void ABeachDoor::OnTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 			LeftDoorParticle->SetVisibility(true);
 			LeftDoorParticle->ActivateSystem();
 			GameManager->SetCurrentLevelStatus(CurrentLevelName, 0);
+			//sound openDoor
+			AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+			AudioSubsystemActor->PlaySFX1("stoneDoor");
 		}
 	}
 }
