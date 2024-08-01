@@ -3,6 +3,7 @@
 
 #include "CommonButton.h"
 
+#include "MyAudioSubsystemActor.h"
 #include "SailorController.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
@@ -25,7 +26,12 @@ void UCommonButton::NativeConstruct() {
 	}
 }
 
-void UCommonButton::OnClicked() {
+void UCommonButton::OnClicked()
+{
+	//sound button
+	// Obtiene el actor de audio y detiene cualquier sonido pendiente
+	AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+	AudioSubsystemActor->PlaySFX1("buttonMainMenu");
 	if (!LevelToLoadReference.IsNull()) {
 		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(World, 0);
 		if (PlayerController) {

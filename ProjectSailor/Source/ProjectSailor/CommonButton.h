@@ -7,6 +7,7 @@
 
 class UTextBlock;
 class UButton;
+class AMyAudioSubsystemActor;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnButtonClicked);
 
