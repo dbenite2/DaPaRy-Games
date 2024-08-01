@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "Pickable_Crosier.generated.h"
 
+class AMyAudioSubsystemActor;
 UCLASS()
 class PROJECTSAILOR_API APickable_Crosier : public AActor
 {

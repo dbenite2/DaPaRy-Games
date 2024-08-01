@@ -3,6 +3,7 @@
 
 #include "Pickable_Crosier.h"
 
+#include "MyAudioSubsystemActor.h"
 #include "ProjectSailorCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -52,6 +53,9 @@ void APickable_Crosier::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 		PlayerCharacter->Crosier = this;
 		PlayerCharacter->PlayCharacterMontage(Montage);
 		GameManager->SetCurrentLevelStatus(CurrentLevelName, 1);
+		//sound take crossier
+		AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+		AudioSubsystemActor->PlaySFX1("drop");
 	}
 }
 
