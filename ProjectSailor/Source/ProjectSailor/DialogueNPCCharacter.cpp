@@ -6,6 +6,7 @@
 #include "DialogDataAsset.h"
 #include "ProjectSailorCharacter.h"
 #include "InteractionComponent.h"
+#include "MyAudioSubsystemActor.h"
 #include "Kismet/GameplayStatics.h"
 
 ADialogueNPCCharacter::ADialogueNPCCharacter() {
@@ -68,6 +69,8 @@ void ADialogueNPCCharacter::SetWidget(bool set)
 	if(set)
 	{
 		DialogueWidget->AddToViewport();
+		//put random sound
+		PlayRandomSound();
 	}
 	else
 	{
@@ -102,6 +105,7 @@ void ADialogueNPCCharacter::ChangeToNextText() {
 	// Update text on the widget
 	if (DialogueWidget) {
 		DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
+		PlayRandomSound();
 	}
 }
 
@@ -127,5 +131,30 @@ void ADialogueNPCCharacter::SetCurrentDialogSet(FLevelStatus PlayerStatus) {
 
 void ADialogueNPCCharacter::SetUpEventSubscription(AProjectSailorCharacter* Player) {
 	Player->InteractionComponent->OnInteract.AddUniqueDynamic(this, &ADialogueNPCCharacter::ChangeToNextText);
+}
+
+void ADialogueNPCCharacter::PlayRandomSound()
+{
+	// Verifica si el array no está vacío
+	if (RandomSoundDialogue.Num() > 0)
+	{
+		// Genera un índice aleatorio dentro del rango del array
+		int32 RandomIndex = FMath::RandRange(0, RandomSoundDialogue.Num() - 1);
+
+		// Obtiene el nombre del sonido en la posición aleatoria
+		FString nameRandomSFX = RandomSoundDialogue[RandomIndex].ToString();
+
+		// Obtiene el actor de audio y detiene cualquier sonido pendiente
+		AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+		if (AudioSubsystemActor)
+		{
+			if(!nameRandomSFX.IsEmpty())
+			{
+				AudioSubsystemActor->StopSFX1();
+				AudioSubsystemActor->PlaySFX1(nameRandomSFX);
+			}
+			
+		}
+	}
 }
 
