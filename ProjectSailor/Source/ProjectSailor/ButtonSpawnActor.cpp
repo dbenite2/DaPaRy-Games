@@ -60,6 +60,7 @@ void AButtonSpawnActor::SpawnActor()
 		//appears cube and add physics
 		BP_ActorSpawnable->SetActorHiddenInGame(false);
 		BP_ActorSpawnable->SetActorEnableCollision(true);
+		
 
 		//hide button
 		SetActorHiddenInGame(true);
