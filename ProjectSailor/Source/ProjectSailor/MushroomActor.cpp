@@ -23,7 +23,11 @@ AMushroomActor::AMushroomActor()
 
 	pSystem = CreateDefaultSubobject<UNiagaraComponent>(TEXT("ParticleSystem"));
 	pSystem->SetupAttachment(RootComponent);
-	pSystem->bAutoActivate = false;
+	pSystem->bAutoActivate = true;
+
+	endParticleSystem = CreateDefaultSubobject<UNiagaraComponent>(TEXT("ParticleSystemEnd"));
+	endParticleSystem->SetupAttachment(RootComponent);
+	endParticleSystem->bAutoActivate = false;
 }
 
 // Called when the game starts or when spawned
@@ -31,7 +35,7 @@ void AMushroomActor::BeginPlay()
 {
 	Super::BeginPlay();
 	if (NiagaraSystem) {
-		pSystem->SetAsset(NiagaraSystem);
+		endParticleSystem->SetAsset(NiagaraSystem);
 	}
 }
 
@@ -63,8 +67,22 @@ void AMushroomActor::Despawn()
 {
 	BP_InitialPosition->SetActorHiddenInGame(false);
 	BP_InitialPosition->SetActorEnableCollision(true);
+	
+	if (endParticleSystem)
+	{
+		endParticleSystem->SetVisibility(true);
+		endParticleSystem->Activate(true); // Activa el sistema de partículas
 
+		FTimerHandle DespawnTimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle, this, &AMushroomActor::SetVisibilityActor, 0.5f, false);
+	}	
+}
+
+void AMushroomActor::SetVisibilityActor()
+{
 	IsHit = false;
 	this->SetActorHiddenInGame(true);
 	this->SetActorEnableCollision(false);
+	endParticleSystem->SetVisibility(false);
+	endParticleSystem->Activate(false);
 }

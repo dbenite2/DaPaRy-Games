@@ -41,6 +41,9 @@ public:
 	UFUNCTION()
 	void Despawn();
 
+	UFUNCTION()
+	void SetVisibilityActor();
+
 	UPROPERTY(EditAnywhere, Category = "Blueprints")
 	AActor* BP_InitialPosition;
 
@@ -55,6 +58,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, CAtegory = "ParticleSystem")
 	UNiagaraComponent* pSystem;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, CAtegory = "ParticleSystem")
+	UNiagaraComponent* endParticleSystem;
 
 	
 };
