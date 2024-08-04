@@ -7,6 +7,7 @@
 #include "ProjectSailorCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "SailorInstance.h"
 
 // Sets default values
 AKeyBeach::AKeyBeach()

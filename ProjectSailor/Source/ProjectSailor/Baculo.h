@@ -6,6 +6,11 @@
 #include "GameFramework/Actor.h"
 #include "Baculo.generated.h"
 
+class AProjectSailorCharacter;
+class UNiagaraComponent;
+class UNiagaraSystem;
+class UNiagaraScript;
+
 UCLASS()
 class PROJECTSAILOR_API ABaculo : public AActor
 {
@@ -34,6 +39,18 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Animation")
 	UAnimMontage* GrabAnimMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Animation")
+	UAnimMontage* AttackAnimMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Effects")
+	UNiagaraSystem* NiagaraSystem{nullptr};
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Effects")
+	UNiagaraComponent* ConnectionParticleComponent{nullptr};
+
+	UPROPERTY()
+	AProjectSailorCharacter* Player{nullptr};
 
 	UFUNCTION()
 	void PlayAnimMontage();

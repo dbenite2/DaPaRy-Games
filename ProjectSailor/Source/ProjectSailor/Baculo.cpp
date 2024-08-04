@@ -3,10 +3,11 @@
 
 #include "Baculo.h"
 
-// Sets default values
+#include "NiagaraComponent.h"
+#include "ProjectSailorCharacter.h"
+
 ABaculo::ABaculo()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
@@ -17,20 +18,33 @@ ABaculo::ABaculo()
 
 	Octopus = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Octopus Skeleton"));
 	Octopus->SetupAttachment(baculo);
+
+	ConnectionParticleComponent = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Grab Effect"));
+	ConnectionParticleComponent->SetupAttachment(Octopus);
+
+	ConnectionParticleComponent->SetVisibility(false);
+	ConnectionParticleComponent->SetAutoActivate(false);
 }
 
-// Called when the game starts or when spawned
 void ABaculo::BeginPlay()
 {
 	Super::BeginPlay();
+	Player = Cast<AProjectSailorCharacter>(GetOwner());
 	
 }
 
-// Called every frame
 void ABaculo::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (Player) {
+		if (Player->IsHolding) {
+			ConnectionParticleComponent->SetVisibility(true);
+			ConnectionParticleComponent->Activate();
+		} else {
+			ConnectionParticleComponent->SetVisibility(false);
+			ConnectionParticleComponent->Deactivate();
+		}
+	}
 }
 
 void ABaculo::PlayAnimMontage() {

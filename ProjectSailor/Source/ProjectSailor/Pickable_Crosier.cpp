@@ -7,6 +7,7 @@
 #include "ProjectSailorCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "SailorInstance.h"
 
 // Sets default values
 APickable_Crosier::APickable_Crosier()
@@ -72,6 +73,8 @@ void APickable_Crosier::PickObject(AProjectSailorCharacter* PlayerCharacter) {
 		
 		baculoComponent->AttachToComponent(PlayerCharacter->GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
 		PlayerCharacter->SetBaculoIsActive(true);
+		PlayerCharacter->StaffComponent = baculoComponent;
+		PlayerCharacter->StaffComponent->Player = PlayerCharacter;
 		Destroy();
 	}
 }

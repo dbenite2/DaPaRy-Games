@@ -8,9 +8,9 @@
 #include "Logging/LogMacros.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Pickable_Object.h"
-#include "SailorInstance.h"
 #include "ProjectSailorCharacter.generated.h"
 
+class UNiagaraSystem;
 class ABaculo;
 class APickable_Crosier;
 class UMovementComponent;
@@ -135,12 +135,25 @@ public:
 	APickable_Crosier* Crosier{nullptr};
 
 	UPROPERTY(BlueprintReadWrite)
-	bool bCanJump{false};
+	bool bIsJumping{false};
 
 	void PlayCharacterMontage(UAnimMontage* MontageToPlay);
 
 	UPROPERTY(BlueprintReadOnly)
 	FVector LimbPosition;
+
+	UPROPERTY(EditDefaultsOnly)
+	ABaculo* StaffComponent{nullptr};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
+	UNiagaraSystem* GrabParticleSystem{nullptr};
+
+	UFUNCTION()
+	void CustomJumpingEvent();
+
+	UFUNCTION()
+	void CustomStopJumpingEvent();
+
 
 private:
 	UPROPERTY()
@@ -166,10 +179,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ABaculo> StaffClass;
 
-	UPROPERTY(EditDefaultsOnly)
-	ABaculo* StaffComponent{nullptr};
-
 	void CheckLevelAndAttachStaff();
-
+	
 };
 
