@@ -5,6 +5,7 @@
 
 #include "InteractionComponent.h"
 #include "ProjectSailorCharacter.h"
+#include "SailorInstance.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values

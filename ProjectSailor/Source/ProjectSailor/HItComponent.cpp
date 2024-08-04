@@ -3,6 +3,7 @@
 
 #include "HItComponent.h"
 
+#include "Baculo.h"
 #include "ButtonSpawnActor.h"
 #include "KeyBeach.h"
 #include "MyAudioSubsystemActor.h"
@@ -51,14 +52,14 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 
 	// Get player's forward vector and location
 	FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
-	FVector PlayerLocation = PlayerCharacter->GetActorLocation();
+	FVector StartLocation = PlayerCharacter->StaffComponent->Octopus->GetComponentLocation();
 
 	// Define the spherecast parameters
 	float SphereRadius = 150.f;
 
 	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
 	// TODO: Set value as a parameter in class
-	FVector SphereCastStart = PlayerLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f);
+	FVector SphereCastStart = StartLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f);
 
 	// Define the end location of the spherecast based on camera direction
 	FVector SphereCastEnd = SphereCastStart + CameraRotation.Vector() * 1000.f; // Adjust this value as needed
@@ -71,7 +72,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 	FHitResult HitResult;
 	bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), SphereCastStart, SphereCastEnd, SphereRadius,
 		UEngineTypes::ConvertToTraceType(ECC_Pawn),false,
-		{ PlayerCharacter }, EDrawDebugTrace::ForDuration, HitResult, true);
+		{ PlayerCharacter }, EDrawDebugTrace::None, HitResult, true);
 
 	if(bHit)
 	{
@@ -79,21 +80,6 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 
 		if(HitObject)
 		{
-			// FRotator ObjectRotation = FRotationMatrix::MakeFromZ(End).Rotator();
-			// FVector ObjetLocation = HitScore.Location;
-			//
-			// UClass* BP_Bullet = nullptr; //Aqui coger el BP de la bala que vamos a Spawnear
-			// AActor* actor = nullptr; //Aqui el actor de la bala que spawneamos
-			// FActorSpawnParameters SpawnParams;
-			// SpawnParams.Owner = actor;
-			//
-			// AActor* SpawnedActor = World->SpawnActor<AActor>(BP_Bullet, ObjetLocation, ObjectRotation, SpawnParams);
-
-			// if(SpawnedActor)
-			// {
-			// 	
-			// }
-
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Hit Object: %s"), *HitObject->GetName()));
 
 			// Check if the hit object implements the InteractionInterface
@@ -109,8 +95,6 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 						
 						KeyBeachActor->Interact_Implementation();
 					}
-					
-				
 			}
 			
 			IIDamageable* DamageableActor = Cast<IIDamageable>(HitObject);

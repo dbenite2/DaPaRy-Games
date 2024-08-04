@@ -7,6 +7,7 @@
 #include "ProjectSailorCharacter.h"
 #include "InteractionComponent.h"
 #include "MyAudioSubsystemActor.h"
+#include "SailorInstance.h"
 #include "Kismet/GameplayStatics.h"
 
 ADialogueNPCCharacter::ADialogueNPCCharacter() {

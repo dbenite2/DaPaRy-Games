@@ -30,7 +30,7 @@ AProjectSailorCharacter::AProjectSailorCharacter()
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
+	GetCharacterMovement()->bOrientRotationToMovement = false; // Character moves in the direction of input...	
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f); // ...at this rotation rate
 
 	// Note: For faster iteration times these variables, and many more, can be tweaked in the Character Blueprint
@@ -41,6 +41,7 @@ AProjectSailorCharacter::AProjectSailorCharacter()
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -65,7 +66,7 @@ void AProjectSailorCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-	SetActorTickEnabled(false);
+	SetActorTickEnabled(true);
 	
 	CheckLevelAndAttachStaff();
 
@@ -87,7 +88,7 @@ void AProjectSailorCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if(ObjectComponent)
 	{
-		FVector ActorLocation = GetActorLocation();
+		FVector ActorLocation = StaffComponent->Octopus->GetComponentLocation();
 		FVector CameraforwardVector = GetFollowCamera()->GetForwardVector() * 300.f;
 		
 		PhysicsHandle->SetTargetLocation(ActorLocation + CameraforwardVector);
@@ -111,6 +112,17 @@ void AProjectSailorCharacter::SetBaculoIsActive(bool Value) {
 	baculoIsActive = Value;
 }
 
+void AProjectSailorCharacter::CustomJumpingEvent() {
+	Jump();
+	bIsJumping = true;
+}
+
+void AProjectSailorCharacter::CustomStopJumpingEvent() {
+	StopJumping();
+	bIsJumping = false;
+}
+
+
 void AProjectSailorCharacter::InteractMethod() {
 
 	if (!InteractionComponent) {
@@ -126,22 +138,21 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 	if(baculoIsActive) {
 		if(!IsHolding) {
 			UWorld* World = GetWorld();
-			FVector Start = GetActorLocation();
-			FVector End = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 1000;
+			FVector Start = StaffComponent->Octopus->GetComponentLocation();
+			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
+			float SphereRadius = 50.f;
 
-			bool bHit = UKismetSystemLibrary::LineTraceSingle(World, Start, End, TraceTypeQuery1,
-				true, {}, EDrawDebugTrace::ForDuration, HitScore, true,
-				FLinearColor::Red, FLinearColor::Green);
+			StaffComponent->PlayAnimMontage();
+
+			bool bHit = UKismetSystemLibrary::SphereTraceSingle(World, Start, End, SphereRadius,
+				UEngineTypes::ConvertToTraceType(ECC_Pawn), false,
+				{this}, EDrawDebugTrace::None, HitScore,true);
 
 			if(bHit) {
-				// player->GetPlayerViewPoint(CameraLocation, CameraRotation);
-				//FVector NewLocation = GetActorLocation() + GetFollowCamera()->GetForwardVector() * 500;
-
-				//AActor* GrabbedObject = HitScore.GetActor();
 				GrabbedObject = Cast<APickable_Object>(HitScore.GetActor());
-				ObjectComponent = HitScore.GetComponent();
-
+			
 				if(GrabbedObject) {
+					ObjectComponent = HitScore.GetComponent();
 					GrabbedObject->PickedObject();
 					SetActorTickEnabled(true);
 					PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
@@ -155,13 +166,14 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 			SetActorTickEnabled(false);
 			GrabbedObject = nullptr;
 			ObjectComponent = nullptr;
-			IsHolding = false;					
+			IsHolding = false;
 		}
 	}
 }
 
 void AProjectSailorCharacter::HitComponentAbility() {
 	if(baculoIsActive) {
+		StaffComponent->PlayAnimMontage();
 		UCameraComponent* camera = GetFollowCamera();
 		AActor* player = GetOwner();
 		hitComponent->HitAbility(camera, player);
@@ -177,8 +189,8 @@ void AProjectSailorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
 		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ThisClass::CustomJumpingEvent);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ThisClass::CustomStopJumpingEvent);
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AProjectSailorCharacter::Move);
@@ -266,10 +278,11 @@ void AProjectSailorCharacter::CheckLevelAndAttachStaff() {
 			
 	FVector SpawnLocation = GetMesh()->GetSocketLocation(FName("WeaponSocket"));
 	FRotator SpawnRotation = GetMesh()->GetSocketRotation(FName("WeaponSocket"));
-	ABaculo* StaffComponent = GetWorld()->SpawnActor<ABaculo>(StaffClass, SpawnLocation, SpawnRotation, SpawnParams);
-	if (StaffComponent) {
+	StaffComponent = GetWorld()->SpawnActor<ABaculo>(StaffClass, SpawnLocation, SpawnRotation, SpawnParams);
+	if (StaffComponent != nullptr) {
 		StaffComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
 		SetBaculoIsActive(true);
+		StaffComponent->Player = this;
 	}
 	AnimationMontage = nullptr;
 }

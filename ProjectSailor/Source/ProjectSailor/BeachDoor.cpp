@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
+#include "SailorInstance.h"
 
 ABeachDoor::ABeachDoor() {
 	PrimaryActorTick.bCanEverTick = true;
