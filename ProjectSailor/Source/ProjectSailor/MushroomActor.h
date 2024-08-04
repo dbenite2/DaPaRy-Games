@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "MushroomActor.generated.h"
 
+class UNiagaraComponent;
+class UNiagaraSystem;
+
 UCLASS()
 class PROJECTSAILOR_API AMushroomActor : public AActor
 {
@@ -40,4 +43,18 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Blueprints")
 	AActor* BP_InitialPosition;
+
+	UPROPERTY(EditAnywhere)
+	bool IsHit = false;
+
+	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "ParticleSystem")
+	// UNiagaraComponent* ParticleSystem;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ParticleSystem")
+	UNiagaraSystem* NiagaraSystem;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, CAtegory = "ParticleSystem")
+	UNiagaraComponent* pSystem;
+
+	
 };
