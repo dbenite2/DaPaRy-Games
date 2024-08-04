@@ -2,8 +2,7 @@
 
 
 #include "MushroomActor.h"
-
-#include "MushroomButtonActor.h"
+#include "NiagaraComponent.h"
 #include "UObject/ConstructorHelpers.h"
 
 /**
@@ -21,13 +20,19 @@ AMushroomActor::AMushroomActor()
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	BaseMesh->SetupAttachment(DefaultSceneRoot);
+
+	pSystem = CreateDefaultSubobject<UNiagaraComponent>(TEXT("ParticleSystem"));
+	pSystem->SetupAttachment(RootComponent);
+	pSystem->bAutoActivate = false;
 }
 
 // Called when the game starts or when spawned
 void AMushroomActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	if (NiagaraSystem) {
+		pSystem->SetAsset(NiagaraSystem);
+	}
 }
 
 // Called every frame
@@ -42,9 +47,13 @@ void AMushroomActor::Tick(float DeltaTime)
 		if (CurrentLocation.Z <= TargetZ)
 		{
 			CurrentLocation.Z = TargetZ;
-		
-			FTimerHandle DespawnTimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle, this, &AMushroomActor::Despawn, 16.0f, false);
+
+			if(IsHit)
+			{
+				FTimerHandle DespawnTimerHandle;
+				GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle, this, &AMushroomActor::Despawn, 16.0f, false);
+			}
+			
 		}
 		SetActorLocation(CurrentLocation);
 	}	
@@ -55,6 +64,7 @@ void AMushroomActor::Despawn()
 	BP_InitialPosition->SetActorHiddenInGame(false);
 	BP_InitialPosition->SetActorEnableCollision(true);
 
+	IsHit = false;
 	this->SetActorHiddenInGame(true);
 	this->SetActorEnableCollision(false);
 }

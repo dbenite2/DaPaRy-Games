@@ -57,6 +57,8 @@ void AMushroomButtonActor::SpawnMushroom()
 	BP_InitialPosition->SetActorLocation(SpawnLocation);
 	BP_InitialPosition->SetActorHiddenInGame(false);
 	BP_InitialPosition->SetActorEnableCollision(true);
+	AMushroomActor* MushroomButton = Cast<AMushroomActor>(BP_InitialPosition);
+	MushroomButton->IsHit = true;
 
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
