@@ -54,25 +54,26 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 	FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
 	FVector StartLocation = PlayerCharacter->StaffComponent->Octopus->GetComponentLocation();
 
-	// Define the spherecast parameters
-	float SphereRadius = 150.f;
-
 	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
 	// TODO: Set value as a parameter in class
-	FVector SphereCastStart = StartLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f);
+	FVector LineTraceStart = StartLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f);
 
-	// Define the end location of the spherecast based on camera direction
-	FVector SphereCastEnd = SphereCastStart + CameraRotation.Vector() * 1000.f; // Adjust this value as needed
+	// Define the end location of the raycast based on camera direction
+	FVector LineTraceEnd = LineTraceStart + CameraRotation.Vector() * 1000.f; // Adjust this value as needed
 
 	// Setup collision parameters
-	FCollisionQueryParams SphereCollisionParams;
-	SphereCollisionParams.AddIgnoredActor(PlayerCharacter);
+	FCollisionQueryParams LineCollisionParams;
+	LineCollisionParams.AddIgnoredActor(PlayerCharacter);
 	
-	// Perform the spherecast
-	FHitResult HitResult;
-	bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), SphereCastStart, SphereCastEnd, SphereRadius,
-		UEngineTypes::ConvertToTraceType(ECC_Pawn),false,
-		{ PlayerCharacter }, EDrawDebugTrace::None, HitResult, true);
+	// Perform the raycast
+	FHitResult HitResult;	
+	bool bHit = GetWorld()->LineTraceSingleByChannel(
+	HitResult,                      
+	LineTraceStart,                 
+	LineTraceEnd,                   
+	ECollisionChannel::ECC_Visibility, 
+	FCollisionQueryParams(TEXT("Trace"), false, PlayerCharacter)
+	);
 
 	if(bHit)
 	{
@@ -92,7 +93,6 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 					AKeyBeach* KeyBeachActor = Cast<AKeyBeach>(HitObject);
 					if(KeyBeachActor)
 					{
-						
 						KeyBeachActor->Interact_Implementation();
 					}
 			}

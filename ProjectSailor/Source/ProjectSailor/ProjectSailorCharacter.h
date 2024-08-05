@@ -148,6 +148,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
 	UNiagaraSystem* GrabParticleSystem{nullptr};
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
+	UNiagaraSystem* HitParticleSystem{nullptr};
+
 	UFUNCTION()
 	void CustomJumpingEvent();
 

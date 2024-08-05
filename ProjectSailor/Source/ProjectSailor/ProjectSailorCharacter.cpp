@@ -11,6 +11,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "InteractionComponent.h"
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "SailorController.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -140,19 +142,23 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 			UWorld* World = GetWorld();
 			FVector Start = StaffComponent->Octopus->GetComponentLocation();
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
-			float SphereRadius = 50.f;
 
 			StaffComponent->PlayAnimMontage();
 
-			bool bHit = UKismetSystemLibrary::SphereTraceSingle(World, Start, End, SphereRadius,
-				UEngineTypes::ConvertToTraceType(ECC_Pawn), false,
-				{this}, EDrawDebugTrace::None, HitScore,true);
-
+			FHitResult HitResult;	
+			bool bHit = World->LineTraceSingleByChannel(
+				HitResult,
+				Start,
+				End,
+				ECollisionChannel::ECC_Pawn, // Canal de colisión
+				FCollisionQueryParams(TEXT("Trace"), false, this) // Parámetros de colisión
+			);
+			
 			if(bHit) {
-				GrabbedObject = Cast<APickable_Object>(HitScore.GetActor());
+				GrabbedObject = Cast<APickable_Object>(HitResult.GetActor());
 			
 				if(GrabbedObject) {
-					ObjectComponent = HitScore.GetComponent();
+					ObjectComponent = HitResult.GetComponent();
 					GrabbedObject->PickedObject();
 					SetActorTickEnabled(true);
 					PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
@@ -169,6 +175,31 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 			IsHolding = false;
 		}
 	}
+
+	if(HitParticleSystem)
+	{
+		FVector Start = StaffComponent->Octopus->GetComponentLocation();
+		FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
+		End.Z = End.Z + 100;
+			
+		UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+						GetWorld(),
+						HitParticleSystem,
+						End,
+						FRotator::ZeroRotator,
+						FVector(1.0f)
+					);
+
+		if (NiagaraComponent)
+		{
+			FTimerHandle TimerHandle;
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]()
+			{
+				NiagaraComponent->Deactivate();
+				NiagaraComponent->DestroyComponent();
+			}, 1.0f, false);
+		}
+	}
 }
 
 void AProjectSailorCharacter::HitComponentAbility() {
@@ -177,6 +208,31 @@ void AProjectSailorCharacter::HitComponentAbility() {
 		UCameraComponent* camera = GetFollowCamera();
 		AActor* player = GetOwner();
 		hitComponent->HitAbility(camera, player);
+
+		if(HitParticleSystem)
+		{
+			FVector Start = StaffComponent->Octopus->GetComponentLocation();
+			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
+			End.Z = End.Z + 100;
+			
+			UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+							GetWorld(),
+							HitParticleSystem,
+							End,
+							FRotator::ZeroRotator,
+							FVector(1.0f)
+						);
+
+			if (NiagaraComponent)
+			{
+				FTimerHandle TimerHandle;
+				GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]()
+				{
+					NiagaraComponent->Deactivate();
+					NiagaraComponent->DestroyComponent();
+				}, 1.0f, false);
+			}
+		}
 	}
 }
 
