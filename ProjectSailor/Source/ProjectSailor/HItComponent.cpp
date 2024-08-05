@@ -72,7 +72,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 	FHitResult HitResult;
 	bool bHit = UKismetSystemLibrary::SphereTraceSingle(GetWorld(), SphereCastStart, SphereCastEnd, SphereRadius,
 		UEngineTypes::ConvertToTraceType(ECC_Pawn),false,
-		{ PlayerCharacter }, EDrawDebugTrace::None, HitResult, true);
+		{ PlayerCharacter }, EDrawDebugTrace::ForDuration, HitResult, true);
 
 	if(bHit)
 	{

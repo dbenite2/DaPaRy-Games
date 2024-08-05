@@ -146,7 +146,7 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 
 			bool bHit = UKismetSystemLibrary::SphereTraceSingle(World, Start, End, SphereRadius,
 				UEngineTypes::ConvertToTraceType(ECC_Pawn), false,
-				{this}, EDrawDebugTrace::None, HitScore,true);
+				{this}, EDrawDebugTrace::ForDuration, HitScore,true);
 
 			if(bHit) {
 				GrabbedObject = Cast<APickable_Object>(HitScore.GetActor());
