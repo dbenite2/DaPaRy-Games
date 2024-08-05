@@ -55,7 +55,7 @@ void AMushroomActor::Tick(float DeltaTime)
 			if(IsHit)
 			{
 				FTimerHandle DespawnTimerHandle;
-				GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle, this, &AMushroomActor::Despawn, 16.0f, false);
+				GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle, this, &AMushroomActor::Despawn, 14.0f, false);
 			}
 			
 		}
