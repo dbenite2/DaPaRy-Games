@@ -29,7 +29,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"), Category = "Moving")
 	UMovableStaticMeshComponent* MovableMesh{nullptr};
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Moving")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moving")
 	FName InteractTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Moving")

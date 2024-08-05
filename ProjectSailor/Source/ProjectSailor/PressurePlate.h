@@ -46,7 +46,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Trigger")
 	bool bResetTrigger{false};
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Trigger")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Trigger")
 	TArray<FName> TargetTags;
 
 
