@@ -178,27 +178,31 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 
 	if(HitParticleSystem)
 	{
-		FVector Start = StaffComponent->Octopus->GetComponentLocation();
-		FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
-		End.Z = End.Z + 100;
-			
-		UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
-						GetWorld(),
-						HitParticleSystem,
-						End,
-						FRotator::ZeroRotator,
-						FVector(1.0f)
-					);
-
-		if (NiagaraComponent)
+		if(!StaffComponent && baculoIsActive)
 		{
-			FTimerHandle TimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]()
+			FVector Start = StaffComponent->Octopus->GetComponentLocation();
+			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
+			End.Z = End.Z + 100;
+			
+			UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+							GetWorld(),
+							HitParticleSystem,
+							End,
+							FRotator::ZeroRotator,
+							FVector(1.0f)
+						);
+
+			if (NiagaraComponent)
 			{
-				NiagaraComponent->Deactivate();
-				NiagaraComponent->DestroyComponent();
-			}, 1.0f, false);
+				FTimerHandle TimerHandle;
+				GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]()
+				{
+					NiagaraComponent->Deactivate();
+					NiagaraComponent->DestroyComponent();
+				}, 1.0f, false);
+			}
 		}
+		
 	}
 }
 
