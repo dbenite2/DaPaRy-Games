@@ -99,7 +99,7 @@ void AGenericGeometricPuzzlePiece::OnOverlapBegin(UPrimitiveComponent* Overlappe
 				//if its spawn actor
 				else
 				{
-					
+					AudioSubsystemActor->PlaySFX1("spawnSoul");
 				}
 				
 				//TO-DO--> teleport
