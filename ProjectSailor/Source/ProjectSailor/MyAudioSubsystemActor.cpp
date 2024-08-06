@@ -8,6 +8,7 @@ AMyAudioSubsystemActor::AMyAudioSubsystemActor()
 	: MusicComponent(nullptr)
 	, SFX1Component(nullptr)
 	, SFX2Component(nullptr)
+	, SFX3Component(nullptr)
 {
 	// Constructor initialization if needed
 	
@@ -27,6 +28,7 @@ void AMyAudioSubsystemActor::InitializeAudioComponents()
 		MusicComponent = CreateAudioComponent(this);
 		SFX1Component =  CreateAudioComponent(this);
 		SFX2Component =  CreateAudioComponent(this);
+	    SFX3Component =  CreateAudioComponent(this);
 	
 }
 
@@ -91,6 +93,21 @@ void AMyAudioSubsystemActor::PlaySFX2(const FString& MusicName)
 	}
 }
 
+void AMyAudioSubsystemActor::PlaySFX3(const FString& MusicName)
+{
+	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName))
+	{
+		if (USoundWave* SoundWave = *SoundWavePtr)
+		{
+			if (SFX3Component)
+			{
+				SFX3Component->SetSound(SoundWave);
+				SFX3Component->Play();
+			}
+		}
+	}
+}
+
 void AMyAudioSubsystemActor::StopMusic()
 {
 	if (MusicComponent && MusicComponent->IsPlaying())
@@ -116,5 +133,13 @@ void AMyAudioSubsystemActor::StopSFX2()
 	if (SFX2Component && SFX2Component->IsPlaying())
 	{
 		SFX2Component->Stop();
+	}
+}
+
+void AMyAudioSubsystemActor::StopSFX3()
+{
+	if (SFX3Component && SFX3Component->IsPlaying())
+	{
+		SFX3Component->Stop();
 	}
 }

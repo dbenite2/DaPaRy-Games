@@ -9,6 +9,7 @@
 class UBoxComponent;
 class UPointLightComponent;
 class UParticleSystemComponent;
+class AMyAudioSubsystemActor;
 UCLASS()
 class PROJECTSAILOR_API AGenericGeometricPuzzlePiece : public AActor
 {
@@ -38,6 +39,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	UParticleSystemComponent* incorrectParticleSystem;
 
+	UPROPERTY(EditAnywhere,  Category = "Spawn")
+	bool isSpawnLevelPlatform;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

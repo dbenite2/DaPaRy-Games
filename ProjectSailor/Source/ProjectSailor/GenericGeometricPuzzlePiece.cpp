@@ -3,9 +3,11 @@
 
 #include "GenericGeometricPuzzlePiece.h"
 
+#include "MyAudioSubsystemActor.h"
 #include "ProjectSailorCharacter.h"
 #include "Components/PointLightComponent.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
@@ -78,6 +80,7 @@ void AGenericGeometricPuzzlePiece::OnOverlapBegin(UPrimitiveComponent* Overlappe
 		AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
 		if (PlayerCharacter)
 		{
+			AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
 			// UE_LOG(LogTemp, Warning, TEXT("Overlap Begin with %s"), *OtherActor->GetName());
 			// UE_LOG(LogTemp, Warning, TEXT("Figure Step: %s"), *NameFigureStep);
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Figure Step: %s"), *NameFigureStep));
@@ -87,6 +90,18 @@ void AGenericGeometricPuzzlePiece::OnOverlapBegin(UPrimitiveComponent* Overlappe
 
 			if(!isCorrect)
 			{
+				//incorrect sound if its casilla
+				if(!isSpawnLevelPlatform)
+				{
+					AudioSubsystemActor->PlaySFX1("wronganswer");
+					AudioSubsystemActor->PlaySFX3("explosionIncorrect");
+				}
+				//if its spawn actor
+				else
+				{
+					AudioSubsystemActor->PlaySFX1("spawnSoul");
+				}
+				
 				//TO-DO--> teleport
 				if (BP_InitialPosition)
 				{
@@ -103,6 +118,8 @@ void AGenericGeometricPuzzlePiece::OnOverlapBegin(UPrimitiveComponent* Overlappe
 			}
 			else
 			{
+				//correct sound
+				AudioSubsystemActor->PlaySFX1("correctAnswer");
 				// Set light color based on NameFigureStep
 				if (NameFigureStep == "Cross")
 				{
