@@ -56,7 +56,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 
 	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
 	// TODO: Set value as a parameter in class
-	FVector LineTraceStart = StartLocation  + ForwardVector*100.f + FVector(0.f,0 , 100.f);
+	FVector LineTraceStart = StartLocation  + ForwardVector*100.f;
 
 	// Define the end location of the raycast based on camera direction
 	FVector LineTraceEnd = LineTraceStart + CameraRotation.Vector() * 1000.f; // Adjust this value as needed
@@ -74,6 +74,17 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 	ECollisionChannel::ECC_Visibility, 
 	FCollisionQueryParams(TEXT("Trace"), false, PlayerCharacter)
 	);
+
+	DrawDebugLine(
+	GetWorld(),
+	LineTraceStart,
+	LineTraceEnd,
+	FColor::Red,
+	false,
+	1.0f,
+	0,
+	1.0f
+);
 
 	if(bHit)
 	{
