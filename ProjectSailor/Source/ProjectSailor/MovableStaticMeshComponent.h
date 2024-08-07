@@ -25,6 +25,7 @@ enum class EMovementType : uint8 {
 /**
  * 
  */
+class AMyAudioSubsystemActor;
 UCLASS()
 class PROJECTSAILOR_API UMovableStaticMeshComponent : public UStaticMeshComponent
 {
@@ -52,6 +53,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
 	bool bIsReversed{false};
 
+	UPROPERTY(EditAnywhere)
+	FString nameSound;
+	
 	UFUNCTION(BlueprintCallable)
 	void Move(bool bTriggered);
 

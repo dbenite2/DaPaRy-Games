@@ -4,6 +4,7 @@
 
 #include "InteractablePressInterface.h"
 #include "MovableStaticMeshComponent.h"
+#include "MyAudioSubsystemActor.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 

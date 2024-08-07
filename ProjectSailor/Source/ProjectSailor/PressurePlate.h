@@ -8,7 +8,7 @@
 
 class USphereComponent;
 class UMovableStaticMeshComponent;
-
+class AMyAudioSubsystemActor;
 UCLASS()
 class PROJECTSAILOR_API APressurePlate : public AActor
 {
@@ -48,6 +48,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Trigger")
 	TArray<FName> TargetTags;
+
 
 protected:
 	// Called when the game starts or when spawned
