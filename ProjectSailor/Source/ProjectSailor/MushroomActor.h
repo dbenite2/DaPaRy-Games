@@ -8,6 +8,7 @@
 
 class UNiagaraComponent;
 class UNiagaraSystem;
+class AMyAudioSubsystemActor;
 
 UCLASS()
 class PROJECTSAILOR_API AMushroomActor : public AActor

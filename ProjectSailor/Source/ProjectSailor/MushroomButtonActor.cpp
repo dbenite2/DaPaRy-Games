@@ -2,8 +2,11 @@
 
 
 #include "MushroomButtonActor.h"
+
+#include "MyAudioSubsystemActor.h"
 #include "Components/BoxComponent.h"
 #include "Components/PointLightComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
 /**
@@ -59,6 +62,10 @@ void AMushroomButtonActor::SpawnMushroom()
 	AMushroomActor* MushroomButton = Cast<AMushroomActor>(BP_InitialPosition);
 	MushroomButton->IsHit = true;
 
+	//sound button
+	AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+	AudioSubsystemActor->PlaySFX1("hitAttackMagic2");
+	AudioSubsystemActor->PlaySFX3("tentaculo2");
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 }
