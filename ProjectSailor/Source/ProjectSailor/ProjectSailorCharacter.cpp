@@ -11,9 +11,11 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "InteractionComponent.h"
+#include "MyAudioSubsystemActor.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "SailorController.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -137,8 +139,10 @@ void AProjectSailorCharacter::InteractMethod() {
 }
 
 void AProjectSailorCharacter::GrapAndDragMethodPress() {
-	if(baculoIsActive) {
-		if(!IsHolding) {
+	if(baculoIsActive)
+	{
+		if(!IsHolding)
+		{
 			UWorld* World = GetWorld();
 			FVector Start = StaffComponent->Octopus->GetComponentLocation();
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
@@ -154,10 +158,14 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 				FCollisionQueryParams(TEXT("Trace"), false, this) // Parámetros de colisión
 			);
 			
-			if(bHit) {
+			if(bHit)
+			{
 				GrabbedObject = Cast<APickable_Object>(HitResult.GetActor());
-			
-				if(GrabbedObject) {
+				//sound grab
+				AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+				AudioSubsystemActor->PlaySFX1("grab");
+				if(GrabbedObject)
+				{
 					ObjectComponent = HitResult.GetComponent();
 					GrabbedObject->PickedObject();
 					SetActorTickEnabled(true);
@@ -166,7 +174,11 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 				}
 			}
 		}
-		else {
+		else
+		{
+			//sound drop
+			AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+			AudioSubsystemActor->PlaySFX2("drop");
 			PhysicsHandle->ReleaseComponent();
 			GrabbedObject->DropObject();
 			SetActorTickEnabled(false);
