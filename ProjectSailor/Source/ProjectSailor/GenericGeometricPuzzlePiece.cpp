@@ -81,12 +81,6 @@ void AGenericGeometricPuzzlePiece::OnOverlapBegin(UPrimitiveComponent* Overlappe
 		if (PlayerCharacter)
 		{
 			AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-			// UE_LOG(LogTemp, Warning, TEXT("Overlap Begin with %s"), *OtherActor->GetName());
-			// UE_LOG(LogTemp, Warning, TEXT("Figure Step: %s"), *NameFigureStep);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Figure Step: %s"), *NameFigureStep));
-
-			// Implement specific behavior for overlap begin here if needed
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Figure correct: %s"), isCorrect ? TEXT("true") : TEXT("false")));
 
 			if(!isCorrect)
 			{

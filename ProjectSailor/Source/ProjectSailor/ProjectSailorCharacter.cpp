@@ -145,8 +145,8 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 		{
 			UWorld* World = GetWorld();
 			FVector Start = StaffComponent->Octopus->GetComponentLocation();
-			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
-
+			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1500;
+			
 			StaffComponent->PlayAnimMontage();
 
 			FHitResult HitResult;	
@@ -154,8 +154,8 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 				HitResult,
 				Start,
 				End,
-				ECollisionChannel::ECC_Pawn, // Canal de colisión
-				FCollisionQueryParams(TEXT("Trace"), false, this) // Parámetros de colisión
+				ECollisionChannel::ECC_Pawn,
+				FCollisionQueryParams(TEXT("Trace"), false, this)
 			);
 			
 			if(bHit)
@@ -168,7 +168,6 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 				{
 					ObjectComponent = HitResult.GetComponent();
 					GrabbedObject->PickedObject();
-					SetActorTickEnabled(true);
 					PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
 					IsHolding = true;
 				}
@@ -179,9 +178,11 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 			//sound drop
 			AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
 			AudioSubsystemActor->PlaySFX2("drop");
+			ObjectComponent->SetPhysicsLinearVelocity(FVector::ZeroVector);
+			ObjectComponent->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
+			
 			PhysicsHandle->ReleaseComponent();
-			GrabbedObject->DropObject();
-			SetActorTickEnabled(false);
+			GrabbedObject->DropObject(); 
 			GrabbedObject = nullptr;
 			ObjectComponent = nullptr;
 			IsHolding = false;
