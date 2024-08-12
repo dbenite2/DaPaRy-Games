@@ -66,8 +66,7 @@ AProjectSailorCharacter::AProjectSailorCharacter()
 	
 }
 
-void AProjectSailorCharacter::BeginPlay()
-{
+void AProjectSailorCharacter::BeginPlay() {
 	// Call the base class  
 	Super::BeginPlay();
 	SetActorTickEnabled(true);
