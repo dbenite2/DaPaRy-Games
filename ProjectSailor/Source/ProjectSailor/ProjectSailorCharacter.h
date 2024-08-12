@@ -152,6 +152,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
 	UNiagaraSystem* HitParticleSystem{nullptr};
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
+	UParticleSystem* HitParticleSystem_Cascade{nullptr};
+
+	
+	
 	UFUNCTION()
 	void CustomJumpingEvent();
 
@@ -184,6 +189,8 @@ private:
 	TSubclassOf<ABaculo> StaffClass;
 
 	void CheckLevelAndAttachStaff();
+
+
 	
 };
 

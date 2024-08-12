@@ -98,6 +98,11 @@ void AProjectSailorCharacter::Tick(float DeltaTime)
 		PhysicsHandle->SetTargetLocation(ActorLocation + CameraforwardVector);
 		ObjectComponent->SetRelativeRotation(GetFollowCamera()->GetComponentRotation());
 	}
+
+	//if hit partycle system is ready
+	if(HitParticleSystem_Cascade)
+	{
+	}
 }
 
 bool AProjectSailorCharacter::GetHaveKeyBeach() {
@@ -220,7 +225,8 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 }
 
 void AProjectSailorCharacter::HitComponentAbility() {
-	if(baculoIsActive) {
+	if(baculoIsActive)
+	{
 		StaffComponent->PlayAnimMontage();
 		UCameraComponent* camera = GetFollowCamera();
 		AActor* player = GetOwner();
@@ -231,7 +237,8 @@ void AProjectSailorCharacter::HitComponentAbility() {
 			FVector Start = StaffComponent->Octopus->GetComponentLocation();
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
 			End.Z = End.Z + 100;
-			
+
+			//niagara effect
 			UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
 							GetWorld(),
 							HitParticleSystem,
@@ -247,10 +254,38 @@ void AProjectSailorCharacter::HitComponentAbility() {
 				{
 					NiagaraComponent->Deactivate();
 					NiagaraComponent->DestroyComponent();
+				}, 1.0f, false); 
+			}
+		}
+
+		
+		if(HitParticleSystem_Cascade)
+		{
+			FVector Start = StaffComponent->Octopus->GetComponentLocation();
+			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
+			End.Z = End.Z + 100;
+			
+			//cascade effect
+			UParticleSystemComponent* CascadeComponent = UGameplayStatics::SpawnEmitterAtLocation(
+				GetWorld(),
+				HitParticleSystem_Cascade,
+				Start,
+				FRotator::ZeroRotator,
+				FVector(1.0f)
+			);
+
+			if (CascadeComponent)
+			{
+				FTimerHandle TimerHandle;
+				GetWorld()->GetTimerManager().SetTimer(TimerHandle, [CascadeComponent]()
+				{
+					CascadeComponent->Deactivate();
+					CascadeComponent->DestroyComponent();
 				}, 1.0f, false);
 			}
 		}
 	}
+	
 }
 
 //////////////////////////////////////////////////////////////////////////
