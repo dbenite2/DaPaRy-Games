@@ -14,11 +14,9 @@ class PROJECTSAILOR_API ABulletVFXPlayerHit : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	ABulletVFXPlayerHit();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -31,7 +29,6 @@ protected:
 	UParticleSystemComponent* ParticleSystem;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 private:

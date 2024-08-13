@@ -5,10 +5,7 @@
 
 #include "Particles/ParticleSystemComponent.h"
 
-// Sets default values
-ABulletVFXPlayerHit::ABulletVFXPlayerHit()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ABulletVFXPlayerHit::ABulletVFXPlayerHit() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	DefaultSceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
@@ -19,22 +16,17 @@ ABulletVFXPlayerHit::ABulletVFXPlayerHit()
 
 	ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem"));
 	ParticleSystem->SetupAttachment(DefaultSceneRoot);
-
-	// Set the bullet's velocity
+	
 	Velocity = 1000.0f;
-
-	// Set the bullet's lifetime
+	
 	Lifetime = 10.0f;
 }
 
-// Called when the game starts or when spawned
-void ABulletVFXPlayerHit::BeginPlay()
-{
+void ABulletVFXPlayerHit::BeginPlay() {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
 void ABulletVFXPlayerHit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
