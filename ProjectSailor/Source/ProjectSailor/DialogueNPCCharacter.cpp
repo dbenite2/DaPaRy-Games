@@ -8,6 +8,7 @@
 #include "InteractionComponent.h"
 #include "MyAudioSubsystemActor.h"
 #include "SailorInstance.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 ADialogueNPCCharacter::ADialogueNPCCharacter() {
@@ -25,10 +26,12 @@ ADialogueNPCCharacter::ADialogueNPCCharacter() {
 }
 
 void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult){
-	// Check if the overlapping actor is of class AProjectSailorCharacter
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+
+	if (EntryTimes >= MaxEntryTimes && MaxEntryTimes > 0) return;
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
 	USailorInstance* GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(this));
+	
 	if (PlayerCharacter && GameManager) {
 		FString CurrentLevelName = GetWorld()->GetMapName();
 		CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
@@ -36,6 +39,14 @@ void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, 
 		SetUpEventSubscription(PlayerCharacter);
 		CurrentDialogSet.Empty();
 		SetCurrentDialogSet(CurrentState);
+
+		// Take the player movement reference and disable it if the bool is true
+		if (bBlockMovementUntilFinished) {
+			CharacterMovementRef = PlayerCharacter->GetMovRef();
+			if (CharacterMovementRef) {
+				CharacterMovementRef->DisableMovement();
+			}
+		}
 		
 		if (DialogueWidgetClass) {
 			// Create the widget if it's not already created
@@ -62,27 +73,18 @@ void ADialogueNPCCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AA
 			}
 		}
 	}
-	
 }
 
-void ADialogueNPCCharacter::SetWidget(bool set)
-{
-	if(set)
-	{
-		DialogueWidget->AddToViewport();
-		//put random sound
+void ADialogueNPCCharacter::SetWidget(bool set) {
+	if(set) {
+		DialogueWidget->AddToViewport(0);
 		PlayRandomSound();
-	}
-	else
-	{
-		//restart dialogue
+	} else {
 		CurrentTextIndex = 0;
-		if(DialogueWidget)
-		{
+		if(DialogueWidget) {
 			DialogueWidget->RemoveFromParent();
 			DialogueWidget = nullptr;
 		}
-		
 	}
 }
 
@@ -92,18 +94,20 @@ void ADialogueNPCCharacter::ChangeToNextText() {
 		return;
 	}
 	
-	// Increment index
 	CurrentTextIndex++;
 
 	if (CurrentTextIndex >= CurrentDialogSet.Num()) {
+		if (MaxEntryTimes > 0) {
+			EntryTimes++;
+		}
 		SetWidget(false);
+		// release character movement
+		if (CharacterMovementRef) {
+			CharacterMovementRef->SetMovementMode(MOVE_Walking);	
+		}
 		return;
 	}
-	// Wrap around the index to stay within bounds
-	// CurrentTextIndex %= DialogueTextsSet1.Num();
-
 	
-	// Update text on the widget
 	if (DialogueWidget) {
 		DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
 		PlayRandomSound();
@@ -134,28 +138,20 @@ void ADialogueNPCCharacter::SetUpEventSubscription(AProjectSailorCharacter* Play
 	Player->InteractionComponent->OnInteract.AddUniqueDynamic(this, &ADialogueNPCCharacter::ChangeToNextText);
 }
 
-void ADialogueNPCCharacter::PlayRandomSound()
-{
-	// Verifica si el array no está vacío
-	if (RandomSoundDialogue.Num() > 0)
-	{
-		// Genera un índice aleatorio dentro del rango del array
+void ADialogueNPCCharacter::PlayRandomSound() {
+	if (RandomSoundDialogue.Num() > 0) {
 		int32 RandomIndex = FMath::RandRange(0, RandomSoundDialogue.Num() - 1);
-
-		// Obtiene el nombre del sonido en la posición aleatoria
+		
 		FString nameRandomSFX = RandomSoundDialogue[RandomIndex].ToString();
-
-		// Obtiene el actor de audio y detiene cualquier sonido pendiente
-		AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-		if (AudioSubsystemActor)
-		{
-			if(!nameRandomSFX.IsEmpty())
-			{
+		
+		AMyAudioSubsystemActor* AudioSubsystemActor =
+			Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(),
+				AMyAudioSubsystemActor::StaticClass()));
+		if (AudioSubsystemActor) {
+			if(!nameRandomSFX.IsEmpty()) {
 				AudioSubsystemActor->StopSFX1();
 				AudioSubsystemActor->PlaySFX1(nameRandomSFX);
 			}
-			
 		}
 	}
 }
-
