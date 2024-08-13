@@ -15,8 +15,7 @@ class AMyAudioSubsystemActor;
 struct FLevelStatus;
 
 UCLASS()
-class PROJECTSAILOR_API ADialogueNPCCharacter : public ACharacter
-{
+class PROJECTSAILOR_API ADialogueNPCCharacter : public ACharacter {
 	GENERATED_BODY()
 
 public:
@@ -35,24 +34,36 @@ public:
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	                  int32 OtherBodyIndex);
-
-
+	
 	// Widget to display when overlapping
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<UUserWidget> DialogueWidgetClass;
 
 	UPROPERTY(BlueprintReadWrite,EditAnywhere, Category = "Audio")
 	TArray<FText> RandomSoundDialogue;
+	
 private:
 	UPROPERTY()
 	UDialogueWidget* DialogueWidget;
+	
 	int32 CurrentTextIndex;
 
-	UFUNCTION()
-	void SetWidget(bool set);
+	UPROPERTY(EditAnywhere)
+	int32 MaxEntryTimes{1};
+
+	int32 EntryTimes{0};
 
 	UPROPERTY()
 	TArray<FText> CurrentDialogSet;
+
+	UPROPERTY(EditAnywhere)
+	bool bBlockMovementUntilFinished{false};
+
+	UPROPERTY()
+	UCharacterMovementComponent* CharacterMovementRef{nullptr};
+
+	UFUNCTION()
+	void SetWidget(bool Set);
 
 	UFUNCTION()
 	void SetCurrentDialogSet(FLevelStatus PlayerStatus);
