@@ -69,7 +69,6 @@ class AProjectSailorCharacter : public ACharacter
 
 public:
 	AProjectSailorCharacter();
-	
 
 protected:
 
@@ -163,6 +162,8 @@ public:
 	UFUNCTION()
 	void CustomStopJumpingEvent();
 
+	UFUNCTION()
+	UCharacterMovementComponent* GetMovRef() const {return MoveCompRef;}
 
 private:
 	UPROPERTY()
@@ -184,7 +185,7 @@ private:
 
 	UPROPERTY()
 	UCharacterMovementComponent* MoveCompRef{nullptr};
-
+	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ABaculo> StaffClass;
 

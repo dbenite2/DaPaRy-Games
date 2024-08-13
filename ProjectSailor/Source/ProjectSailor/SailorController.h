@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "SailorController.generated.h"
 
+class UDialogueWidget;
 class UInputMappingContext;
 class UPauseMenu;
 
@@ -23,13 +24,16 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPauseMenu> PauseMenuTemplate{nullptr};
-	
+
 	virtual void BeginPlay() override;
 
 public:
 	
 	UPROPERTY()
 	UPauseMenu* PauseMenuWidget{nullptr};
+
+	UPROPERTY()
+	UDialogueWidget* IntroLevelWidget{nullptr};
 
 	UFUNCTION()
 	void UnPauseGame();

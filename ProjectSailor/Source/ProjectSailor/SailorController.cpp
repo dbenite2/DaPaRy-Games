@@ -1,6 +1,8 @@
 // Property of DaPaRy Games
 
 #include "SailorController.h"
+
+#include "DialogueWidget.h"
 #include "EnhancedInputSubsystems.h"
 #include "PauseMenu.h"
 #include "Blueprint/UserWidget.h"
