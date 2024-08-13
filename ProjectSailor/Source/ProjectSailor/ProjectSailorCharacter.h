@@ -20,6 +20,7 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 class AMyAudioSubsystemActor;
+class ABulletVFXPlayerHit;
 struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
@@ -152,8 +153,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
 	UNiagaraSystem* HitParticleSystem{nullptr};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
-	UParticleSystem* HitParticleSystem_Cascade{nullptr};
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	TSubclassOf<ABulletVFXPlayerHit> BulletClass;
 
 	
 	

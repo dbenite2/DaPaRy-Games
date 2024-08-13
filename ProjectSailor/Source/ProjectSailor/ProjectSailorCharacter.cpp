@@ -1,6 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "ProjectSailorCharacter.h"
+
+#include "BulletVFXPlayerHit.h"
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -99,10 +101,7 @@ void AProjectSailorCharacter::Tick(float DeltaTime)
 		ObjectComponent->SetRelativeRotation(GetFollowCamera()->GetComponentRotation());
 	}
 
-	//if hit partycle system is ready
-	if(HitParticleSystem_Cascade)
-	{
-	}
+	
 }
 
 bool AProjectSailorCharacter::GetHaveKeyBeach() {
@@ -238,6 +237,10 @@ void AProjectSailorCharacter::HitComponentAbility() {
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
 			End.Z = End.Z + 100;
 
+			FTransform SpawnTransform = GetActorTransform();
+			// SpawnTransform.SetLocation(Start);
+			ABulletVFXPlayerHit* Bullet = GetWorld()->SpawnActor<ABulletVFXPlayerHit>(BulletClass,SpawnTransform);
+
 			//niagara effect
 			UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
 							GetWorld(),
@@ -259,31 +262,7 @@ void AProjectSailorCharacter::HitComponentAbility() {
 		}
 
 		
-		if(HitParticleSystem_Cascade)
-		{
-			FVector Start = StaffComponent->Octopus->GetComponentLocation();
-			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
-			End.Z = End.Z + 100;
-			
-			//cascade effect
-			UParticleSystemComponent* CascadeComponent = UGameplayStatics::SpawnEmitterAtLocation(
-				GetWorld(),
-				HitParticleSystem_Cascade,
-				Start,
-				FRotator::ZeroRotator,
-				FVector(1.0f)
-			);
-
-			if (CascadeComponent)
-			{
-				FTimerHandle TimerHandle;
-				GetWorld()->GetTimerManager().SetTimer(TimerHandle, [CascadeComponent]()
-				{
-					CascadeComponent->Deactivate();
-					CascadeComponent->DestroyComponent();
-				}, 1.0f, false);
-			}
-		}
+		
 	}
 	
 }
