@@ -3,7 +3,11 @@
 
 #include "BulletVFXPlayerHit.h"
 
+#include "ProjectSailorCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
+
+
 
 ABulletVFXPlayerHit::ABulletVFXPlayerHit() {
 	PrimaryActorTick.bCanEverTick = true;
@@ -24,7 +28,14 @@ ABulletVFXPlayerHit::ABulletVFXPlayerHit() {
 
 void ABulletVFXPlayerHit::BeginPlay() {
 	Super::BeginPlay();
+	//initial position player
+	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	FVector Location = PlayerCharacter->GetActorLocation();
+
+	// Calcula la dirección inicial del movimiento
+	InitDirection = PlayerCharacter->GetActorForwardVector();
 	
+	SetActorLocation(Location);
 }
 
 void ABulletVFXPlayerHit::Tick(float DeltaTime)
@@ -32,13 +43,13 @@ void ABulletVFXPlayerHit::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// Move the bullet forward
-	FVector Location = GetActorLocation();
-	Location += FVector(Velocity, 0.0f, 0.0f) * DeltaTime;
-	SetActorLocation(Location);
-
+	FVector CurrentLocation = GetActorLocation();
+	FVector NewLocation = CurrentLocation + InitDirection * Velocity * DeltaTime;
+	SetActorLocation(NewLocation);
+	
 	// Decrease the bullet's lifetime
 	Lifetime -= DeltaTime;
-
+	
 	// Destroy the bullet if its lifetime is over
 	if (Lifetime <= 0.0f)
 	{

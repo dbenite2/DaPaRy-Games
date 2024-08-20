@@ -28,6 +28,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UParticleSystemComponent* ParticleSystem;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	FVector InitDirection;
+
 public:	
 	virtual void Tick(float DeltaTime) override;
 
