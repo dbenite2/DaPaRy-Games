@@ -32,6 +32,8 @@ void ABulletVFXPlayerHit::BeginPlay() {
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	FVector Location = PlayerCharacter->GetActorLocation();
 
+	// Calcula la dirección inicial del movimiento
+	InitDirection = PlayerCharacter->GetActorForwardVector();
 	
 	SetActorLocation(Location);
 }
@@ -42,8 +44,7 @@ void ABulletVFXPlayerHit::Tick(float DeltaTime)
 
 	// Move the bullet forward
 	FVector CurrentLocation = GetActorLocation();
-	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	FVector NewLocation = CurrentLocation + PlayerCharacter->GetActorForwardVector() * Velocity * DeltaTime;
+	FVector NewLocation = CurrentLocation + InitDirection * Velocity * DeltaTime;
 	SetActorLocation(NewLocation);
 	
 	// Decrease the bullet's lifetime
