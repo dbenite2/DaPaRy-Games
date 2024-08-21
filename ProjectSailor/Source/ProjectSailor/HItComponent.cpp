@@ -58,7 +58,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 	FVector LineTraceStart = StartLocation + ForwardVector * 100.f;
 
 	// Define the end location of the raycast based on camera direction
-	FVector LineTraceEnd = LineTraceStart + CameraRotation.Vector() * 1000.f; // Adjust this value as needed
+	FVector LineTraceEnd = LineTraceStart + CameraRotation.Vector() * 1500.f; // Adjust this value as needed
 
 	// Setup collision parameters
 	FCollisionQueryParams LineCollisionParams;
@@ -74,16 +74,16 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 	FCollisionQueryParams(TEXT("Trace"), false, PlayerCharacter)
 	);
 
-	DrawDebugLine(
-	GetWorld(),
-	LineTraceStart,
-	LineTraceEnd,
-	FColor::Red,
-	false,
-	1.0f,
-	0,
-	1.0f
-	);
+	// DrawDebugLine(
+	// GetWorld(),
+	// LineTraceStart,
+	// LineTraceEnd,
+	// FColor::Red,
+	// false,
+	// 1.0f,
+	// 0,
+	// 1.0f
+	// );
 
 	if(bHit)
 	{

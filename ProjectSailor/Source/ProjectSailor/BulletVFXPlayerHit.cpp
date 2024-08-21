@@ -21,9 +21,9 @@ ABulletVFXPlayerHit::ABulletVFXPlayerHit() {
 	ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem"));
 	ParticleSystem->SetupAttachment(DefaultSceneRoot);
 	
-	Velocity = 3500.0f;
+	Velocity = 5000.0f;
 	
-	Lifetime = 0.5f;
+	Lifetime = 0.75f;
 }
 
 void ABulletVFXPlayerHit::BeginPlay() {
@@ -41,7 +41,7 @@ void ABulletVFXPlayerHit::BeginPlay() {
 	FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
 
 	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
-	FVector LineTraceStart = Location + ForwardVector * 100.f;
+	FVector LineTraceStart = Location + ForwardVector;
 
 	// Calculate the direction of the bullet based on camera rotation
 	FVector Direction = FRotator(CameraRotation.Pitch, CameraRotation.Yaw, CameraRotation.Roll).Vector();
