@@ -30,7 +30,7 @@ void ABulletVFXPlayerHit::BeginPlay() {
 	Super::BeginPlay();
 	//initial position player
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	FVector Location = PlayerCharacter->GetActorLocation();
+	FVector Location =PlayerCharacter->positionBaculoCharacter;
 
 	// Calcula la dirección inicial del movimiento
 	InitDirection = PlayerCharacter->GetActorForwardVector();

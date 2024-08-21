@@ -233,6 +233,7 @@ void AProjectSailorCharacter::HitComponentAbility() {
 		if(HitParticleSystem)
 		{
 			FVector Start = StaffComponent->Octopus->GetComponentLocation();
+			positionBaculoCharacter = Start;
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
 			End.Z = End.Z + 100;
 
