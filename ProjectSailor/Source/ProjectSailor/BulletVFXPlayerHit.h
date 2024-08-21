@@ -31,6 +31,9 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	FVector InitDirection;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	FRotator CameraRotation;
+
 public:	
 	virtual void Tick(float DeltaTime) override;
 
