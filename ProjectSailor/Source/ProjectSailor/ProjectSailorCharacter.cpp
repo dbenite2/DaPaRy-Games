@@ -228,7 +228,13 @@ void AProjectSailorCharacter::HitComponentAbility() {
 		StaffComponent->PlayAnimMontage();
 		UCameraComponent* camera = GetFollowCamera();
 		AActor* player = GetOwner();
-		hitComponent->HitAbility(camera, player);
+
+		FTransform SpawnTransform = GetActorTransform();
+		// SpawnTransform.SetLocation(Start);
+		ABulletVFXPlayerHit* Bullet = GetWorld()->SpawnActor<ABulletVFXPlayerHit>(BulletClass,SpawnTransform);
+		// Get the player controller
+		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+		hitComponent->HitAbility(camera, player, Bullet,PlayerController);
 
 		if(HitParticleSystem)
 		{
@@ -237,10 +243,7 @@ void AProjectSailorCharacter::HitComponentAbility() {
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
 			End.Z = End.Z + 100;
 
-			FTransform SpawnTransform = GetActorTransform();
-			// SpawnTransform.SetLocation(Start);
-			ABulletVFXPlayerHit* Bullet = GetWorld()->SpawnActor<ABulletVFXPlayerHit>(BulletClass,SpawnTransform);
-
+			
 			//niagara effect
 			UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
 							GetWorld(),

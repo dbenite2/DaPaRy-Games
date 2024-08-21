@@ -36,10 +36,11 @@ protected:
 
 public:	
 	virtual void Tick(float DeltaTime) override;
+	float Lifetime;
 
 private:
 
 	float Velocity;
-	float Lifetime;
+
 
 };

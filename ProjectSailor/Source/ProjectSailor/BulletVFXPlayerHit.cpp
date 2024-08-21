@@ -23,7 +23,7 @@ ABulletVFXPlayerHit::ABulletVFXPlayerHit() {
 	
 	Velocity = 3500.0f;
 	
-	Lifetime = 1.0f;
+	Lifetime = 0.5f;
 }
 
 void ABulletVFXPlayerHit::BeginPlay() {
