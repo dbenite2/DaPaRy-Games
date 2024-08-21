@@ -21,9 +21,9 @@ ABulletVFXPlayerHit::ABulletVFXPlayerHit() {
 	ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleSystem"));
 	ParticleSystem->SetupAttachment(DefaultSceneRoot);
 	
-	Velocity = 1000.0f;
+	Velocity = 3500.0f;
 	
-	Lifetime = 10.0f;
+	Lifetime = 1.0f;
 }
 
 void ABulletVFXPlayerHit::BeginPlay() {

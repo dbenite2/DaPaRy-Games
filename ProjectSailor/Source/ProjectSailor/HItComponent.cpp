@@ -75,16 +75,16 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player)
 	FCollisionQueryParams(TEXT("Trace"), false, PlayerCharacter)
 	);
 
-	// DrawDebugLine(
-	// GetWorld(),
-	// LineTraceStart,
-	// LineTraceEnd,
-	// FColor::Red,
-	// false,
-	// 1.0f,
-	// 0,
-	// 1.0f
-	// );
+	DrawDebugLine(
+	GetWorld(),
+	LineTraceStart,
+	LineTraceEnd,
+	FColor::Red,
+	false,
+	1.0f,
+	0,
+	1.0f
+	);
 
 	if(bHit)
 	{
