@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BulletVFXPlayerHit.h"
 #include "IDamageable.h"
 #include "MushroomButtonActor.h"
 #include "Camera/CameraComponent.h"
@@ -28,7 +29,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION() void HitAbility(UCameraComponent* Camera, AActor* Player);
+	UFUNCTION() void HitAbility(UCameraComponent* Camera, AActor* Player, ABulletVFXPlayerHit* bullet, APlayerController* playerController);
 
 	UPROPERTY()
 	FHitResult HitScore;

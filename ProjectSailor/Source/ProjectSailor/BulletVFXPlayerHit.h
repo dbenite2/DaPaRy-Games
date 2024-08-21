@@ -31,12 +31,19 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	FVector InitDirection;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	FRotator CameraRotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
+	UParticleSystem* HitParticleSystemWhenDestroys {nullptr};
+
 public:	
 	virtual void Tick(float DeltaTime) override;
+	float Lifetime;
 
 private:
 
 	float Velocity;
-	float Lifetime;
+
 
 };

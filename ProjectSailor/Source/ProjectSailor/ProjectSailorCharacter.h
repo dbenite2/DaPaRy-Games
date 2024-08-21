@@ -155,6 +155,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	TSubclassOf<ABulletVFXPlayerHit> BulletClass;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FVector positionBaculoCharacter;
 	
 	
 	UFUNCTION()
