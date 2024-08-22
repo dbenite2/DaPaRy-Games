@@ -39,6 +39,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess="true"), Category="Components")
 	float TargetZ;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess="true"), Category="Components")
+	float timerHold = 14.0f;
+
+	FTimerHandle DespawnTimerHandle;
+
 	UFUNCTION()
 	void Despawn();
 
