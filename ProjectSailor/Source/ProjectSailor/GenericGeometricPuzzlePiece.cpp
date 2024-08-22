@@ -107,6 +107,15 @@ void AGenericGeometricPuzzlePiece::OnOverlapBegin(UPrimitiveComponent* Overlappe
 					PlayerPosition.Y = InitialPosition.Y;
 					PlayerPosition.Z = InitialPosition.Z + 100.f;
 
+					for (AMushroomActor* MushroomActor : MushroomActors)
+					{
+						if (MushroomActor)
+						{
+							MushroomActor->GetWorld()->GetTimerManager().ClearTimer(MushroomActor->DespawnTimerHandle);
+							MushroomActor->Despawn();
+						}
+					}
+
 					OtherActor->SetActorLocation(PlayerPosition);
 				}
 			}

@@ -54,8 +54,8 @@ void AMushroomActor::Tick(float DeltaTime)
 
 			if(IsHit)
 			{
-				FTimerHandle DespawnTimerHandle;
-				GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle, this, &AMushroomActor::Despawn, 14.0f, false);
+				// FTimerHandle DespawnTimerHandle;
+				GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle, this, &AMushroomActor::Despawn, timerHold, false);
 			}
 			
 		}
@@ -73,8 +73,8 @@ void AMushroomActor::Despawn()
 		endParticleSystem->SetVisibility(true);
 		endParticleSystem->Activate(true); // Activa el sistema de partículas
 
-		FTimerHandle DespawnTimerHandle;
-		GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle, this, &AMushroomActor::SetVisibilityActor, 0.5f, false);
+		FTimerHandle DespawnTimerHandle2;
+		GetWorld()->GetTimerManager().SetTimer(DespawnTimerHandle2, this, &AMushroomActor::SetVisibilityActor, 0.5f, false);
 	}	
 }
 

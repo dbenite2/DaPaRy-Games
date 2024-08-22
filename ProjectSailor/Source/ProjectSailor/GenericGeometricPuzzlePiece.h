@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MushroomActor.h"
 #include "GameFramework/Actor.h"
 #include "GenericGeometricPuzzlePiece.generated.h"
 
@@ -41,6 +42,9 @@ public:
 
 	UPROPERTY(EditAnywhere,  Category = "Spawn")
 	bool isSpawnLevelPlatform;
+
+	UPROPERTY(EditAnywhere,  Category = "Mushroom")
+	TArray<AMushroomActor*> MushroomActors;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
