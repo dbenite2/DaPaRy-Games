@@ -13,6 +13,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "InteractionComponent.h"
+#include "KeyBeach.h"
 #include "MyAudioSubsystemActor.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
@@ -91,8 +92,7 @@ void AProjectSailorCharacter::BeginPlay() {
 void AProjectSailorCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if(ObjectComponent)
-	{
+	if(ObjectComponent) {
 		FVector ActorLocation = StaffComponent->Octopus->GetComponentLocation();
 		FVector CameraforwardVector = GetFollowCamera()->GetForwardVector() * 300.f;
 		
@@ -142,10 +142,8 @@ void AProjectSailorCharacter::InteractMethod() {
 }
 
 void AProjectSailorCharacter::GrapAndDragMethodPress() {
-	if(baculoIsActive)
-	{
-		if(!IsHolding)
-		{
+	if(baculoIsActive) {
+		if(!IsHolding) {
 			UWorld* World = GetWorld();
 			FVector Start = StaffComponent->Octopus->GetComponentLocation();
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1500;
@@ -160,42 +158,61 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 				ECollisionChannel::ECC_Pawn,
 				FCollisionQueryParams(TEXT("Trace"), false, this)
 			);
+
+			// We keep this debug draw until we have a reticle or a more reliable aim system
+			DrawDebugLine(
+				World,
+				Start,
+				End,
+				FColor::Green,  
+				false,          
+				5.0f,           
+				0,              
+				2.0f            
+			);
 			
-			if(bHit)
-			{
+			if(bHit) {
 				GrabbedObject = Cast<APickable_Object>(HitResult.GetActor());
+				Key = Cast<AKeyBeach>(HitResult.GetActor());
 				//sound grab
 				AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
 				AudioSubsystemActor->PlaySFX1("grab");
-				if(GrabbedObject)
-				{
+				if(GrabbedObject) {
 					ObjectComponent = HitResult.GetComponent();
 					GrabbedObject->PickedObject();
 					PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
 					IsHolding = true;
 				}
+				if(Key) {
+					ObjectComponent = HitResult.GetComponent();
+					Key->PickedObject();
+					PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
+					IsHolding = true;
+				}
 			}
-		}
-		else
-		{
+		} else {
 			//sound drop
 			AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
 			AudioSubsystemActor->PlaySFX2("drop");
 			ObjectComponent->SetPhysicsLinearVelocity(FVector::ZeroVector);
 			ObjectComponent->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
-			
+			if (GrabbedObject) {
+				GrabbedObject->DropObject(); 
+				GrabbedObject = nullptr;
+				ObjectComponent = nullptr;
+			}
+			if (Key) {
+				Key->DropObject();
+				Key = nullptr;
+				ObjectComponent = nullptr;
+			}
 			PhysicsHandle->ReleaseComponent();
-			GrabbedObject->DropObject(); 
-			GrabbedObject = nullptr;
-			ObjectComponent = nullptr;
 			IsHolding = false;
 		}
 	}
 
-	if(HitParticleSystem)
-	{
-		if(!StaffComponent && baculoIsActive)
-		{
+	if(HitParticleSystem) {
+		if(!StaffComponent && baculoIsActive) {
 			FVector Start = StaffComponent->Octopus->GetComponentLocation();
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
 			End.Z = End.Z + 100;
@@ -208,23 +225,19 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 							FVector(1.0f)
 						);
 
-			if (NiagaraComponent)
-			{
+			if (NiagaraComponent) {
 				FTimerHandle TimerHandle;
-				GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]()
-				{
+				GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]() {
 					NiagaraComponent->Deactivate();
 					NiagaraComponent->DestroyComponent();
 				}, 1.0f, false);
 			}
 		}
-		
 	}
 }
 
 void AProjectSailorCharacter::HitComponentAbility() {
-	if(baculoIsActive)
-	{
+	if(baculoIsActive) {
 		StaffComponent->PlayAnimMontage();
 		UCameraComponent* camera = GetFollowCamera();
 		AActor* player = GetOwner();
@@ -236,8 +249,7 @@ void AProjectSailorCharacter::HitComponentAbility() {
 		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 		hitComponent->HitAbility(camera, player, Bullet,PlayerController);
 
-		if(HitParticleSystem)
-		{
+		if(HitParticleSystem) {
 			FVector Start = StaffComponent->Octopus->GetComponentLocation();
 			positionBaculoCharacter = Start;
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
@@ -253,8 +265,7 @@ void AProjectSailorCharacter::HitComponentAbility() {
 							FVector(1.0f)
 						);
 
-			if (NiagaraComponent)
-			{
+			if (NiagaraComponent) {
 				FTimerHandle TimerHandle;
 				GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]()
 				{
@@ -263,11 +274,7 @@ void AProjectSailorCharacter::HitComponentAbility() {
 				}, 1.0f, false); 
 			}
 		}
-
-		
-		
 	}
-	
 }
 
 //////////////////////////////////////////////////////////////////////////

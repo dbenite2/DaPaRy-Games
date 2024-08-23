@@ -48,10 +48,10 @@ private:
 	
 	int32 CurrentTextIndex;
 
-	UPROPERTY(EditAnywhere)
-	int32 MaxEntryTimes{1};
-
-	int32 EntryTimes{0};
+	bool State1Read{false};
+	bool State2Read{false};
+	bool State3Read{false};
+	int32 CurrentReadState{1};
 
 	UPROPERTY()
 	TArray<FText> CurrentDialogSet;

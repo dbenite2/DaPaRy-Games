@@ -27,8 +27,7 @@ ADialogueNPCCharacter::ADialogueNPCCharacter() {
 
 void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-
-	if (EntryTimes >= MaxEntryTimes && MaxEntryTimes > 0) return;
+	
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
 	USailorInstance* GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(this));
 	
@@ -39,6 +38,10 @@ void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, 
 		SetUpEventSubscription(PlayerCharacter);
 		CurrentDialogSet.Empty();
 		SetCurrentDialogSet(CurrentState);
+
+		if (CurrentReadState == 1 && State1Read) return;
+		if (CurrentReadState == 2 && State2Read) return;
+		if (CurrentReadState == 3 && State3Read) return;
 
 		// Take the player movement reference and disable it if the bool is true
 		if (bBlockMovementUntilFinished) {
@@ -97,10 +100,20 @@ void ADialogueNPCCharacter::ChangeToNextText() {
 	CurrentTextIndex++;
 
 	if (CurrentTextIndex >= CurrentDialogSet.Num()) {
-		if (MaxEntryTimes > 0) {
-			EntryTimes++;
-		}
 		SetWidget(false);
+		switch (CurrentReadState) {
+			case 1:
+				State1Read = true;
+				break;
+			case 2:
+				State2Read = true;
+				break;
+			case 3:
+				State3Read = true;
+				break;
+			default:
+				break;
+		}
 		// release character movement
 		if (CharacterMovementRef) {
 			CharacterMovementRef->SetMovementMode(MOVE_Walking);	
@@ -116,18 +129,21 @@ void ADialogueNPCCharacter::ChangeToNextText() {
 
 void ADialogueNPCCharacter::SetCurrentDialogSet(FLevelStatus PlayerStatus) {
 	if (PlayerStatus.bInitial) {
+		CurrentReadState = 1;
 		if (Dialogs->ObjectsArray.IsValidIndex(0)) {
 			CurrentDialogSet = Dialogs->ObjectsArray[0].Texts;
 			return;
 		}
 	}
 	if (PlayerStatus.bGoal1Complete && !PlayerStatus.bGoal2Complete) {
+		CurrentReadState = 2;
 		if (Dialogs->ObjectsArray.IsValidIndex(1)) {
 			CurrentDialogSet = Dialogs->ObjectsArray[1].Texts;
 			return;
 		}
 	}
 	if (PlayerStatus.bGoal2Complete) {
+		CurrentReadState = 3;
 		if (Dialogs->ObjectsArray.IsValidIndex(2)) {
 			CurrentDialogSet = Dialogs->ObjectsArray[2].Texts;
 		}

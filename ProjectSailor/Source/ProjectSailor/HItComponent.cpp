@@ -34,8 +34,7 @@ void UHItComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABulletVFXPlayerHit* bullet, APlayerController* PlayerController)
-{
+void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABulletVFXPlayerHit* bullet, APlayerController* PlayerController) {
 	UWorld* World = GetWorld();
 	// Get the player controller
 	if (!PlayerController) return;
@@ -85,52 +84,42 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 	// 1.0f
 	// );
 
-	if(bHit)
-	{
+	if(bHit) {
 		AActor* HitObject = HitResult.GetActor();
 
-		if(HitObject)
-		{
+		if(HitObject) {
 			// Agregar delay de lifeTime bullet
 			FTimerHandle HitTimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(HitTimerHandle, [this, Camera, Player, HitObject]()
-		   {
+			GetWorld()->GetTimerManager().SetTimer(HitTimerHandle, [this, Camera, Player, HitObject]() {
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Hit Object: %s"), *HitObject->GetName()));
 
 				 // Check if the hit object implements the InteractionInterface
-				 if (HitObject->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
-				 {
+				 if (HitObject->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass())) {
 					 //sound Hit
 					 AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
 					 AudioSubsystemActor->PlaySFX2("tentaculo1");
-						 // Cast the HitObject to KeyBeach and call ActivateKeyPhysics if the cast is successful
-						 AKeyBeach* KeyBeachActor = Cast<AKeyBeach>(HitObject);
-						 if(KeyBeachActor)
-						 {
-							 KeyBeachActor->Interact_Implementation();
-						 }
+					 // Cast the HitObject to KeyBeach and call ActivateKeyPhysics if the cast is successful
+					 AKeyBeach* KeyBeachActor = Cast<AKeyBeach>(HitObject);
+					 if(KeyBeachActor) {
+						 KeyBeachActor->Interact_Implementation();
+					 }
 				 }
 				
 				 IIDamageable* DamageableActor = Cast<IIDamageable>(HitObject);
-				 if (DamageableActor)
-				 {
+				 if (DamageableActor) {
 					 DamageableActor->TakeDamage();
 				 }
 
 				 AMushroomButtonActor* MushroomButton = Cast<AMushroomButtonActor>(HitObject);
-				 if(MushroomButton)
-				 {
+				 if(MushroomButton) {
 					 MushroomButton->SpawnMushroom();
 				 }
 
 				 AButtonSpawnActor* SpawnActorButton = Cast<AButtonSpawnActor>(HitObject);
-				 if(SpawnActorButton)
-				 {
+				 if(SpawnActorButton) {
 					 SpawnActorButton->SpawnActor();
 				 }
-				
 		   }, bullet->Lifetime, false);
-
 		}
 	}
 }

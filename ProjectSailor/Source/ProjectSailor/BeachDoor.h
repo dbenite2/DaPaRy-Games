@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InteractablePressInterface.h"
 #include "GameFramework/Actor.h"
 #include "BeachDoor.generated.h"
 
@@ -10,7 +11,7 @@ enum ParticleSystemLODMethod : int;
 class UBoxComponent;
 class AMyAudioSubsystemActor;
 UCLASS()
-class PROJECTSAILOR_API ABeachDoor : public AActor {
+class PROJECTSAILOR_API ABeachDoor : public AActor, public IInteractablePressInterface {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly)
@@ -60,7 +61,8 @@ class PROJECTSAILOR_API ABeachDoor : public AActor {
 	
 	UPROPERTY(EditDefaultsOnly, Category="Effects")
 	UParticleSystem* ParticleSystem{nullptr};
-	
+
+	void ActivateDoors();
 	
 	float TimeCounter{0.f};
 	
@@ -70,7 +72,14 @@ class PROJECTSAILOR_API ABeachDoor : public AActor {
 	
 public:	
 	ABeachDoor();
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moving")
+	FName InteractTag;
+	
 	virtual void Tick(float DeltaTime) override;
+
+	virtual FName GetInteractTag_Implementation() override;
+	virtual void Interact_Implementation(bool bInteractive) override;
 
 protected:
 	virtual void BeginPlay() override;

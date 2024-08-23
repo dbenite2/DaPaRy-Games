@@ -13,8 +13,7 @@ class USailorInstance;
 class AMyAudioSubsystemActor;
 
 UCLASS()
-class PROJECTSAILOR_API AKeyBeach : public AActor,  public IInteractionInterface
-{
+class PROJECTSAILOR_API AKeyBeach : public AActor,  public IInteractionInterface {
 	GENERATED_BODY()
     
 public:    
@@ -46,6 +45,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* KeyMesh{nullptr};
+
+	UFUNCTION()
+	void PickedObject();
+
+	UFUNCTION()
+	void DropObject();
 	
 	void ActivateKeyPhysics();
 
