@@ -121,7 +121,10 @@ public:
 	bool GetBaculoIsActive();
 
 	UPROPERTY()
-	APickable_Object* GrabbedObject = nullptr;
+	APickable_Object* GrabbedObject{nullptr};
+
+	UPROPERTY()
+	AKeyBeach* Key{nullptr};
 
 	UPROPERTY()
 	UPrimitiveComponent* ObjectComponent;

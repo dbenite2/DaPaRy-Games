@@ -9,9 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SailorInstance.h"
 
-// Sets default values
-AKeyBeach::AKeyBeach()
-{
+AKeyBeach::AKeyBeach() {
 	// Set this actor to call Tick() every frame
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -31,13 +29,9 @@ AKeyBeach::AKeyBeach()
 	SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AKeyBeach::OnOverlapBegin);
 }
 
-// Called when the game starts or when spawned
-void AKeyBeach::BeginPlay()
-{
+void AKeyBeach::BeginPlay() {
 	Super::BeginPlay();
-	// Obtener el material asignado al objeto
 	MaterialInterface = KeyMesh->GetMaterial(0);
-	// Llamar a la función de parpadeo cada cierto intervalo de tiempo
 	GetWorldTimerManager().SetTimer(TimerHandle_Blink, this, &AKeyBeach::BlinkEffect, 0.5f, true);
 	GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(this));
 }
@@ -47,20 +41,6 @@ void AKeyBeach::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
 	if (OtherActor && (OtherActor != this)) {
 		FString CurrentLevelName = GetWorld()->GetMapName();
 		CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
-		//if it has physics, the hit has been done and if the overlap is the player
-		if(hasPhysics) {
-			AProjectSailorCharacter* SailorCharacter = Cast<AProjectSailorCharacter>(OtherActor);
-			if (SailorCharacter && GameManager) {
-				GameManager->SetCurrentLevelStatus(CurrentLevelName, 2);
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Key Taken")));
-				SetActorHiddenInGame(true);
-				SetActorEnableCollision(false);
-				//sound keyTaken
-				// Obtiene el actor de audio y detiene cualquier sonido pendiente
-				AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-				AudioSubsystemActor->PlaySFX1("keyTaken");
-			}
-		}
 	}
 }
 
@@ -72,7 +52,6 @@ void AKeyBeach::Tick(float DeltaTime) {
 void AKeyBeach::ActivateKeyPhysics() {
 	KeyMesh->SetSimulatePhysics(true);
 	hasPhysics = true;
-	//sound hit
 	AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
 	AudioSubsystemActor->PlaySFX1("hitAttackMagic2");
 }
@@ -118,3 +97,24 @@ void AKeyBeach::ModifyCableComponent() {
 		CableComponent->bAttachEnd = false;
 	}
 }
+
+void AKeyBeach::PickedObject() {
+	FString CurrentLevelName = GetWorld()->GetMapName();
+	CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+	//if it has physics, the hit has been done and if the overlap is the player
+		if (GameManager) {
+			GameManager->SetCurrentLevelStatus(CurrentLevelName, 2);
+			//sound keyTaken
+			AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+			AudioSubsystemActor->PlaySFX1("keyTaken");
+		}
+	KeyMesh->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+	KeyMesh->SetAngularDamping(5.f);
+}
+
+void AKeyBeach::DropObject() {
+	KeyMesh->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+	KeyMesh->SetAngularDamping(0.05f);
+}
+
+

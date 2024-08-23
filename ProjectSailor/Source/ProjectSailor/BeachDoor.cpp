@@ -87,23 +87,32 @@ void ABeachDoor::Tick(float DeltaTime) {
 
 }
 
+FName ABeachDoor::GetInteractTag_Implementation() {
+	return InteractTag;
+}
+
+void ABeachDoor::Interact_Implementation(bool bInteractive) {
+	ActivateDoors();
+}
+
 void ABeachDoor::OnTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	AProjectSailorCharacter* Player = Cast<AProjectSailorCharacter>(OtherActor);
+	
+}
+
+void ABeachDoor::ActivateDoors() {
 	USailorInstance* GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(this));
 	FString CurrentLevelName = GetWorld()->GetMapName();
 	CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
-	if (Player) {
-		if (GameManager->GetCurrentLevelStatus(CurrentLevelName).bGoal2Complete) {
-			bActivateDoors = true;
-			RightDoorParticle->SetVisibility(true);
-			RightDoorParticle->ActivateSystem();
-			LeftDoorParticle->SetVisibility(true);
-			LeftDoorParticle->ActivateSystem();
-			GameManager->SetCurrentLevelStatus(CurrentLevelName, 0);
-			//sound openDoor
-			AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-			AudioSubsystemActor->PlaySFX1("stoneDoor");
-		}
-	}
+		bActivateDoors = true;
+		RightDoorParticle->SetVisibility(true);
+		RightDoorParticle->ActivateSystem();
+		LeftDoorParticle->SetVisibility(true);
+		LeftDoorParticle->ActivateSystem();
+		GameManager->SetCurrentLevelStatus(CurrentLevelName, 0);
+		//sound openDoor
+		AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+		AudioSubsystemActor->PlaySFX1("stoneDoor");
+	
 }
 
