@@ -43,21 +43,21 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(PlayerController->GetPawn());
 	if (!PlayerCharacter) return;
 
-	// Get player's view point
-	FVector CameraLocation;
-	FRotator CameraRotation;
-	PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
+	// Get the screen center
+	int32 ViewportSizeX, ViewportSizeY;
+	PlayerController->GetViewportSize(ViewportSizeX, ViewportSizeY);
+	FVector2D ScreenCenter(ViewportSizeX / 2.0f, ViewportSizeY / 2.0f);
 
-	// Get player's forward vector and location
-	FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
+	// Convert screen position to world position and direction
+	FVector WorldLocation, WorldDirection;
+	PlayerController->DeprojectScreenPositionToWorld(ScreenCenter.X, ScreenCenter.Y, WorldLocation, WorldDirection);
+
+	// Get the start raycast location
 	FVector StartLocation = PlayerCharacter->StaffComponent->Octopus->GetComponentLocation();
-
-	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
+	
 	// TODO: Set value as a parameter in class
-	FVector LineTraceStart = StartLocation + ForwardVector * 100.f;
-
 	// Define the end location of the raycast based on camera direction
-	FVector LineTraceEnd = LineTraceStart + CameraRotation.Vector() * 1500.f; // Adjust this value as needed
+	FVector LineTraceEnd = StartLocation + WorldDirection * 1500.f; // Adjust this value as needed
 
 	// Setup collision parameters
 	FCollisionQueryParams LineCollisionParams;
@@ -67,22 +67,22 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 	FHitResult HitResult;	
 	bool bHit = GetWorld()->LineTraceSingleByChannel(
 	HitResult,                      
-	LineTraceStart,                 
+	StartLocation,                 
 	LineTraceEnd,                   
 	ECollisionChannel::ECC_Visibility, 
 	FCollisionQueryParams(TEXT("Trace"), false, PlayerCharacter)
 	);
 
-	// DrawDebugLine(
-	// GetWorld(),
-	// LineTraceStart,
-	// LineTraceEnd,
-	// FColor::Red,
-	// false,
-	// 1.0f,
-	// 0,
-	// 1.0f
-	// );
+	DrawDebugLine(
+	GetWorld(),
+	StartLocation,
+	LineTraceEnd,
+	FColor::Red,
+	false,
+	1.0f,
+	0,
+	1.0f
+	);
 
 	if(bHit) {
 		AActor* HitObject = HitResult.GetActor();

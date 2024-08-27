@@ -87,6 +87,15 @@ void AProjectSailorCharacter::BeginPlay() {
 	}
 	
 	PlayCharacterMontage(AnimationMontage);
+
+	if (CrosshairWidgetClass) // Asegúrate de que esta variable esté configurada en el Editor o en código.
+	{
+		UUserWidget* CrosshairWidget = CreateWidget<UUserWidget>(Cast<APlayerController>(Controller), CrosshairWidgetClass);
+		if (CrosshairWidget)
+		{
+			CrosshairWidget->AddToViewport();
+		}
+	}
 }
 
 void AProjectSailorCharacter::Tick(float DeltaTime)
