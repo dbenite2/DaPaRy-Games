@@ -8,6 +8,7 @@
 #include "Logging/LogMacros.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Pickable_Object.h"
+#include "Blueprint/UserWidget.h"
 #include "ProjectSailorCharacter.generated.h"
 
 class UNiagaraSystem;
@@ -160,6 +161,9 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FVector positionBaculoCharacter;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<class UUserWidget> CrosshairWidgetClass;
 	
 	
 	UFUNCTION()
