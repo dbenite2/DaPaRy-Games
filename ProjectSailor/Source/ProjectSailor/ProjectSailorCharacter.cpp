@@ -154,7 +154,19 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 	if(baculoIsActive) {
 		if(!IsHolding) {
 			UWorld* World = GetWorld();
-			FVector Start = StaffComponent->Octopus->GetComponentLocation();
+
+			APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+			int32 ViewportSizeX, ViewportSizeY;
+			PlayerController->GetViewportSize(ViewportSizeX, ViewportSizeY);
+			FVector2D ScreenCenter(ViewportSizeX / 2.0f, ViewportSizeY / 2.0f);
+
+			// Convert screen position to world position and direction
+			FVector WorldLocation, WorldDirection;
+			PlayerController->DeprojectScreenPositionToWorld(ScreenCenter.X, ScreenCenter.Y, WorldLocation, WorldDirection);
+	
+			// TODO: Set value as a parameter in class
+			// Define the end location of the raycast based on camera direction
+			FVector Start = PlayerController->PlayerCameraManager->GetCameraLocation();
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1500;
 			
 			StaffComponent->PlayAnimMontage();

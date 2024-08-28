@@ -52,12 +52,11 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 	FVector WorldLocation, WorldDirection;
 	PlayerController->DeprojectScreenPositionToWorld(ScreenCenter.X, ScreenCenter.Y, WorldLocation, WorldDirection);
 
-	// Get the start raycast location
-	FVector StartLocation = PlayerCharacter->StaffComponent->Octopus->GetComponentLocation();
 	
 	// TODO: Set value as a parameter in class
 	// Define the end location of the raycast based on camera direction
-	FVector LineTraceEnd = StartLocation + WorldDirection * 1500.f; // Adjust this value as needed
+	FVector Start = PlayerController->PlayerCameraManager->GetCameraLocation();
+	FVector LineTraceEnd = Start + WorldDirection * 1500.f; // Adjust this value as needed
 
 	// Setup collision parameters
 	FCollisionQueryParams LineCollisionParams;
@@ -67,7 +66,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 	FHitResult HitResult;	
 	bool bHit = GetWorld()->LineTraceSingleByChannel(
 	HitResult,                      
-	StartLocation,                 
+	Start,                 
 	LineTraceEnd,                   
 	ECollisionChannel::ECC_Visibility, 
 	FCollisionQueryParams(TEXT("Trace"), false, PlayerCharacter)
@@ -75,7 +74,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 
 	DrawDebugLine(
 	GetWorld(),
-	StartLocation,
+	Start,
 	LineTraceEnd,
 	FColor::Red,
 	false,
