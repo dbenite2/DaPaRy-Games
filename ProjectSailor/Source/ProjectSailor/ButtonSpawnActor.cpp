@@ -2,8 +2,11 @@
 
 
 #include "ButtonSpawnActor.h"
+#include "Kismet/GameplayStatics.h"
+#include "MyAudioSubsystemActor.h"
 #include "Components/BoxComponent.h"
 #include "Components/PointLightComponent.h"
+
 #include "UObject/ConstructorHelpers.h"
 
 // Sets default values
@@ -62,6 +65,10 @@ void AButtonSpawnActor::SpawnActor()
 		BP_ActorSpawnable->SetActorEnableCollision(true);
 		
 
+		//sound button
+		AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+		AudioSubsystemActor->PlaySFX1("hitAttackMagic2");
+		AudioSubsystemActor->PlaySFX3("tentaculo2");
 		//hide button
 		SetActorHiddenInGame(true);
 		SetActorEnableCollision(false);
