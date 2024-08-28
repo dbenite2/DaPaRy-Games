@@ -8,6 +8,7 @@
 
 class UBoxComponent;
 class UPointLightComponent;
+class AMyAudioSubsystemActor;
 UCLASS()
 class PROJECTSAILOR_API AButtonSpawnActor : public AActor
 {
