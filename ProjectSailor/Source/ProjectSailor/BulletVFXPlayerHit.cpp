@@ -30,30 +30,21 @@ void ABulletVFXPlayerHit::BeginPlay() {
 	Super::BeginPlay();
 	//camera rotation
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	FVector CameraLocation;
-	PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
+	// Get the screen center
+	int32 ViewportSizeX, ViewportSizeY;
+	PlayerController->GetViewportSize(ViewportSizeX, ViewportSizeY);
+	FVector2D ScreenCenter(ViewportSizeX / 2.0f, ViewportSizeY / 2.0f);
 
-	//initial position player
-	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	FVector Location = PlayerCharacter->positionBaculoCharacter;
+	// Convert screen position to world position and direction
+	FVector WorldLocation, WorldDirection;
+	PlayerController->DeprojectScreenPositionToWorld(ScreenCenter.X, ScreenCenter.Y, WorldLocation, WorldDirection);
 
-	// Get player's forward vector and location
-	FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
-
-	// Adjust the start location to be a bit in front of the player and a bit higher in the Y axis
-	FVector LineTraceStart = Location + ForwardVector;
-
-	// Calculate the direction of the bullet based on camera rotation
-	FVector Direction = FRotator(CameraRotation.Pitch, CameraRotation.Yaw, CameraRotation.Roll).Vector();
-
-	// Normalize the direction vector
-	Direction = Direction.GetSafeNormal();
 
 	// Set the initial direction of the bullet
-	InitDirection = Direction;
+	InitDirection = WorldDirection;
 
 	// Set the location of the bullet
-	SetActorLocation(LineTraceStart);
+	SetActorLocation(WorldLocation);
 
 	
 }
