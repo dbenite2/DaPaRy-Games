@@ -83,16 +83,13 @@ void AProjectSailorCharacter::BeginPlay() {
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-	
-	PlayCharacterMontage(AnimationMontage);
 
-	if (CrosshairWidgetClass) {
-		CrosshairWidget = CreateWidget<UUserWidget>(Cast<APlayerController>(Controller), CrosshairWidgetClass);
-		if (CrosshairWidget) {
-			CrosshairWidget->AddToViewport();
-			CrosshairWidget->SetVisibility(ESlateVisibility::Hidden);
-		}
-	}
+	// Crear un TimerHandle
+	FTimerHandle TimerHandle;
+
+	// Configurar el temporizador para llamar a LoadLevel después de 1 segundo
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectSailorCharacter::StartLevel, 10.0f, false);
+	
 }
 
 void AProjectSailorCharacter::Tick(float DeltaTime)
@@ -135,6 +132,19 @@ void AProjectSailorCharacter::CustomStopJumpingEvent() {
 	bIsJumping = false;
 }
 
+
+void AProjectSailorCharacter::StartLevel()
+{
+	PlayCharacterMontage(AnimationMontage);
+
+	if (CrosshairWidgetClass) {
+		CrosshairWidget = CreateWidget<UUserWidget>(Cast<APlayerController>(Controller), CrosshairWidgetClass);
+		if (CrosshairWidget) {
+			CrosshairWidget->AddToViewport();
+			CrosshairWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+}
 
 void AProjectSailorCharacter::InteractMethod() {
 
