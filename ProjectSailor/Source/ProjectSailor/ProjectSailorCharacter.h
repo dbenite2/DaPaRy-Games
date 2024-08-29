@@ -163,8 +163,10 @@ public:
 	FVector positionBaculoCharacter;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<class UUserWidget> CrosshairWidgetClass;
-	
+	TSubclassOf<UUserWidget> CrosshairWidgetClass;
+
+	UPROPERTY()
+	UUserWidget* CrosshairWidget{nullptr};
 	
 	UFUNCTION()
 	void CustomJumpingEvent();
@@ -200,8 +202,6 @@ private:
 	TSubclassOf<ABaculo> StaffClass;
 
 	void CheckLevelAndAttachStaff();
-
-
 	
 };
 

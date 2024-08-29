@@ -78,22 +78,19 @@ void AProjectSailorCharacter::BeginPlay() {
 
 	MoveCompRef = GetCharacterMovement();
 	//Add Input Mapping Context
-	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
+	if (APlayerController* PlayerController = Cast<APlayerController>(Controller)) {
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer())) {
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
 	
 	PlayCharacterMontage(AnimationMontage);
 
-	if (CrosshairWidgetClass) // Asegúrate de que esta variable esté configurada en el Editor o en código.
-	{
-		UUserWidget* CrosshairWidget = CreateWidget<UUserWidget>(Cast<APlayerController>(Controller), CrosshairWidgetClass);
-		if (CrosshairWidget)
-		{
+	if (CrosshairWidgetClass) {
+		CrosshairWidget = CreateWidget<UUserWidget>(Cast<APlayerController>(Controller), CrosshairWidgetClass);
+		if (CrosshairWidget) {
 			CrosshairWidget->AddToViewport();
+			CrosshairWidget->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
 }

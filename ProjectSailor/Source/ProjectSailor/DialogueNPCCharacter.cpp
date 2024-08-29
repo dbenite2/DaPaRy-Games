@@ -129,22 +129,22 @@ void ADialogueNPCCharacter::ChangeToNextText() {
 
 void ADialogueNPCCharacter::SetCurrentDialogSet(FLevelStatus PlayerStatus) {
 	if (PlayerStatus.bInitial) {
-		CurrentReadState = 1;
 		if (Dialogs->ObjectsArray.IsValidIndex(0)) {
+			CurrentReadState = 1;
 			CurrentDialogSet = Dialogs->ObjectsArray[0].Texts;
 			return;
 		}
 	}
 	if (PlayerStatus.bGoal1Complete && !PlayerStatus.bGoal2Complete) {
-		CurrentReadState = 2;
 		if (Dialogs->ObjectsArray.IsValidIndex(1)) {
+			CurrentReadState = 2;
 			CurrentDialogSet = Dialogs->ObjectsArray[1].Texts;
 			return;
 		}
 	}
 	if (PlayerStatus.bGoal2Complete) {
-		CurrentReadState = 3;
 		if (Dialogs->ObjectsArray.IsValidIndex(2)) {
+			CurrentReadState = 3;
 			CurrentDialogSet = Dialogs->ObjectsArray[2].Texts;
 		}
 	}

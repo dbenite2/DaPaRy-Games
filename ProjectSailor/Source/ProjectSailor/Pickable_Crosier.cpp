@@ -75,6 +75,10 @@ void APickable_Crosier::PickObject(AProjectSailorCharacter* PlayerCharacter) {
 		PlayerCharacter->SetBaculoIsActive(true);
 		PlayerCharacter->StaffComponent = baculoComponent;
 		PlayerCharacter->StaffComponent->Player = PlayerCharacter;
+		if (UUserWidget* PlayerCrosshairWidget = PlayerCharacter->CrosshairWidget) {
+			PlayerCrosshairWidget->SetVisibility(ESlateVisibility::Visible);
+		}
+		
 		Destroy();
 	}
 }
