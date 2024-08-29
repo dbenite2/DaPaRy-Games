@@ -3,8 +3,10 @@
 
 #include "Baculo.h"
 
+#include "HeadMountedDisplayTypes.h"
 #include "NiagaraComponent.h"
 #include "ProjectSailorCharacter.h"
+#include "SailorController.h"
 
 ABaculo::ABaculo()
 {
@@ -26,15 +28,13 @@ ABaculo::ABaculo()
 	ConnectionParticleComponent->SetAutoActivate(false);
 }
 
-void ABaculo::BeginPlay()
-{
+void ABaculo::BeginPlay() {
 	Super::BeginPlay();
 	Player = Cast<AProjectSailorCharacter>(GetOwner());
 	
 }
 
-void ABaculo::Tick(float DeltaTime)
-{
+void ABaculo::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 	if (Player) {
 		if (Player->IsHolding) {
