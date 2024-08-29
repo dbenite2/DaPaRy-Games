@@ -178,6 +178,13 @@ public:
 	UCharacterMovementComponent* GetMovRef() const {return MoveCompRef;}
 
 private:
+
+	UPROPERTY()
+	float timerToFinishCinematic = 10.0f;
+
+	UFUNCTION()
+	void StartLevel();
+	
 	UPROPERTY()
 	bool baculoIsActive{false};
 	
