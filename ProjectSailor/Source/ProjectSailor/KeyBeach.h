@@ -10,6 +10,7 @@
 #include "KeyBeach.generated.h"
 
 class USailorInstance;
+class UPointLightComponent;
 class AMyAudioSubsystemActor;
 
 UCLASS()
@@ -67,4 +68,7 @@ private:
 
 	UPROPERTY()
 	USailorInstance* GameManager{nullptr};
+
+	UPROPERTY(VisibleAnywhere)
+	UPointLightComponent* PointLight;
 };

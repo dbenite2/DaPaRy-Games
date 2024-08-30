@@ -8,6 +8,7 @@
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "SailorInstance.h"
+#include "Components/PointLightComponent.h"
 
 AKeyBeach::AKeyBeach() {
 	// Set this actor to call Tick() every frame
@@ -27,6 +28,14 @@ AKeyBeach::AKeyBeach() {
 	SphereCollider->SetGenerateOverlapEvents(true);
 
 	SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AKeyBeach::OnOverlapBegin);
+
+	//Create and attach the point light component
+	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight"));
+	PointLight->SetupAttachment(RootComponent);
+	PointLight->AttenuationRadius = 150.0f;
+	PointLight->SetRelativeLocation(FVector(0.f, 0.f, 0.f)); // Adjust the location as needed
+	PointLight->SetVisibility(true); // Initially hidden
+	PointLight->Intensity = 25000.f;
 }
 
 void AKeyBeach::BeginPlay() {
