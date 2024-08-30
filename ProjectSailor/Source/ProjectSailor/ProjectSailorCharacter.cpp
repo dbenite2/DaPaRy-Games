@@ -188,16 +188,16 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 			);
 
 			// We keep this debug draw until we have a reticle or a more reliable aim system
-			DrawDebugLine(
-				World,
-				Start,
-				End,
-				FColor::Green,  
-				false,          
-				5.0f,           
-				0,              
-				2.0f            
-			);
+			// DrawDebugLine(
+			// 	World,
+			// 	Start,
+			// 	End,
+			// 	FColor::Green,  
+			// 	false,          
+			// 	5.0f,           
+			// 	0,              
+			// 	2.0f            
+			// );
 			
 			if(bHit) {
 				GrabbedObject = Cast<APickable_Object>(HitResult.GetActor());

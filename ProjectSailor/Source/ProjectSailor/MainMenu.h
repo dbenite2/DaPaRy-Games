@@ -42,6 +42,9 @@ class PROJECTSAILOR_API UMainMenu : public UUserWidget {
 	UFUNCTION(BlueprintCallable)
 	void RemoveWidget();
 
+	UFUNCTION(BlueprintCallable)
+	void RemoveWidget2();
+
 	UPROPERTY()
 	UOptionsMenu* ExternalWidgetOptionsMenu{nullptr};
 	

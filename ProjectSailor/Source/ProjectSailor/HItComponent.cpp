@@ -72,16 +72,16 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 	FCollisionQueryParams(TEXT("Trace"), false, PlayerCharacter)
 	);
 
-	DrawDebugLine(
-	GetWorld(),
-	Start,
-	LineTraceEnd,
-	FColor::Red,
-	false,
-	1.0f,
-	0,
-	1.0f
-	);
+	// DrawDebugLine(
+	// GetWorld(),
+	// Start,
+	// LineTraceEnd,
+	// FColor::Red,
+	// false,
+	// 1.0f,
+	// 0,
+	// 1.0f
+	// );
 
 	if(bHit) {
 		AActor* HitObject = HitResult.GetActor();

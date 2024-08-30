@@ -22,7 +22,7 @@ void UMainMenu::NativeConstruct() {
 		OptionsButton->OnButtonClicked.AddUniqueDynamic(this, &UMainMenu::RemoveWidget);
 	}
 	if (ControlsButton) {
-		ControlsButton->OnButtonClicked.AddUniqueDynamic(this, &UMainMenu::RemoveWidget);
+		ControlsButton->OnButtonClicked.AddUniqueDynamic(this, &UMainMenu::RemoveWidget2);
 	}
 }
 
@@ -30,9 +30,6 @@ void UMainMenu::RemoveWidget() {
 	RemoveFromParent();
 	if (ExternalWidgetOptionsMenu) {
 		ExternalWidgetOptionsMenu->AddToViewport(1);
-	}
-	else if (ExternalWidgetControlsMenu) {
-		ExternalWidgetControlsMenu->AddToViewport(1);
 	}
 	
 	if (OptionsWidget && !ExternalWidgetOptionsMenu) {
@@ -43,7 +40,17 @@ void UMainMenu::RemoveWidget() {
 			ExternalWidgetOptionsMenu->AddToViewport(1);
 		}
 	}
-	else if(ControlsWidget && !ExternalWidgetControlsMenu) {
+	
+}
+
+void UMainMenu::RemoveWidget2()
+{
+	RemoveFromParent();
+	 if (ExternalWidgetControlsMenu) {
+		ExternalWidgetControlsMenu->AddToViewport(1);
+	}
+	
+	if(ControlsWidget && !ExternalWidgetControlsMenu) {
 		UUserWidget* newWidget = CreateWidget<UUserWidget>(GetWorld(), ControlsWidget);
 		if (newWidget) {
 			ExternalWidgetControlsMenu = Cast<UControlsMenu>(newWidget);
