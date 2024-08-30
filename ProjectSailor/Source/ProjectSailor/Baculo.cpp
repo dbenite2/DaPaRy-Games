@@ -3,10 +3,8 @@
 
 #include "Baculo.h"
 
-#include "HeadMountedDisplayTypes.h"
 #include "NiagaraComponent.h"
 #include "ProjectSailorCharacter.h"
-#include "SailorController.h"
 
 ABaculo::ABaculo()
 {

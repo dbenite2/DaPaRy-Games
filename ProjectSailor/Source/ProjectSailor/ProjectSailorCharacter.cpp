@@ -73,6 +73,14 @@ void AProjectSailorCharacter::BeginPlay() {
 	// Call the base class  
 	Super::BeginPlay();
 	SetActorTickEnabled(true);
+
+	if (CrosshairWidgetClass) {
+		CrosshairWidget = CreateWidget<UUserWidget>(Cast<APlayerController>(Controller), CrosshairWidgetClass);
+		if (CrosshairWidget) {
+			CrosshairWidget->AddToViewport();
+			CrosshairWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
 	
 	CheckLevelAndAttachStaff();
 
@@ -133,17 +141,9 @@ void AProjectSailorCharacter::CustomStopJumpingEvent() {
 }
 
 
-void AProjectSailorCharacter::StartLevel()
-{
+void AProjectSailorCharacter::StartLevel() {
 	PlayCharacterMontage(AnimationMontage);
-
-	if (CrosshairWidgetClass) {
-		CrosshairWidget = CreateWidget<UUserWidget>(Cast<APlayerController>(Controller), CrosshairWidgetClass);
-		if (CrosshairWidget) {
-			CrosshairWidget->AddToViewport();
-			CrosshairWidget->SetVisibility(ESlateVisibility::Hidden);
-		}
-	}
+	
 }
 
 void AProjectSailorCharacter::InteractMethod() {
@@ -408,6 +408,7 @@ void AProjectSailorCharacter::CheckLevelAndAttachStaff() {
 		StaffComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
 		SetBaculoIsActive(true);
 		StaffComponent->Player = this;
+		CrosshairWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 	AnimationMontage = nullptr;
 }
