@@ -122,7 +122,7 @@ void AKeyBeach::PickedObject() {
 }
 
 void AKeyBeach::DropObject() {
-	KeyMesh->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+	KeyMesh->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
 	KeyMesh->SetAngularDamping(0.05f);
 }
 
