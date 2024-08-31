@@ -239,29 +239,44 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 		}
 	}
 
-	if(HitParticleSystem) {
-		if(!StaffComponent && baculoIsActive) {
-			FVector Start = StaffComponent->Octopus->GetComponentLocation();
-			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
-			End.Z = End.Z + 100;
-			
-			UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
-							GetWorld(),
-							HitParticleSystem,
-							End,
-							FRotator::ZeroRotator,
-							FVector(1.0f)
-						);
+	if(GrabParticleSystem)
+	{
+		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+		// Get the screen center
+		int32 ViewportSizeX, ViewportSizeY;
+		PlayerController->GetViewportSize(ViewportSizeX, ViewportSizeY);
+		FVector2D ScreenCenter(ViewportSizeX / 2.0f, ViewportSizeY / 2.0f);
 
-			if (NiagaraComponent) {
-				FTimerHandle TimerHandle;
-				GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]() {
-					NiagaraComponent->Deactivate();
-					NiagaraComponent->DestroyComponent();
-				}, 1.0f, false);
-			}
+		// Convert screen position to world position and direction
+		FVector WorldLocation, WorldDirection;
+		PlayerController->DeprojectScreenPositionToWorld(ScreenCenter.X, ScreenCenter.Y, WorldLocation, WorldDirection);
+
+		// Desplazar la posición de spawn hacia adelante
+		float DistanceAhead = 300.0f;  // Distancia deseada hacia adelante
+		FVector SpawnLocation = WorldLocation + (WorldDirection * DistanceAhead);
+			
+		UParticleSystemComponent* ParticleComponent = UGameplayStatics::SpawnEmitterAtLocation(
+			GetWorld(),
+			GrabParticleSystem,  // Tu sistema de partículas
+			SpawnLocation,   // Localización donde spawnear la partícula
+			FRotator::ZeroRotator,
+			FVector(0.5)   // Escala de la partícula
+		);
+
+		if (ParticleComponent)
+		{
+			// Configurar temporizador para desactivar y destruir el componente de la partícula
+			FTimerHandle TimerHandle;
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [ParticleComponent]()
+			{
+				ParticleComponent->DeactivateSystem();
+				ParticleComponent->DestroyComponent();
+				
+			}, 1.f, false);  // 1.0f es la duración antes de desactivar
+			
 		}
 	}
+	
 }
 
 void AProjectSailorCharacter::HitComponentAbility() {

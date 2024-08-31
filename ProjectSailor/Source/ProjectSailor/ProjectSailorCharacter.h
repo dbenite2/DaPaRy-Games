@@ -151,7 +151,7 @@ public:
 	ABaculo* StaffComponent{nullptr};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
-	UNiagaraSystem* GrabParticleSystem{nullptr};
+	UParticleSystem* GrabParticleSystem{nullptr};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Particles")
 	UNiagaraSystem* HitParticleSystem{nullptr};
