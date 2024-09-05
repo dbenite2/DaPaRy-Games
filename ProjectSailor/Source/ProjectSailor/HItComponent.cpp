@@ -90,7 +90,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 			// Agregar delay de lifeTime bullet
 			FTimerHandle HitTimerHandle;
 			GetWorld()->GetTimerManager().SetTimer(HitTimerHandle, [this, Camera, Player, HitObject]() {
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Hit Object: %s"), *HitObject->GetName()));
+				// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Hit Object: %s"), *HitObject->GetName()));
 
 				 // Check if the hit object implements the InteractionInterface
 				 if (HitObject->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass())) {

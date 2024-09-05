@@ -19,7 +19,7 @@ AInitialMusicLevel::AInitialMusicLevel()
 void AInitialMusicLevel::BeginPlay()
 {
 	Super::BeginPlay();
-	//  encontrar el AMyAudioSubsystemActor
+	//  find the AMyAudioSubsystemActor
 	UWorld* World = GetWorld();
 	if (World)
 	{
