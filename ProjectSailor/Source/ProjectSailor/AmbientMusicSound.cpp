@@ -25,7 +25,6 @@ AAmbientMusicSound::AAmbientMusicSound()
 	AudioSubsystemActor = nullptr;
 
 }
-
 // Called when the game starts or when spawned
 void AAmbientMusicSound::BeginPlay()
 {
@@ -41,7 +40,6 @@ void AAmbientMusicSound::BeginPlay()
 		}
 	}
 }
-
 void AAmbientMusicSound::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -59,7 +57,6 @@ void AAmbientMusicSound::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent
 		}
 	}
 }
-
 void AAmbientMusicSound::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {

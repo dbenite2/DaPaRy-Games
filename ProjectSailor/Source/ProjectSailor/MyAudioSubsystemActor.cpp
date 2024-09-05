@@ -13,26 +13,18 @@ AMyAudioSubsystemActor::AMyAudioSubsystemActor()
 	// Constructor initialization if needed
 	
 }
-
 void AMyAudioSubsystemActor::BeginPlay()
 {
 	Super::BeginPlay();
 	InitializeAudioComponents();
-	
 }
-
 void AMyAudioSubsystemActor::InitializeAudioComponents()
 {
-	
-		
 		MusicComponent = CreateAudioComponent(this);
 		SFX1Component =  CreateAudioComponent(this);
 		SFX2Component =  CreateAudioComponent(this);
 	    SFX3Component =  CreateAudioComponent(this);
-	
 }
-
-
 UAudioComponent* AMyAudioSubsystemActor::CreateAudioComponent(UObject* Outer)
 {
 	if (Outer)
@@ -46,7 +38,6 @@ UAudioComponent* AMyAudioSubsystemActor::CreateAudioComponent(UObject* Outer)
 	}
 	return nullptr;
 }
-
 void AMyAudioSubsystemActor::PlayMusic(const FString& MusicName)
 {
 	if (USoundWave** SoundWavePtr = MusicTracks.Find(MusicName))
@@ -63,6 +54,8 @@ void AMyAudioSubsystemActor::PlayMusic(const FString& MusicName)
 }
 
 
+
+
 void AMyAudioSubsystemActor::PlaySFX1(const FString& MusicName)
 {
 	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName))
@@ -77,7 +70,6 @@ void AMyAudioSubsystemActor::PlaySFX1(const FString& MusicName)
 		}
 	}
 }
-
 void AMyAudioSubsystemActor::PlaySFX2(const FString& MusicName)
 {
 	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName))
@@ -92,7 +84,6 @@ void AMyAudioSubsystemActor::PlaySFX2(const FString& MusicName)
 		}
 	}
 }
-
 void AMyAudioSubsystemActor::PlaySFX3(const FString& MusicName)
 {
 	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName))
@@ -107,7 +98,6 @@ void AMyAudioSubsystemActor::PlaySFX3(const FString& MusicName)
 		}
 	}
 }
-
 void AMyAudioSubsystemActor::StopMusic()
 {
 	if (MusicComponent && MusicComponent->IsPlaying())
@@ -115,7 +105,6 @@ void AMyAudioSubsystemActor::StopMusic()
 		MusicComponent->Stop();
 	}
 }
-
 void AMyAudioSubsystemActor::StopSFX1()
 {
 	if (SFX1Component)
@@ -124,10 +113,8 @@ void AMyAudioSubsystemActor::StopSFX1()
 		{
 			SFX1Component->Stop();
 		}
-        
 	}
 }
-
 void AMyAudioSubsystemActor::StopSFX2()
 {
 	if (SFX2Component && SFX2Component->IsPlaying())
