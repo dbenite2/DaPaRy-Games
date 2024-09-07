@@ -39,6 +39,6 @@ public:
 	USceneComponent* SceneComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
-	bool testMechanics = false;
+	bool bNotActivatePlatform = false;
 
 };
