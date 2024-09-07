@@ -91,17 +91,17 @@ void AProjectSailorCharacter::BeginPlay() {
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
-	// Crear un TimerHandle
+	
 	FTimerHandle TimerHandle;
 
-	// Configurar el temporizador para llamar a LoadLevel después de 1 segundo
+	// Wait until level cinematic finish
+	if (MoveCompRef) {
+		MoveCompRef->DisableMovement();
+	}
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectSailorCharacter::StartLevel, 10.0f, false);
-	
 }
 
-void AProjectSailorCharacter::Tick(float DeltaTime)
-{
+void AProjectSailorCharacter::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 	if(ObjectComponent) {
 		FVector ActorLocation = StaffComponent->Octopus->GetComponentLocation();
@@ -110,8 +110,6 @@ void AProjectSailorCharacter::Tick(float DeltaTime)
 		PhysicsHandle->SetTargetLocation(ActorLocation + CameraforwardVector);
 		ObjectComponent->SetRelativeRotation(GetFollowCamera()->GetComponentRotation());
 	}
-
-	
 }
 
 bool AProjectSailorCharacter::GetHaveKeyBeach() {
@@ -143,7 +141,6 @@ void AProjectSailorCharacter::CustomStopJumpingEvent() {
 
 void AProjectSailorCharacter::StartLevel() {
 	PlayCharacterMontage(AnimationMontage);
-	
 }
 
 void AProjectSailorCharacter::InteractMethod() {
@@ -227,8 +224,7 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 		}
 	}
 
-	if(GrabParticleSystem)
-	{
+	if(GrabParticleSystem) {
 		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 		// Get the screen center
 		int32 ViewportSizeX, ViewportSizeY;
@@ -238,33 +234,27 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 		// Convert screen position to world position and direction
 		FVector WorldLocation, WorldDirection;
 		PlayerController->DeprojectScreenPositionToWorld(ScreenCenter.X, ScreenCenter.Y, WorldLocation, WorldDirection);
-
-		// Desplazar la posición de spawn hacia adelante
-		float DistanceAhead = 300.0f;  // Distancia deseada hacia adelante
+		
+		float DistanceAhead = 300.0f; 
 		FVector SpawnLocation = WorldLocation + (WorldDirection * DistanceAhead);
 			
 		UParticleSystemComponent* ParticleComponent = UGameplayStatics::SpawnEmitterAtLocation(
 			GetWorld(),
-			GrabParticleSystem,  // Tu sistema de partículas
-			SpawnLocation,   // Localización donde spawnear la partícula
+			GrabParticleSystem,
+			SpawnLocation,
 			FRotator::ZeroRotator,
-			FVector(0.5)   // Escala de la partícula
+			FVector(0.5)
 		);
 
-		if (ParticleComponent)
-		{
-			// Configurar temporizador para desactivar y destruir el componente de la partícula
+		if (ParticleComponent) {
 			FTimerHandle TimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [ParticleComponent]()
-			{
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [ParticleComponent]() {
 				ParticleComponent->DeactivateSystem();
 				ParticleComponent->DestroyComponent();
 				
 			}, 1.f, false);  // 1.0f es la duración antes de desactivar
-			
 		}
 	}
-	
 }
 
 void AProjectSailorCharacter::HitComponentAbility() {
@@ -274,37 +264,10 @@ void AProjectSailorCharacter::HitComponentAbility() {
 		AActor* player = GetOwner();
 
 		FTransform SpawnTransform = GetActorTransform();
-		// SpawnTransform.SetLocation(Start);
 		ABulletVFXPlayerHit* Bullet = GetWorld()->SpawnActor<ABulletVFXPlayerHit>(BulletClass,SpawnTransform);
 		// Get the player controller
 		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 		hitComponent->HitAbility(camera, player, Bullet,PlayerController);
-
-		// if(HitParticleSystem) {
-		// 	FVector Start = StaffComponent->Octopus->GetComponentLocation();
-		// 	positionBaculoCharacter = Start;
-		// 	FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
-		// 	End.Z = End.Z + 100;
-		//
-		// 	
-		// 	//niagara effect
-		// 	UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
-		// 					GetWorld(),
-		// 					HitParticleSystem,
-		// 					End,
-		// 					FRotator::ZeroRotator,
-		// 					FVector(1.0f)
-		// 				);
-		//
-		// 	if (NiagaraComponent) {
-		// 		FTimerHandle TimerHandle;
-		// 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]()
-		// 		{
-		// 			NiagaraComponent->Deactivate();
-		// 			NiagaraComponent->DestroyComponent();
-		// 		}, 1.0f, false); 
-		// 	}
-		// }
 	}
 }
 
@@ -344,28 +307,22 @@ void AProjectSailorCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 }
 
 void AProjectSailorCharacter::Move(const FInputActionValue& Value) {
-	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
 	if (Controller != nullptr) {
-		// find out which way is forward
+		
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		// get forward vector
+		
 		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	
-		// get right vector 
 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-
-		// add movement 
+		
 		AddMovementInput(ForwardDirection, MovementVector.Y);
 		AddMovementInput(RightDirection, MovementVector.X);
 	}
 }
 
 void AProjectSailorCharacter::Look(const FInputActionValue& Value) {
-	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
 	if (Controller != nullptr) {
@@ -376,7 +333,10 @@ void AProjectSailorCharacter::Look(const FInputActionValue& Value) {
 }
 
 void AProjectSailorCharacter::PlayCharacterMontage(UAnimMontage* MontageToPlay) {
-	if(!MontageToPlay) return;
+	if(!MontageToPlay) {
+		if (MoveCompRef) MoveCompRef->SetMovementMode(MOVE_Walking);
+		return;
+	}
 	
 	if (UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance()) {
 		AnimInstance->Montage_Play(MontageToPlay);
