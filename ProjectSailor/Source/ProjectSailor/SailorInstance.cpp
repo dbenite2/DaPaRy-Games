@@ -1,9 +1,6 @@
 // Property of DaPaRy Games
 #include "SailorInstance.h"
 
-#include "MyAudioSubsystem.h"
-#include "Kismet/GameplayStatics.h"
-
 
 USailorInstance::USailorInstance() {
 	GameState = new FCompletedLevelState();
@@ -16,17 +13,11 @@ USailorInstance::USailorInstance() {
 	LevelStatusMap.Add("Level_cave_02", GameState->FirstLevel);
 	LevelStatusMap.Add("PabloTestLevel", GameState->SecondLevel);
 	LevelStatusMap.Add("thirdLevel", GameState->ThirdLevel);
-
 	
 }
 
-void USailorInstance::PostInitProperties()
-{
+void USailorInstance::PostInitProperties() {
 	Super::PostInitProperties();
-
-	
-	
-	
 }
 
 
@@ -64,4 +55,19 @@ void USailorInstance::SetLevelGoals(FLevelStatus& CurrentLevel,int32 GoalIndex) 
 	}
 }
 
+void USailorInstance::ResetGameStatus() {
+	FLevelStatus* BeachStatus = LevelStatusMap.Find("Level_beach_01");
+	FLevelStatus* CaveStatus = LevelStatusMap.Find("Level_beach_01");
+	FLevelStatus* ThirdStatus = LevelStatusMap.Find("Level_beach_01");
+	ResetLevelGoals(*BeachStatus);
+	ResetLevelGoals(*CaveStatus);
+	ResetLevelGoals(*ThirdStatus);
+}
+
+void USailorInstance::ResetLevelGoals(FLevelStatus& CurrentLevel) {
+	CurrentLevel.bGoal1Complete = false;
+	CurrentLevel.bGoal2Complete = false;
+	CurrentLevel.bGoal3Complete = false;
+	CurrentLevel.bInitial = true;
+}
 

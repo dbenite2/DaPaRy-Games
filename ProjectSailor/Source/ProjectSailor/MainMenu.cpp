@@ -43,8 +43,7 @@ void UMainMenu::RemoveWidget() {
 	
 }
 
-void UMainMenu::RemoveWidget2()
-{
+void UMainMenu::RemoveWidget2() {
 	RemoveFromParent();
 	 if (ExternalWidgetControlsMenu) {
 		ExternalWidgetControlsMenu->AddToViewport(1);
