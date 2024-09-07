@@ -9,6 +9,7 @@
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "SailorInstance.h"
 
 void UCommonButton::NativeConstruct() {
 	Super::NativeConstruct();
@@ -26,8 +27,7 @@ void UCommonButton::NativeConstruct() {
 	}
 }
 
-void UCommonButton::OnClicked()
-{
+void UCommonButton::OnClicked() {
 	//sound button
 	// Obtiene el actor de audio y detiene cualquier sonido pendiente
 	AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
@@ -38,6 +38,10 @@ void UCommonButton::OnClicked()
 			FInputModeGameOnly InputMode;
 			PlayerController->SetInputMode(InputMode);
 			PlayerController->bShowMouseCursor = true;
+		}
+		if (bResetGameStatus) {
+			USailorInstance* GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(World));
+			GameManager->ResetGameStatus();
 		}
 		UGameplayStatics::OpenLevelBySoftObjectPtr(this, LevelToLoadReference);
 	}

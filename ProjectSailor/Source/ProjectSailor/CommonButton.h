@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "CommonButton.generated.h"
 
+class USailorInstance;
 class UTextBlock;
 class UButton;
 class AMyAudioSubsystemActor;
@@ -51,6 +52,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Level System")
 	bool bEmmitEvent{false};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Level System")
+	bool bResetGameStatus{false};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Button Text")
 	FText ButtonLabel;

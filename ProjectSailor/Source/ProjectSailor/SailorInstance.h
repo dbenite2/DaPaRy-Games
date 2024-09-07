@@ -57,8 +57,7 @@ struct FCompletedLevelState {
  * Holds all the state and the information of the game
  */
 UCLASS()
-class PROJECTSAILOR_API USailorInstance : public UGameInstance
-{
+class PROJECTSAILOR_API USailorInstance : public UGameInstance {
 	GENERATED_BODY()
 
 	FCompletedLevelState* GameState;
@@ -67,7 +66,7 @@ class PROJECTSAILOR_API USailorInstance : public UGameInstance
 
 	void SetLevelGoals(FLevelStatus& CurrentLevel, int32 GoalIndex);
 
-
+	static void ResetLevelGoals(FLevelStatus& CurrentLevel);
 
 public:
 
@@ -79,5 +78,6 @@ public:
 
 	void SetCurrentLevelStatus(const FString& LevelName, int32 GoalIndex);
 
+	void ResetGameStatus();
 
 };
