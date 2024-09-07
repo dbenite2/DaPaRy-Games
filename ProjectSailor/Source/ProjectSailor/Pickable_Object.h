@@ -38,4 +38,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	USceneComponent* SceneComponent = nullptr;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
+	bool testMechanics = false;
+
 };

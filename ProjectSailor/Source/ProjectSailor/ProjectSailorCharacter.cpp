@@ -280,31 +280,31 @@ void AProjectSailorCharacter::HitComponentAbility() {
 		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 		hitComponent->HitAbility(camera, player, Bullet,PlayerController);
 
-		if(HitParticleSystem) {
-			FVector Start = StaffComponent->Octopus->GetComponentLocation();
-			positionBaculoCharacter = Start;
-			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
-			End.Z = End.Z + 100;
-
-			
-			//niagara effect
-			UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
-							GetWorld(),
-							HitParticleSystem,
-							End,
-							FRotator::ZeroRotator,
-							FVector(1.0f)
-						);
-
-			if (NiagaraComponent) {
-				FTimerHandle TimerHandle;
-				GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]()
-				{
-					NiagaraComponent->Deactivate();
-					NiagaraComponent->DestroyComponent();
-				}, 1.0f, false); 
-			}
-		}
+		// if(HitParticleSystem) {
+		// 	FVector Start = StaffComponent->Octopus->GetComponentLocation();
+		// 	positionBaculoCharacter = Start;
+		// 	FVector End = Start + GetFollowCamera()->GetForwardVector() * 1000;
+		// 	End.Z = End.Z + 100;
+		//
+		// 	
+		// 	//niagara effect
+		// 	UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+		// 					GetWorld(),
+		// 					HitParticleSystem,
+		// 					End,
+		// 					FRotator::ZeroRotator,
+		// 					FVector(1.0f)
+		// 				);
+		//
+		// 	if (NiagaraComponent) {
+		// 		FTimerHandle TimerHandle;
+		// 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [NiagaraComponent]()
+		// 		{
+		// 			NiagaraComponent->Deactivate();
+		// 			NiagaraComponent->DestroyComponent();
+		// 		}, 1.0f, false); 
+		// 	}
+		// }
 	}
 }
 

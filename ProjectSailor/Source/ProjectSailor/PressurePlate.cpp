@@ -3,8 +3,10 @@
 #include "PressurePlate.h"
 
 #include "InteractablePressInterface.h"
+#include "KeyBeach.h"
 #include "MovableStaticMeshComponent.h"
 #include "MyAudioSubsystemActor.h"
+#include "Pickable_Object.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -36,9 +38,15 @@ void APressurePlate::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	
 	if(!bIsDisabled && !bIsTriggered) {
-		MovableMesh->Move(true);
-		Interact(true);
-		bIsTriggered = true;
+		//to know it is not the tutorial
+		APickable_Object* pickable_object = Cast<APickable_Object>(OtherActor);
+		AKeyBeach* keyBeach = Cast<AKeyBeach>(OtherActor);
+		if((pickable_object && !pickable_object->testMechanics) || keyBeach)
+		{
+			MovableMesh->Move(true);
+			Interact(true);
+			bIsTriggered = true;
+		}
 	}
 }
 
@@ -46,9 +54,15 @@ void APressurePlate::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
 	
 	if(!bIsDisabled) {
-		MovableMesh->Move(false);
-		Interact(false);
-		bIsTriggered = false;
+		//to know it is not the tutorial
+		APickable_Object* pickable_object = Cast<APickable_Object>(OtherActor);
+		AKeyBeach* keyBeach = Cast<AKeyBeach>(OtherActor);
+		if((pickable_object && !pickable_object->testMechanics) || keyBeach)
+		{
+			MovableMesh->Move(true);
+			Interact(true);
+			bIsTriggered = true;
+		}
 	}
 }
 
