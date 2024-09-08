@@ -64,7 +64,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 
 		if(AActor* HitObject = HitResult.GetActor()) {
 			FTimerHandle HitTimerHandle;
-			if (HitTimerHandle.IsValid()) {
+			
 			    GetWorld()->GetTimerManager().SetTimer(HitTimerHandle, [this, Camera, Player, HitObject]() {
                      if (HitObject->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass())) {
                          AMyAudioSubsystemActor* AudioSubsystemActor =
@@ -90,7 +90,7 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
                          SpawnActorButton->SpawnActor();
                      }
                 }, bullet->Lifetime, false);
-			}
+			
 		}
 	}
 }
