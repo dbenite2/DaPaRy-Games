@@ -4,14 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "InteractionInterface.h"
-#include "CableComponent.h"
-#include "Components/SphereComponent.h" // Include the SphereComponent header
+#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "KeyBeach.generated.h"
 
 class USailorInstance;
 class UPointLightComponent;
+class UCableComponent;
 class AMyAudioSubsystemActor;
+
+/**
+ * AKeyBeach represents a key in the game world, often used for unlocking or interacting with other objects or areas in the game.
+ * It inherits from AActor and implements the IInteractionInterface to handle interaction events.
+ */
 
 UCLASS()
 class PROJECTSAILOR_API AKeyBeach : public AActor,  public IInteractionInterface {
@@ -33,7 +38,8 @@ protected:
 	FName BrightnessParameterName = "glow";
 	
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 	UPROPERTY(EditAnywhere, Category = "Blueprints")
 	AActor* BP_Rope{nullptr};

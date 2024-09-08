@@ -14,19 +14,21 @@ class UDialogDataAsset;
 class AMyAudioSubsystemActor;
 struct FLevelStatus;
 
+/**
+ * ADialogueNPCCharacter represents an NPC (Non-Player Character) that players can interact with to engage in dialogues.
+ * This class manages the triggering and display of dialogue widgets based on the player's proximity and interaction.
+ */
+
 UCLASS()
 class PROJECTSAILOR_API ADialogueNPCCharacter : public ACharacter {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	ADialogueNPCCharacter();
-
-	// Trigger zone component
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	class USphereComponent* TriggerZone;
-
-	// Function to handle overlap events
+	
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, 
 						class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, 
@@ -35,7 +37,6 @@ public:
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	                  int32 OtherBodyIndex);
 	
-	// Widget to display when overlapping
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<UUserWidget> DialogueWidgetClass;
 
@@ -47,12 +48,13 @@ private:
 	UDialogueWidget* DialogueWidget;
 	
 	int32 CurrentTextIndex;
-
+	// States to track if certain dialogues have been read.
 	bool State1Read{false};
 	bool State2Read{false};
 	bool State3Read{false};
-	int32 CurrentReadState{1};
+	int32 CurrentReadState{1}; // Tracks the current state of the dialogue interacti
 
+	// The current set of dialogues available to this NPC.
 	UPROPERTY()
 	TArray<FText> CurrentDialogSet;
 

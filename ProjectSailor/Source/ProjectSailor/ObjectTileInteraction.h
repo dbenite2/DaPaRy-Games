@@ -6,21 +6,23 @@
 #include "GameFramework/Actor.h"
 #include "ObjectTileInteraction.generated.h"
 
+/**
+ * Handles the interactive tile objects within the ProjectSailor game.
+ * This class manages the animation of tiles dropping from an initial to a target location based on specified parameters.
+ */
+
 UCLASS()
 class PROJECTSAILOR_API AObjectTileInteraction : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AObjectTileInteraction();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	FVector InitialLocation;

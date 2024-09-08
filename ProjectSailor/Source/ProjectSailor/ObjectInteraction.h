@@ -1,4 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -7,16 +6,18 @@
 #include "Components/ActorComponent.h"
 #include "ObjectInteraction.generated.h"
 
+/**
+* Defines interactive capabilities for objects in the game.
+* This class allows objects to be interacted with, potentially triggering in-game effects or actions,
+* such as opening doors, picking up items, or activating machinery.
+*/
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class PROJECTSAILOR_API UObjectInteraction : public UActorComponent,public IInteractionInterface
-{
+class PROJECTSAILOR_API UObjectInteraction : public UActorComponent,public IInteractionInterface {
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UObjectInteraction();
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION() void ActivateObject();
 	virtual void Interact_Implementation() override;
@@ -24,11 +25,9 @@ public:
 	virtual UTexture2D* GetObjectImage_Implementation() override;
 
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
 
 private:
-	//image to put on canvas when interacts with this
 	UPROPERTY(EditDefaultsOnly)
 	UTexture2D* ObjectImage{nullptr};
 	

@@ -38,7 +38,6 @@ void APressurePlate::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	
 	if(!bIsDisabled && !bIsTriggered) {
-		//to know it is not the tutorial
 		APickable_Object* pickable_object = Cast<APickable_Object>(OtherActor);
 		AKeyBeach* keyBeach = Cast<AKeyBeach>(OtherActor);
 		if((pickable_object && !pickable_object->bNotActivatePlatform ) || keyBeach) {
@@ -53,7 +52,6 @@ void APressurePlate::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
 	
 	if(!bIsDisabled) {
-		//to know it is not the tutorial
 		APickable_Object* pickable_object = Cast<APickable_Object>(OtherActor);
 		AKeyBeach* keyBeach = Cast<AKeyBeach>(OtherActor);
 		if((pickable_object && !pickable_object->bNotActivatePlatform ) || keyBeach) {

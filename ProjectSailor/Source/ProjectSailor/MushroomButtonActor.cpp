@@ -9,9 +9,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
-/**
- *Button that make appear the mushroom and dissapear when hit.
- **/
 
 AMushroomButtonActor::AMushroomButtonActor() {
 	PrimaryActorTick.bCanEverTick = true;
@@ -21,12 +18,9 @@ AMushroomButtonActor::AMushroomButtonActor() {
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	BaseMesh->SetupAttachment(DefaultSceneRoot);
-
-	// Create and attach the cube mesh component
+	
 	CircleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CubeMesh"));
-	CircleMesh->SetupAttachment(BaseMesh); // Adjuntar al StaticMesh
-
-	// Set relative location and scale for the cube mesh
+	CircleMesh->SetupAttachment(BaseMesh);
 	CircleMesh->SetRelativeLocation(FVector(0.f, 0.f, 33.f));
 	CircleMesh->SetRelativeScale3D(FVector(3.f, 3.f, 0.01f));
 
@@ -55,12 +49,15 @@ void AMushroomButtonActor::SpawnMushroom() {
 		AMushroomActor* MushroomButton = Cast<AMushroomActor>(BP_InitialPosition);
 		MushroomButton->IsHit = true;
 	}
-		//sound button
-		AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+	AMyAudioSubsystemActor* AudioSubsystemActor =
+		Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+
+	if (AudioSubsystemActor) {
 		AudioSubsystemActor->PlaySFX1("hitAttackMagic2");
-		AudioSubsystemActor->PlaySFX3("tentaculo2");
-		SetActorHiddenInGame(true);
-		SetActorEnableCollision(false);
+		AudioSubsystemActor->PlaySFX3("tentaculo2");	
+	}
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
 	
 }
 

@@ -12,6 +12,11 @@ class UImage;
 class UTextBlock;
 class UCommonButton;
 
+/**
+ * User interface widget designed to be the entry point of interaction for players when they start the game.
+ * It provides navigation options such as starting a new game, accessing options, controls setup, and quitting the game.
+ */
+
 UCLASS()
 class PROJECTSAILOR_API UMainMenu : public UUserWidget {
 	GENERATED_BODY()

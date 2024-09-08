@@ -10,9 +10,12 @@ class UNiagaraComponent;
 class UNiagaraSystem;
 class UBoxComponent;
 
+/**
+ * Class that handles the visual effects of a portal or transition point within the game world.
+ * This class uses Niagara systems to produce visual effects.
+ */
 UCLASS()
-class PROJECTSAILOR_API ALevelPortalEffect : public AActor
-{
+class PROJECTSAILOR_API ALevelPortalEffect : public AActor {
 	GENERATED_BODY()
 	
 public:

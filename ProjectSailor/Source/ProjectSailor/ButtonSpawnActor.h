@@ -11,6 +11,12 @@ class UBoxComponent;
 class UPointLightComponent;
 class AMyAudioSubsystemActor;
 
+/**
+ * AButtonSpawnActor is a customizable actor class, designed to manage the spawning
+ * and resetting of other actors within the game environment, particularly those that are interactable or pickable.
+ * This actor can act as both a spawn point and a reset button, allowing dynamic interaction scenarios in the game.
+ */
+
 UCLASS()
 class PROJECTSAILOR_API AButtonSpawnActor : public AActor {
 	GENERATED_BODY()
@@ -37,7 +43,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Trigger")
 	UPointLightComponent* PointLight{nullptr};
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Trigger")
 	FVector SpawnLocation;
 

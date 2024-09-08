@@ -7,13 +7,15 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "DialogueWidget.generated.h"
-/**
- * 
- */
 
 class UImage;
 class UTextBlock;
 class UCommonButton;
+
+/**
+ * UDialogueWidget is a UserWidget subclass designed to display dialogue text in a UI component within the game.
+ * It is primarily used to show NPC dialogues to the player.
+ */
 UCLASS()
 class PROJECTSAILOR_API UDialogueWidget : public UUserWidget
 {
@@ -27,7 +29,6 @@ class PROJECTSAILOR_API UDialogueWidget : public UUserWidget
 	UTextBlock* TextDialogue {nullptr};
 
 public:
-	// Método para actualizar el texto del widget
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 	void UpdateText(const FText& NewText);
 

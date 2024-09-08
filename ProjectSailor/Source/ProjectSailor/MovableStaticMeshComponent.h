@@ -23,12 +23,12 @@ enum class EMovementType : uint8 {
 };
 
 /**
- * 
+ * extends the UStaticMeshComponent to provide functionality for dynamic movement and rotation based on user-defined timelines and curves,
+ * typically used for animating static meshes in the game environment.
  */
 class AMyAudioSubsystemActor;
 UCLASS()
-class PROJECTSAILOR_API UMovableStaticMeshComponent : public UStaticMeshComponent
-{
+class PROJECTSAILOR_API UMovableStaticMeshComponent : public UStaticMeshComponent {
 	GENERATED_BODY()
 
 public:

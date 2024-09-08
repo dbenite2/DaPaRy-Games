@@ -1,6 +1,5 @@
 // Property of DaPaRy Games
 
-
 #include "PauseMenu.h"
 
 #include "CommonButton.h"

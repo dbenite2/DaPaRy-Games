@@ -8,21 +8,21 @@
 #include "Pickable_Crosier.generated.h"
 
 class AMyAudioSubsystemActor;
+
+/**
+ * Represents a pickable object in the game, it destroys itself when picked and spawn the staff in player hands
+ */
 UCLASS()
-class PROJECTSAILOR_API APickable_Crosier : public AActor
-{
+class PROJECTSAILOR_API APickable_Crosier : public AActor {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	APickable_Crosier();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

@@ -9,10 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SailorInstance.h"
 
-// Sets default values
-APickable_Crosier::APickable_Crosier()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+APickable_Crosier::APickable_Crosier() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
@@ -29,16 +26,12 @@ APickable_Crosier::APickable_Crosier()
 	TriggerZone->OnComponentBeginOverlap.AddDynamic(this, &APickable_Crosier::OnOverlapBegin);
 }
 
-// Called when the game starts or when spawned
-void APickable_Crosier::BeginPlay()
-{
+void APickable_Crosier::BeginPlay() {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
-void APickable_Crosier::Tick(float DeltaTime)
-{
+void APickable_Crosier::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 }
@@ -54,13 +47,17 @@ void APickable_Crosier::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 		PlayerCharacter->Crosier = this;
 		PlayerCharacter->PlayCharacterMontage(Montage);
 		GameManager->SetCurrentLevelStatus(CurrentLevelName, 1);
-		//sound take crossier
-		AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-		AudioSubsystemActor->PlaySFX1("drop");
+		AMyAudioSubsystemActor* AudioSubsystemActor =
+			Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+		if (AudioSubsystemActor) {
+			AudioSubsystemActor->PlaySFX1("drop");	
+		}
 	}
 }
 
 void APickable_Crosier::PickObject(AProjectSailorCharacter* PlayerCharacter) {
+	if (!PlayerCharacter) return;
+	
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = PlayerCharacter->GetOwner();
 	SpawnParams.Instigator = PlayerCharacter->GetInstigator();
@@ -70,7 +67,6 @@ void APickable_Crosier::PickObject(AProjectSailorCharacter* PlayerCharacter) {
 		
 	baculoComponent = GetWorld()->SpawnActor<ABaculo>(baculoClass, SpawnLocation, SpawnRotation, SpawnParams);
 	if (baculoComponent) {
-		
 		baculoComponent->AttachToComponent(PlayerCharacter->GetMesh(), FAttachmentTransformRules::KeepWorldTransform, FName("WeaponSocket"));
 		PlayerCharacter->SetBaculoIsActive(true);
 		PlayerCharacter->StaffComponent = baculoComponent;
@@ -78,7 +74,6 @@ void APickable_Crosier::PickObject(AProjectSailorCharacter* PlayerCharacter) {
 		if (UUserWidget* PlayerCrosshairWidget = PlayerCharacter->CrosshairWidget) {
 			PlayerCrosshairWidget->SetVisibility(ESlateVisibility::Visible);
 		}
-		
 		Destroy();
 	}
 }

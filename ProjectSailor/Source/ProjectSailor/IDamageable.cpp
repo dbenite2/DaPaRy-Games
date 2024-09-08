@@ -3,6 +3,5 @@
 
 #include "IDamageable.h"
 
-void IIDamageable::TakeDamage()
-{
+void IIDamageable::TakeDamage() {
 }

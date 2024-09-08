@@ -3,10 +3,7 @@
 
 #include "ObjectTileInteraction.h"
 
-// Sets default values
-AObjectTileInteraction::AObjectTileInteraction()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+AObjectTileInteraction::AObjectTileInteraction() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	DefaultSceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
@@ -16,35 +13,24 @@ AObjectTileInteraction::AObjectTileInteraction()
 	StaticMesh->SetupAttachment(DefaultSceneRoot);
 }
 
-// Called when the game starts or when spawned
-void AObjectTileInteraction::BeginPlay()
-{
+void AObjectTileInteraction::BeginPlay() {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
-void AObjectTileInteraction::Tick(float DeltaTime)
-{
+void AObjectTileInteraction::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-
-
-	if (droopDone)
-	{
+	
+	if (droopDone) {
 		ElapsedTime += DeltaTime;
-		float LerpAlpha = ElapsedTime / (DropDistance / DropSpeed);  // Tiempo actual / tiempo total
+		float LerpAlpha = ElapsedTime / (DropDistance / DropSpeed);
 
-		if (LerpAlpha >= 1.0f)
-		{
+		if (LerpAlpha >= 1.0f) {
 			SetActorLocation(TargetLocation);
 			droopDone = false;
-		}
-		else
-		{
+		} else {
 			FVector NewLocation = FMath::Lerp(InitialLocation, TargetLocation, LerpAlpha);
 			SetActorLocation(NewLocation);
 		}
 	}
-
 }
-

@@ -7,6 +7,12 @@
 #include "GameFramework/Actor.h"
 #include "MovingStaticMeshActor.generated.h"
 
+/**
+ * Implements IInteractablePressInterface to provide an interactable actor
+ * with a static mesh base and a movable component, typically used for objects in the game that can be interacted with
+ * to trigger movement (e.g., doors, platforms, levers).
+ */
+
 class UMovableStaticMeshComponent;
 
 UCLASS()
@@ -15,7 +21,6 @@ class PROJECTSAILOR_API AMovingStaticMeshActor : public AActor, public IInteract
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AMovingStaticMeshActor();
 	
 	virtual FName GetInteractTag_Implementation() override;
@@ -36,11 +41,9 @@ public:
 	bool bIsDisabled{false};
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 };

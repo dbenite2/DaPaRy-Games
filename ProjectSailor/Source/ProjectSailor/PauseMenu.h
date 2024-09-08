@@ -10,6 +10,9 @@ class UOptionsMenu;
 class UVerticalBox;
 class UCommonButton;
 
+/**
+ * UPauseMenu provides an interactive pause menu for the game, allowing players to access game options, resume, or exit the game.
+ */
 UCLASS()
 class PROJECTSAILOR_API UPauseMenu : public UUserWidget
 {

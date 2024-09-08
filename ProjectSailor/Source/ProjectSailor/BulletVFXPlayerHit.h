@@ -8,6 +8,11 @@
 
 class UParticleSystemComponent;
 class UStaticMeshComponent;
+
+/**
+ * ABulletVFXPlayerHit represents a bullet visual effects actor in the game,
+ * designed to simulate a bullet hit using particle effects and to manage the bullet's lifecycle.
+ */
 UCLASS()
 class PROJECTSAILOR_API ABulletVFXPlayerHit : public AActor
 {
@@ -44,6 +49,5 @@ public:
 private:
 
 	float Velocity;
-
-
+	
 };

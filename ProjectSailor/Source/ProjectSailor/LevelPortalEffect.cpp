@@ -6,8 +6,7 @@
 #include "ProjectSailorCharacter.h"
 #include "Components/BoxComponent.h"
 
-ALevelPortalEffect::ALevelPortalEffect()
-{
+ALevelPortalEffect::ALevelPortalEffect() {
  	
 	PrimaryActorTick.bCanEverTick = true;
 	
@@ -29,8 +28,7 @@ ALevelPortalEffect::ALevelPortalEffect()
 
 }
 
-void ALevelPortalEffect::BeginPlay()
-{
+void ALevelPortalEffect::BeginPlay() {
 	Super::BeginPlay();
 	if (NiagaraSystem) {
 		InternalNiagaraComponent->SetAsset(NiagaraSystem);
@@ -39,8 +37,7 @@ void ALevelPortalEffect::BeginPlay()
 	TriggerBoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::ALevelPortalEffect::OnTriggerBoxOverlap);
 }
 
-void ALevelPortalEffect::Tick(float DeltaTime)
-{
+void ALevelPortalEffect::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 }

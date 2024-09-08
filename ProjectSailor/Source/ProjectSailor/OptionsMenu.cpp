@@ -65,7 +65,6 @@ void UOptionsMenu::ChangeWindowMode() {
 void UOptionsMenu::UpdateWindowModeText() {
 	if (WindowText) {
 		FText WindowModeTextValue;
-
 		switch (WindowModeToApply) {
 		case EWindowMode::Fullscreen:
 			WindowModeTextValue = FText::FromString(TEXT("Fullscreen"));

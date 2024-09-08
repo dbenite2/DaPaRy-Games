@@ -34,38 +34,30 @@ void UMovableStaticMeshComponent::BeginPlay() {
 	}
 }
 
-void UMovableStaticMeshComponent::Move(bool bTriggered)
-{
+void UMovableStaticMeshComponent::Move(bool bTriggered) {
 	bIsTriggered = bTriggered;
 	
-	if (bTriggered)
-	{
-		
+	if (bTriggered) {
 		MoveTimeline.PlayFromStart();
-	}
-	else
-	{
+	} else {
 		MoveTimeline.Reverse();
 	}
 	bIsMoving = true;
-
-	//sound 
-	AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-	if(!nameSound.IsEmpty())
-	{
-		AudioSubsystemActor->PlaySFX3(nameSound);
+	
+	AMyAudioSubsystemActor* AudioSubsystemActor =
+		Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+	if (AudioSubsystemActor) {
+		if(!nameSound.IsEmpty()) {
+			AudioSubsystemActor->PlaySFX3(nameSound);
+		}	
 	}
-	
-	
-	
 }
 
 void UMovableStaticMeshComponent::OnMove() {
 	const float PlayBackPosition = MoveTimeline.GetPlaybackPosition();
 	float CurveValue = MoveCurve->GetFloatValue(PlayBackPosition);
 
-	if (bIsReversed) 
-	{
+	if (bIsReversed)  {
 		CurveValue = -CurveValue;
 	}
 
@@ -74,9 +66,6 @@ void UMovableStaticMeshComponent::OnMove() {
 	} else if (MovementType == EMovementType::Rotation) {
 		UpdateRotation(CurveValue);
 	}
-
-	
-	
 }
 
 void UMovableStaticMeshComponent::OnMoveFinished() {

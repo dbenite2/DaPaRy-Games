@@ -26,9 +26,12 @@ struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
+/**
+ * Represents the player in the game, use most of the default settings from Unreal template.
+ */
+
 UCLASS(config=Game)
-class AProjectSailorCharacter : public ACharacter
-{
+class AProjectSailorCharacter : public ACharacter {
 	GENERATED_BODY()
 
 	/** Camera boom positioning the camera behind the character */
@@ -80,10 +83,8 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 	
-	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
-	// To add mapping context
 	virtual void BeginPlay();
 
 	virtual void Tick(float DeltaTime);
