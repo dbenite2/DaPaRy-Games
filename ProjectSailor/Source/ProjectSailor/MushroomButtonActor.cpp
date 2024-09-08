@@ -50,7 +50,11 @@ void AMushroomButtonActor::SpawnMushroom() {
 		BP_InitialPosition->SetActorEnableCollision(true);
 		AMushroomActor* MushroomButton = Cast<AMushroomActor>(BP_InitialPosition);
 		MushroomButton->IsHit = true;
-		AudioSubsystemActor->PlaySFX4("mushroomGoingDown");
+		if(AudioSubsystemActor)
+		{
+			AudioSubsystemActor->PlaySFX4("mushroomGoingDown");
+		}
+		
 	}
 	
 
