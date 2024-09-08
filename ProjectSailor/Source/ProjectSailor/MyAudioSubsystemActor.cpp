@@ -33,10 +33,15 @@ UAudioComponent* AMyAudioSubsystemActor::CreateAudioComponent(UObject* Outer) {
 	return nullptr;
 }
 
-void AMyAudioSubsystemActor::PlayMusic(const FString& MusicName) {
-	if (USoundWave** SoundWavePtr = MusicTracks.Find(MusicName)) {
-		if (USoundWave* SoundWave = *SoundWavePtr) {
-			if (MusicComponent) {
+void AMyAudioSubsystemActor::PlayMusic(const FString& MusicName)
+{
+	if (USoundWave** SoundWavePtr = MusicTracks.Find(MusicName))
+	{
+		if (USoundWave* SoundWave = *SoundWavePtr)
+		{
+			if (MusicComponent)
+			{
+				StopMusic();
 				MusicComponent->SetSound(SoundWave);
 				MusicComponent->Play();
 			}
@@ -44,10 +49,19 @@ void AMyAudioSubsystemActor::PlayMusic(const FString& MusicName) {
 	}
 }
 
-void AMyAudioSubsystemActor::PlaySFX1(const FString& MusicName) {
-	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName)) {
-		if (USoundWave* SoundWave = *SoundWavePtr) {
-			if (SFX1Component) {
+
+
+
+
+void AMyAudioSubsystemActor::PlaySFX1(const FString& MusicName)
+{
+	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName))
+	{
+		if (USoundWave* SoundWave = *SoundWavePtr)
+		{
+			if (SFX1Component)
+			{
+				StopSFX1();
 				SFX1Component->SetSound(SoundWave);
 				SFX1Component->Play();
 			}
@@ -55,10 +69,15 @@ void AMyAudioSubsystemActor::PlaySFX1(const FString& MusicName) {
 	}
 }
 
-void AMyAudioSubsystemActor::PlaySFX2(const FString& MusicName) {
-	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName)) {
-		if (USoundWave* SoundWave = *SoundWavePtr) {
-			if (SFX2Component) {
+void AMyAudioSubsystemActor::PlaySFX2(const FString& MusicName)
+{
+	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName))
+	{
+		if (USoundWave* SoundWave = *SoundWavePtr)
+		{
+			if (SFX2Component)
+			{
+				StopSFX2();
 				SFX2Component->SetSound(SoundWave);
 				SFX2Component->Play();
 			}
@@ -66,10 +85,15 @@ void AMyAudioSubsystemActor::PlaySFX2(const FString& MusicName) {
 	}
 }
 
-void AMyAudioSubsystemActor::PlaySFX3(const FString& MusicName) {
-	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName)) {
-		if (USoundWave* SoundWave = *SoundWavePtr) {
-			if (SFX3Component) {
+void AMyAudioSubsystemActor::PlaySFX3(const FString& MusicName)
+{
+	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName))
+	{
+		if (USoundWave* SoundWave = *SoundWavePtr)
+		{
+			if (SFX3Component)
+			{
+				StopSFX3();
 				SFX3Component->SetSound(SoundWave);
 				SFX3Component->Play();
 			}
@@ -77,9 +101,14 @@ void AMyAudioSubsystemActor::PlaySFX3(const FString& MusicName) {
 	}
 }
 
-void AMyAudioSubsystemActor::StopMusic() {
-	if (MusicComponent && MusicComponent->IsPlaying()) {
-		MusicComponent->Stop();
+void AMyAudioSubsystemActor::StopMusic()
+{
+	if (MusicComponent) 
+	{
+		if(MusicComponent->IsPlaying())
+		{
+			MusicComponent->Stop();
+		}
 	}
 }
 
@@ -91,14 +120,25 @@ void AMyAudioSubsystemActor::StopSFX1() {
 	}
 }
 
-void AMyAudioSubsystemActor::StopSFX2() {
-	if (SFX2Component && SFX2Component->IsPlaying()) {
-		SFX2Component->Stop();
+void AMyAudioSubsystemActor::StopSFX2()
+{
+	if (SFX2Component)
+	{
+		if(SFX2Component->IsPlaying())
+		{
+			SFX2Component->Stop();
+		}
+		
 	}
 }
 
-void AMyAudioSubsystemActor::StopSFX3() {
-	if (SFX3Component && SFX3Component->IsPlaying()) {
-		SFX3Component->Stop();
+void AMyAudioSubsystemActor::StopSFX3()
+{
+	if (SFX3Component )
+	{
+		if(SFX3Component->IsPlaying())
+		{
+			SFX3Component->Stop();
+		}
 	}
 }
