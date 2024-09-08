@@ -46,6 +46,7 @@ void AMyAudioSubsystemActor::PlayMusic(const FString& MusicName)
 		{
 			if (MusicComponent)
 			{
+				StopMusic();
 				MusicComponent->SetSound(SoundWave);
 				MusicComponent->Play();
 			}
@@ -64,6 +65,7 @@ void AMyAudioSubsystemActor::PlaySFX1(const FString& MusicName)
 		{
 			if (SFX1Component)
 			{
+				StopSFX1();
 				SFX1Component->SetSound(SoundWave);
 				SFX1Component->Play();
 			}
@@ -78,6 +80,7 @@ void AMyAudioSubsystemActor::PlaySFX2(const FString& MusicName)
 		{
 			if (SFX2Component)
 			{
+				StopSFX2();
 				SFX2Component->SetSound(SoundWave);
 				SFX2Component->Play();
 			}
@@ -92,6 +95,7 @@ void AMyAudioSubsystemActor::PlaySFX3(const FString& MusicName)
 		{
 			if (SFX3Component)
 			{
+				StopSFX3();
 				SFX3Component->SetSound(SoundWave);
 				SFX3Component->Play();
 			}
@@ -100,9 +104,13 @@ void AMyAudioSubsystemActor::PlaySFX3(const FString& MusicName)
 }
 void AMyAudioSubsystemActor::StopMusic()
 {
-	if (MusicComponent && MusicComponent->IsPlaying())
+	if (MusicComponent) 
 	{
-		MusicComponent->Stop();
+		if(MusicComponent->IsPlaying())
+		{
+			MusicComponent->Stop();
+		}
+		
 	}
 }
 void AMyAudioSubsystemActor::StopSFX1()
@@ -117,16 +125,24 @@ void AMyAudioSubsystemActor::StopSFX1()
 }
 void AMyAudioSubsystemActor::StopSFX2()
 {
-	if (SFX2Component && SFX2Component->IsPlaying())
+	if (SFX2Component)
 	{
-		SFX2Component->Stop();
+		if(SFX2Component->IsPlaying())
+		{
+			SFX2Component->Stop();
+		}
+		
 	}
 }
 
 void AMyAudioSubsystemActor::StopSFX3()
 {
-	if (SFX3Component && SFX3Component->IsPlaying())
+	if (SFX3Component )
 	{
-		SFX3Component->Stop();
+		if(SFX3Component->IsPlaying())
+		{
+			SFX3Component->Stop();
+		}
+		
 	}
 }

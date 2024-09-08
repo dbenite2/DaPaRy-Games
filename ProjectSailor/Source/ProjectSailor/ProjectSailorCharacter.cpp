@@ -196,7 +196,7 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 				Key = Cast<AKeyBeach>(HitResult.GetActor());
 				//sound grab
 				if (AudioSubsystemActor) {
-					AudioSubsystemActor->PlaySFX1("grab");	
+					AudioSubsystemActor->PlaySFX2("grab");	
 				}
 				if(GrabbedObject) {
 					GrabbedObject->mesh->SetSimulatePhysics(true);
