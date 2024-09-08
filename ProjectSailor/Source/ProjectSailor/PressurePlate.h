@@ -9,9 +9,14 @@
 class USphereComponent;
 class UMovableStaticMeshComponent;
 class AMyAudioSubsystemActor;
+
+/**
+ * A pressure plate actor that triggers interactions when objects or characters overlap with it. 
+ * It can be used to activate or deactivate various gameplay elements based on the overlap state.
+ */
+
 UCLASS()
-class PROJECTSAILOR_API APressurePlate : public AActor
-{
+class PROJECTSAILOR_API APressurePlate : public AActor {
 	GENERATED_BODY()
 
 	void Interact(bool bIsInteracting);
@@ -19,7 +24,6 @@ class PROJECTSAILOR_API APressurePlate : public AActor
 	bool bIsTriggered{false};
 	
 public:	
-	// Sets default values for this actor's properties
 	APressurePlate();
 	
 	virtual void Tick(float DeltaTime) override;
@@ -51,7 +55,6 @@ public:
 
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
 };

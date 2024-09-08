@@ -14,15 +14,14 @@
 ADialogueNPCCharacter::ADialogueNPCCharacter() {
 	PrimaryActorTick.bCanEverTick = true;
 	
-	// Create the trigger zone and attach it to the root component
 	TriggerZone = CreateDefaultSubobject<USphereComponent>(TEXT("TriggerZone"));
 	TriggerZone->SetupAttachment(RootComponent);
 	TriggerZone->InitSphereRadius(300.0f);
 	TriggerZone->SetCollisionProfileName(TEXT("Trigger"));
-	
-	TriggerZone->OnComponentBeginOverlap.AddDynamic(this, &ADialogueNPCCharacter::OnOverlapBegin);
-	TriggerZone->OnComponentEndOverlap.AddDynamic(this, &ADialogueNPCCharacter::OnOverlapEnd);
-	
+	if (TriggerZone) {
+		TriggerZone->OnComponentBeginOverlap.AddDynamic(this, &ADialogueNPCCharacter::OnOverlapBegin);
+		TriggerZone->OnComponentEndOverlap.AddDynamic(this, &ADialogueNPCCharacter::OnOverlapEnd);	
+	}
 }
 
 void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -56,7 +55,7 @@ void ADialogueNPCCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, 
 			if (!DialogueWidget) {
 				DialogueWidget = CreateWidget<UDialogueWidget>(GetWorld(), DialogueWidgetClass);
 				// Add it to the viewport if it's valid
-				if (DialogueWidget && CurrentDialogSet.Num() > 0) {
+				if (DialogueWidget && CurrentDialogSet.Num() > 0 && CurrentDialogSet.IsValidIndex(CurrentTextIndex)) {
 					SetWidget(true);
 					DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
 				}
@@ -122,8 +121,10 @@ void ADialogueNPCCharacter::ChangeToNextText() {
 	}
 	
 	if (DialogueWidget) {
-		DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
-		PlayRandomSound();
+		if (CurrentDialogSet.IsValidIndex(CurrentTextIndex)) {
+			DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
+			PlayRandomSound();
+		}
 	}
 }
 
@@ -155,19 +156,20 @@ void ADialogueNPCCharacter::SetUpEventSubscription(AProjectSailorCharacter* Play
 }
 
 void ADialogueNPCCharacter::PlayRandomSound() {
-	if (RandomSoundDialogue.Num() > 0) {
+	if (!RandomSoundDialogue.IsEmpty() && RandomSoundDialogue.Num() > 0) {
 		int32 RandomIndex = FMath::RandRange(0, RandomSoundDialogue.Num() - 1);
+		if (RandomSoundDialogue.IsValidIndex(RandomIndex)) {
+			FString nameRandomSFX = RandomSoundDialogue[RandomIndex].ToString();
 		
-		FString nameRandomSFX = RandomSoundDialogue[RandomIndex].ToString();
-		
-		AMyAudioSubsystemActor* AudioSubsystemActor =
-			Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(),
-				AMyAudioSubsystemActor::StaticClass()));
-		if (AudioSubsystemActor) {
-			if(!nameRandomSFX.IsEmpty()) {
-				AudioSubsystemActor->StopSFX1();
-				AudioSubsystemActor->PlaySFX1(nameRandomSFX);
-			}
+			AMyAudioSubsystemActor* AudioSubsystemActor =
+				Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(),
+					AMyAudioSubsystemActor::StaticClass()));
+			if (AudioSubsystemActor) {
+				if(!nameRandomSFX.IsEmpty()) {
+					AudioSubsystemActor->StopSFX1();
+					AudioSubsystemActor->PlaySFX1(nameRandomSFX);
+				}
+			}	
 		}
 	}
 }

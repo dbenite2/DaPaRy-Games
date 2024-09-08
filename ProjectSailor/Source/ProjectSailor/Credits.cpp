@@ -6,8 +6,7 @@
 #include "CommonButton.h"
 #include "Kismet/GameplayStatics.h"
 
-void UCredits::NativeConstruct()
-{
+void UCredits::NativeConstruct() {
 	Super::NativeConstruct();
 	
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
@@ -18,16 +17,13 @@ void UCredits::NativeConstruct()
 		PlayerController->bShowMouseCursor = true;
 	}
 
-	if (Exit_Button)
-	{
+	if (Exit_Button) {
 		Exit_Button->OnButtonClicked.AddUniqueDynamic(this, &UCredits::GoToMainMenu);
 	}
 }
 
-void UCredits::GoToMainMenu()
-{
-	if (!LevelToLoadReference.IsNull())
-	{
+void UCredits::GoToMainMenu() {
+	if (!LevelToLoadReference.IsNull()) {
 		UGameplayStatics::OpenLevelBySoftObjectPtr(this, LevelToLoadReference);
 	}
 }

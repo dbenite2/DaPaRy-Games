@@ -7,14 +7,12 @@
 #include "ProjectSailorGameMode.generated.h"
 
 UCLASS(minimalapi)
-class AProjectSailorGameMode : public AGameModeBase
-{
+class AProjectSailorGameMode : public AGameModeBase {
 	GENERATED_BODY()
 
 public:
 	AProjectSailorGameMode();
-
-
+	
 };
 
 

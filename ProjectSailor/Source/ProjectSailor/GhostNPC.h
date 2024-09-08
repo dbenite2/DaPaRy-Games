@@ -14,13 +14,16 @@ class AProjectSailorCharacter;
 class UDialogDataAsset;
 struct FLevelStatus;
 
+/**
+ * AGhostNPC represents a non-player character (NPC) designed to engage in dialogue with the player.
+ * This actor utilizes a trigger zone to initiate interactions and displays dialogue through a UI widget.
+ */
+
 UCLASS()
-class PROJECTSAILOR_API AGhostNPC : public AActor
-{
+class PROJECTSAILOR_API AGhostNPC : public AActor {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AGhostNPC();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")

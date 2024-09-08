@@ -28,10 +28,10 @@ void UCommonButton::NativeConstruct() {
 }
 
 void UCommonButton::OnClicked() {
-	//sound button
-	// Obtiene el actor de audio y detiene cualquier sonido pendiente
-	AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-	AudioSubsystemActor->PlaySFX1("buttonMainMenu");
+
+	if (AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()))) {
+		AudioSubsystemActor->PlaySFX1("buttonMainMenu");
+	}
 	if (!LevelToLoadReference.IsNull()) {
 		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(World, 0);
 		if (PlayerController) {
@@ -53,7 +53,9 @@ void UCommonButton::OnClicked() {
 
 	if (bResumeGame) {
 		ASailorController* Owner = Cast<ASailorController>(GetOwningPlayer());
-		Owner->UnPauseGame();
+		if (Owner) {
+			Owner->UnPauseGame();	
+		}
 	}
 
 	if (bEmmitEvent) {

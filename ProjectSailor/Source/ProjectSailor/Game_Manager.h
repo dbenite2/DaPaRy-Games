@@ -7,21 +7,25 @@
 #include "GameFramework/Actor.h"
 #include "Game_Manager.generated.h"
 
+/**
+ * Custom actor class designed to manage game-level operations,
+ * focusing on controlling doorways and portals throughout the game environment.
+ * It primarily functions to activate or modify properties of these doorways based on game logic
+ * or player interactions.
+ */
+
 UCLASS()
 class PROJECTSAILOR_API AGame_Manager : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AGame_Manager();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

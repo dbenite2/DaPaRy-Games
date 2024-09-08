@@ -4,9 +4,14 @@
 #include "GameFramework/Actor.h"
 #include "MyAudioSubsystemActor.generated.h"
 
+/**
+ * Responsible for handling audio playback within the game.
+ * It manages multiple sound effects and music tracks, providing methods to play, stop, and manage these audio elements.
+ * This class utilizes Unreal Engine's AudioComponent to handle individual sounds.
+ */
+
 UCLASS()
-class PROJECTSAILOR_API AMyAudioSubsystemActor : public AActor
-{
+class PROJECTSAILOR_API AMyAudioSubsystemActor : public AActor {
 	GENERATED_BODY()
 public:
 	AMyAudioSubsystemActor();
@@ -49,12 +54,14 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-
-    
+	
 	UAudioComponent* CreateAudioComponent(UObject* Outer);
-
-	UAudioComponent* MusicComponent;
-	UAudioComponent* SFX1Component;
-	UAudioComponent* SFX2Component;
-	UAudioComponent* SFX3Component;
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	UAudioComponent* MusicComponent{nullptr};
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	UAudioComponent* SFX1Component{nullptr};
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	UAudioComponent* SFX2Component{nullptr};
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	UAudioComponent* SFX3Component{nullptr};
 };

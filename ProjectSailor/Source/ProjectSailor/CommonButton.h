@@ -10,6 +10,11 @@ class UTextBlock;
 class UButton;
 class AMyAudioSubsystemActor;
 
+/**
+ * UCommonButton is a customizable user interface component derived from UUserWidget, designed to provide a configurable button within the UI of the Project Sailor game.
+ * This class supports various interactions such as clicking, hovering, and unhovering, and can be linked to various gameplay actions such as loading levels, quitting the game, resuming the game, and emitting custom events.
+ */
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnButtonClicked);
 
 UCLASS()

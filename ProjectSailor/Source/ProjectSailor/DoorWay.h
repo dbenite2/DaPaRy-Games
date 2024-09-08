@@ -8,28 +8,29 @@
 #include "GameFramework/Actor.h"
 #include "DoorWay.generated.h"
 
+/**
+ * ADoorWay derived from AActor, designed to represent doorways in the game that may involve level streaming.
+ * This actor is used to manage transitions or interactions associated with doorways, including handling lighting effects 
+ * to indicate state changes like level completion.
+ */
 UCLASS()
-class PROJECTSAILOR_API ADoorWay : public AActor
-{
+class PROJECTSAILOR_API ADoorWay : public AActor {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	ADoorWay();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	ALevelStreamerActor* LevelStreamerActor;
+	ALevelStreamerActor* LevelStreamerActor{nullptr};
 
 	UPROPERTY(EditAnywhere)
-	UPointLightComponent* pointLight;
+	UPointLightComponent* PointLight{nullptr};
 
 	UPROPERTY(EditAnywhere)
 	bool LevelDone = false;

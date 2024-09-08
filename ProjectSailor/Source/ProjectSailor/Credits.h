@@ -11,11 +11,10 @@ class UImage;
 class UTextBlock;
 class UCommonButton;
 /**
- * 
+ * The UCredits class represents the credits menu in Project Sailor, allowing players to view credits and return to the main menu.
  */
 UCLASS()
-class PROJECTSAILOR_API UCredits : public UUserWidget
-{
+class PROJECTSAILOR_API UCredits : public UUserWidget {
 	GENERATED_BODY()
 
 	virtual void NativeConstruct() override;

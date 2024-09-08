@@ -13,9 +13,13 @@ class UImage;
 class UHorizontalBox;
 class UVerticalBox;
 
+/**
+ * Provides the user interface for adjusting game settings such as resolution, window mode, and applying changes.
+ * This class is designed to interact with the game's settings and provide visual feedback to the player.
+ */
+
 UCLASS()
-class PROJECTSAILOR_API UOptionsMenu : public UUserWidget
-{
+class PROJECTSAILOR_API UOptionsMenu : public UUserWidget {
 	GENERATED_BODY()
 
 	virtual void NativeConstruct() override;

@@ -5,9 +5,13 @@
 #include "Components/BoxComponent.h"
 #include "LevelStreamerActor.generated.h"
 
+/**
+ *  Responsible for dynamically loading different levels within the game when the player interacts with specific trigger volumes.
+ * It uses a box component as a trigger volume to detect overlaps and initiate level streaming based on the specified level reference.
+ */
+
 UCLASS()
-class PROJECTSAILOR_API ALevelStreamerActor : public AActor
-{
+class PROJECTSAILOR_API ALevelStreamerActor : public AActor {
 	GENERATED_BODY()
 	
 public:	

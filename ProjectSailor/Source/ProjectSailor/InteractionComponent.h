@@ -2,13 +2,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Baculo.h"
 #include "ObjectInteraction.h"
 #include "Components/ActorComponent.h"
 #include "InteractionComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteract);
 
+/**
+ * Handles interactive functionalities for actors in the game. It manages
+ * interaction logic, including raycasting to detect interactable objects and triggering interactions.
+ */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTSAILOR_API UInteractionComponent : public UActorComponent {
     GENERATED_BODY()
@@ -28,9 +31,6 @@ class PROJECTSAILOR_API UInteractionComponent : public UActorComponent {
     
 protected:
     virtual void BeginPlay() override;
-
-    // TODO UPROPERTY(EditDefaultsOnly, Category= "Interaction") TSubclassOf<UInteractWidget> widgetTemplate;
-    // TODO UPROPERTY()UInteractWidget *widget = nullptr;
 
 public:
     
