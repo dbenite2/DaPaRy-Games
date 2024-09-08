@@ -28,6 +28,9 @@ public:
 	void PlaySFX2(const FString& MusicName);
 
 	UFUNCTION(BlueprintCallable, Category = "Audio")
+	void PlaySFX4(const FString& MusicName);
+
+	UFUNCTION(BlueprintCallable, Category = "Audio")
 	void PlaySFX3(const FString& MusicName);
 
 	UFUNCTION(BlueprintCallable, Category = "Audio")
@@ -41,6 +44,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Audio")
 	void StopSFX3();
+	
+	UFUNCTION(BlueprintCallable, Category = "Audio")
+	void StopSFX4();
 	
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	TMap<FString, USoundWave*> MusicTracks;
@@ -64,4 +70,6 @@ private:
 	UAudioComponent* SFX2Component{nullptr};
 	UPROPERTY(EditAnywhere, Category = "Audio")
 	UAudioComponent* SFX3Component{nullptr};
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	UAudioComponent* SFX4Component{nullptr};
 };
