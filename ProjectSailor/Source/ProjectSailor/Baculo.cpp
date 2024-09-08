@@ -6,8 +6,7 @@
 #include "NiagaraComponent.h"
 #include "ProjectSailorCharacter.h"
 
-ABaculo::ABaculo()
-{
+ABaculo::ABaculo() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));

@@ -177,6 +177,9 @@ public:
 	UFUNCTION()
 	UCharacterMovementComponent* GetMovRef() const {return MoveCompRef;}
 
+	UPROPERTY(EditAnywhere, Category="Raycast")
+	float GrabRaycastOffset{275.f};
+
 private:
 
 	UPROPERTY()

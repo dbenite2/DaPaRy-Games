@@ -23,8 +23,8 @@ AGenericGeometricPuzzlePiece::AGenericGeometricPuzzlePiece()
 	StaticMesh->SetupAttachment(DefaultSceneRoot);
 
 	 // Create and attach the cube mesh component
-        CubeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CubeMesh"));
-        CubeMesh->SetupAttachment(StaticMesh); // Adjuntar al StaticMesh
+    CubeMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CubeMesh"));
+    CubeMesh->SetupAttachment(StaticMesh); // Adjuntar al StaticMesh
 
 	// Set relative location and scale for the cube mesh
 	CubeMesh->SetRelativeLocation(FVector(0.f, 0.f, 33.f));

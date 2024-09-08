@@ -10,13 +10,10 @@
 #include "UObject/ConstructorHelpers.h"
 
 /**
- *Button that make appear the mushroom and deasepear when hit.
+ *Button that make appear the mushroom and dissapear when hit.
  **/
 
-// Sets default values
-AMushroomButtonActor::AMushroomButtonActor()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+AMushroomButtonActor::AMushroomButtonActor() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	DefaultSceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
@@ -41,23 +38,17 @@ AMushroomButtonActor::AMushroomButtonActor()
 	PointLight->Intensity = 25000.f;
 }
 
-// Called when the game starts or when spawned
-void AMushroomButtonActor::BeginPlay()
-{
+void AMushroomButtonActor::BeginPlay() {
 	Super::BeginPlay();
 }
 
-// Called every frame
-void AMushroomButtonActor::Tick(float DeltaTime)
-{
+void AMushroomButtonActor::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 }
 
-void AMushroomButtonActor::SpawnMushroom()
-{
-	if(BP_InitialPosition)
-	{
+void AMushroomButtonActor::SpawnMushroom() {
+	if(BP_InitialPosition) {
 		BP_InitialPosition->SetActorLocation(SpawnLocation);
 		BP_InitialPosition->SetActorHiddenInGame(false);
 		BP_InitialPosition->SetActorEnableCollision(true);
@@ -70,7 +61,6 @@ void AMushroomButtonActor::SpawnMushroom()
 		AudioSubsystemActor->PlaySFX3("tentaculo2");
 		SetActorHiddenInGame(true);
 		SetActorEnableCollision(false);
-	
 	
 }
 

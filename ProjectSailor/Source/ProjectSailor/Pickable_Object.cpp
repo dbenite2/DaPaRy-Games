@@ -3,27 +3,22 @@
 
 #include "Pickable_Object.h"
 
-// Sets default values
 APickable_Object::APickable_Object() {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(SceneComponent);
-	mesh->SetupAttachment(SceneComponent);
+	// SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SetRootComponent(mesh);
+	// mesh->SetupAttachment(SceneComponent);
 }
 
-// Called when the game starts or when spawned
 void APickable_Object::BeginPlay() {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
 void APickable_Object::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-
 }
 
 void APickable_Object::PickedObject() {
@@ -36,8 +31,9 @@ void APickable_Object::DropObject() {
 	mesh->SetAngularDamping(0.05f);
 }
 
-// void APickable_Object::TakeDamage()
-// {
-// 	Destroy();
-// }
+void APickable_Object::ResetObjectLocation(FVector& Location) {
+	// SceneComponent->SetWorldLocation(Location);
+	mesh->SetSimulatePhysics(false);
+	SetActorLocation(Location, false,nullptr, ETeleportType::TeleportPhysics);
+}
 

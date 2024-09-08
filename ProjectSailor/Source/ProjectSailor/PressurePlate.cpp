@@ -41,8 +41,7 @@ void APressurePlate::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AA
 		//to know it is not the tutorial
 		APickable_Object* pickable_object = Cast<APickable_Object>(OtherActor);
 		AKeyBeach* keyBeach = Cast<AKeyBeach>(OtherActor);
-		if((pickable_object && !pickable_object->bNotActivatePlatform ) || keyBeach)
-		{
+		if((pickable_object && !pickable_object->bNotActivatePlatform ) || keyBeach) {
 			Interact(true);
 		}
 		MovableMesh->Move(true);
@@ -57,8 +56,7 @@ void APressurePlate::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 		//to know it is not the tutorial
 		APickable_Object* pickable_object = Cast<APickable_Object>(OtherActor);
 		AKeyBeach* keyBeach = Cast<AKeyBeach>(OtherActor);
-		if((pickable_object && !pickable_object->bNotActivatePlatform ) || keyBeach)
-		{
+		if((pickable_object && !pickable_object->bNotActivatePlatform ) || keyBeach) {
 			Interact(false);
 		}
 		MovableMesh->Move(false);

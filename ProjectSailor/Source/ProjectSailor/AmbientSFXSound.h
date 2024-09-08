@@ -11,6 +11,11 @@
 
 class AMyAudioSubsystemActor;
 class USphereComponent;
+
+/**
+ * Manages ambient sound effects based on player proximity.
+ * It uses a sphere component to trigger sound effects when a player enters or leaves its area.
+ */
 UCLASS()
 class PROJECTSAILOR_API AAmbientSFXSound : public AActor
 {
