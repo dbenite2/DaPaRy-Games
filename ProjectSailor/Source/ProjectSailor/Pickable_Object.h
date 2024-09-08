@@ -7,6 +7,9 @@
 #include "GameFramework/Actor.h"
 #include "Pickable_Object.generated.h"
 
+/**
+ * Represents a pickable object in the game. This object can be picked up and moved around by the player.
+ */
 UCLASS()
 class PROJECTSAILOR_API APickable_Object : public AActor {
 	GENERATED_BODY()
@@ -15,18 +18,13 @@ class PROJECTSAILOR_API APickable_Object : public AActor {
 	bool bIsReset;
 	
 public:	
-	// Sets default values for this actor's properties
 	APickable_Object();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// virtual void TakeDamage() override;
 	
 	UFUNCTION()
 	void PickedObject();

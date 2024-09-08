@@ -5,25 +5,26 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "NPCTalkCaveCharacterIdle.generated.h"
+/**
+ * Defines a non-playable character (NPC) in the game, specifically designed
+ * for idle interactions within cave environments in the ProjectSailor game. This class extends from ACharacter.
+ */
+
 
 UCLASS()
-class PROJECTSAILOR_API ANPCTalkCaveCharacterIdle : public ACharacter
-{
+class PROJECTSAILOR_API ANPCTalkCaveCharacterIdle : public ACharacter {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	ANPCTalkCaveCharacterIdle();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+	virtual void Tick(float DeltaTime) override;
+	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = "Animation")

@@ -8,27 +8,21 @@
 #include "SailorInstance.h"
 #include "Kismet/GameplayStatics.h"
 
-// Sets default values
-AGhostNPC::AGhostNPC()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+AGhostNPC::AGhostNPC() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	TriggerZone = CreateDefaultSubobject<USphereComponent>(TEXT("TriggerZone"));
 	TriggerZone->SetupAttachment(RootComponent);
 	TriggerZone->InitSphereRadius(300.0f);
 	TriggerZone->SetCollisionProfileName(TEXT("Trigger"));
-
-	// Bind the overlap event
+	
 	TriggerZone->OnComponentBeginOverlap.AddDynamic(this, &AGhostNPC::OnOverlapBegin);
-	// Bind the overlap event
 	TriggerZone->OnComponentEndOverlap.AddDynamic(this, &AGhostNPC::OnOverlapEnd);
 }
 
 void AGhostNPC::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	// Check if the overlapping actor is of class AProjectSailorCharacter
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	
 	AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
 	USailorInstance* GameManager = Cast<USailorInstance>(UGameplayStatics::GetGameInstance(this));
 	if (PlayerCharacter) {
@@ -54,60 +48,42 @@ void AGhostNPC::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
 }
 
 void AGhostNPC::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	if (OtherActor && (OtherActor != this))
-	{
-		AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor);
-		if (PlayerCharacter)
-		{
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
+	if (OtherActor && (OtherActor != this)) {
+		if (AProjectSailorCharacter* PlayerCharacter = Cast<AProjectSailorCharacter>(OtherActor)) {
 			PlayerCharacter->InteractionComponent->OnInteract.RemoveDynamic(this, &AGhostNPC::ChangeToNextText);
 			if (DialogueWidget) {
 				SetWidget(false);
 			}
 		}
 	}
-	
 }
 
-void AGhostNPC::SetWidget(bool set)
-{
-	if(set)
-	{
+void AGhostNPC::SetWidget(bool set) {
+	if(set) {
 		DialogueWidget->AddToViewport();
-	}
-	else
-	{
-		//restart dialogue
+	} else {
 		CurrentTextIndex = 0;
-		if(DialogueWidget)
-		{
+		if(DialogueWidget) {
 			DialogueWidget->RemoveFromParent();
 			DialogueWidget = nullptr;
 		}
-		
 	}
 }
 
-void AGhostNPC::ChangeToNextText()
-{
+void AGhostNPC::ChangeToNextText() {
 	if (CurrentDialogSet.Num() == 0) {
 		UE_LOG(LogTemp, Warning, TEXT("DialogueTexts array is empty!"));
 		return;
 	}
 	
-	// Increment index
 	CurrentTextIndex++;
 
 	if (CurrentTextIndex >= CurrentDialogSet.Num()) {
 		SetWidget(false);
 		return;
 	}
-	// Wrap around the index to stay within bounds
-	// CurrentTextIndex %= DialogueTextsSet1.Num();
-
 	
-	// Update text on the widget
 	if (DialogueWidget) {
 		DialogueWidget->UpdateText(CurrentDialogSet[CurrentTextIndex]);
 	}

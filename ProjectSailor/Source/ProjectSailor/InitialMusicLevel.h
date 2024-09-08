@@ -7,27 +7,28 @@
 #include "InitialMusicLevel.generated.h"
 
 class AMyAudioSubsystemActor;
+
+/**
+ * AInitialMusicLevel is responsible for managing the playback of initial music
+ * at the start of a game level. It utilizes an audio subsystem to handle the audio operations.
+ */
 UCLASS()
-class PROJECTSAILOR_API AInitialMusicLevel : public AActor
-{
+class PROJECTSAILOR_API AInitialMusicLevel : public AActor {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AInitialMusicLevel();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
 	FString initialMusic;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void PostBeginPlay();
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY()
-	AMyAudioSubsystemActor* AudioSubsystemActor;
+	AMyAudioSubsystemActor* AudioSubsystemActor{nullptr};
 };

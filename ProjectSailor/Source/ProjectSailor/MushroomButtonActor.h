@@ -11,25 +11,26 @@
 class UBoxComponent;
 class UPointLightComponent;
 
+/**
+ * Class that make appear the mushroomActor and disappear when is hit.
+ **/
+
 UCLASS()
-class PROJECTSAILOR_API AMushroomButtonActor : public AActor
-{
+class PROJECTSAILOR_API AMushroomButtonActor : public AActor {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AMushroomButtonActor();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
 	UFUNCTION()
 	void SpawnMushroom();
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Trigger")
 	USceneComponent* DefaultSceneRoot;
 	

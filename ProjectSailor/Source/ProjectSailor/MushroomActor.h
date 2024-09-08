@@ -10,21 +10,23 @@ class UNiagaraComponent;
 class UNiagaraSystem;
 class AMyAudioSubsystemActor;
 
+/**
+ * Mushroom Actor Appears When MushroomButtonActor is hit, and move down until SpawnLocation.
+ * Then wait 16 seconds and disappear
+ **/
+
 UCLASS()
 class PROJECTSAILOR_API AMushroomActor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AMushroomActor();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -55,9 +57,6 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	bool IsHit = false;
-
-	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "ParticleSystem")
-	// UNiagaraComponent* ParticleSystem;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ParticleSystem")
 	UNiagaraSystem* NiagaraSystem;

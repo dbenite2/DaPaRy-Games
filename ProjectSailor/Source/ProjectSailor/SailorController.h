@@ -10,9 +10,11 @@ class UDialogueWidget;
 class UInputMappingContext;
 class UPauseMenu;
 
+/**
+ * Custom controller class to handle and show widgets controlled by the player (I.e. Pause menu)
+ */
 UCLASS()
-class PROJECTSAILOR_API ASailorController : public APlayerController
-{
+class PROJECTSAILOR_API ASailorController : public APlayerController {
 	GENERATED_BODY()
 
 	UPROPERTY()

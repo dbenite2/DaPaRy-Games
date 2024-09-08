@@ -5,17 +5,12 @@
 
 #include "Kismet/GameplayStatics.h"
 
-// Sets default values
-AGame_Manager::AGame_Manager()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+AGame_Manager::AGame_Manager() {
 	PrimaryActorTick.bCanEverTick = false;
 
 }
 
-// Called when the game starts or when spawned
-void AGame_Manager::BeginPlay()
-{
+void AGame_Manager::BeginPlay() {
 	Super::BeginPlay();
 
 	
@@ -26,12 +21,11 @@ void AGame_Manager::PostBeginPlay()
 	TurnOnPortal(0.f);
 }
 
-// Called every frame
-void AGame_Manager::Tick(float DeltaTime)
-{
+void AGame_Manager::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 }
+
 
 void AGame_Manager::TurnOnPortal(int32 index)
 {
@@ -60,6 +54,6 @@ void AGame_Manager::TurnOnPortal(int32 index)
     		{
     			MiArray[index]->LevelStreamerActor->SetActorEnableCollision(true);
     		}
-    	}
+    }
 }
 

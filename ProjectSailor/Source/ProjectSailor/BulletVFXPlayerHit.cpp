@@ -38,19 +38,16 @@ void ABulletVFXPlayerHit::BeginPlay() {
 	// Convert screen position to world position and direction
 	FVector WorldLocation, WorldDirection;
 	PlayerController->DeprojectScreenPositionToWorld(ScreenCenter.X, ScreenCenter.Y, WorldLocation, WorldDirection);
-
-
+	
 	// Set the initial direction of the bullet
 	InitDirection = WorldDirection;
 
 	// Set the location of the bullet
 	SetActorLocation(WorldLocation);
-
 	
 }
 
-void ABulletVFXPlayerHit::Tick(float DeltaTime)
-{
+void ABulletVFXPlayerHit::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 	// Move the bullet forward
@@ -58,35 +55,32 @@ void ABulletVFXPlayerHit::Tick(float DeltaTime)
 	FVector NewLocation = CurrentLocation + InitDirection * Velocity * DeltaTime;
 	SetActorLocation(NewLocation);
 	SetActorRotation(CameraRotation);
-	// Decrease the bullet's lifetime
 	Lifetime -= DeltaTime;
 	
 	// Destroy the bullet if its lifetime is over
-	if (Lifetime <= 0.0f)
-	{
+	if (Lifetime <= 0.0f) {
 		FTransform SpawnTransform = GetActorTransform();
 		// Spawn Cascade particle effect
 		UParticleSystemComponent* ParticleComponent = UGameplayStatics::SpawnEmitterAtLocation(
 			GetWorld(),
-			HitParticleSystemWhenDestroys,  // Tu sistema de partículas
-			SpawnTransform.GetLocation(),   // Localización donde spawnear la partícula
+			HitParticleSystemWhenDestroys, 
+			SpawnTransform.GetLocation(),
 			FRotator::ZeroRotator,
-			FVector(1.0f)   // Escala de la partícula
+			FVector(1.0f)
 		);
 
-		if (ParticleComponent)
-		{
-			// Configurar temporizador para desactivar y destruir el componente de la partícula
+		if (ParticleComponent) {
+			
 			FTimerHandle TimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [ParticleComponent]()
-			{
-				ParticleComponent->DeactivateSystem();
-				ParticleComponent->DestroyComponent();
-				
-			}, 0.5f, false);  // 1.0f es la duración antes de desactivar
-			Destroy();
+			if (TimerHandle.IsValid()) {
+			    GetWorld()->GetTimerManager().SetTimer(TimerHandle, [ParticleComponent] {
+                				ParticleComponent->DeactivateSystem();
+                				ParticleComponent->DestroyComponent();
+                				
+                			}, 0.5f, false); 
+                			Destroy();
+			}
 		}
-		
 	}
 }
 

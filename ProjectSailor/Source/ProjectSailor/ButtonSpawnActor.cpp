@@ -52,10 +52,8 @@ void AButtonSpawnActor::SpawnActor() {
 				ActorToReset->mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 				ActorToReset->SetActorLocation(InitialLocation, true);
 				ActorToReset->ResetObjectLocation(InitialLocation);
-				// ActorToReset->mesh->SetSimulatePhysics(true);
 				ActorToReset->mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 				ActorToReset->TeleportTo(InitialLocation, ActorToReset->GetActorRotation());
-				UE_LOG(LogTemp, Warning, TEXT("Moving %s to %s"), *ActorToReset->GetName(), *InitialLocation.ToString());
 			}
 			if (AudioSubsystemActor) {
 				AudioSubsystemActor->PlaySFX1("hitAttackMagic2");
@@ -66,20 +64,16 @@ void AButtonSpawnActor::SpawnActor() {
 	}
 	
 	if(BP_ActorSpawnable!=nullptr) {
-		//put position 
+
 		BP_ActorSpawnable->SetActorLocation(SpawnLocation);
-		//appears cube and add physics
 		BP_ActorSpawnable->SetActorHiddenInGame(false);
 		BP_ActorSpawnable->SetActorEnableCollision(true);
 		
-
-		//sound button
 		if (AudioSubsystemActor) {
 			AudioSubsystemActor->PlaySFX1("hitAttackMagic2");
 			AudioSubsystemActor->PlaySFX3("tentaculo2");
 		}
 		
-		//hide button
 		SetActorHiddenInGame(true);
 		SetActorEnableCollision(false);
 	}

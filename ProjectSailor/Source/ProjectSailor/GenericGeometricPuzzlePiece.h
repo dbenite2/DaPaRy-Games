@@ -11,13 +11,18 @@ class UBoxComponent;
 class UPointLightComponent;
 class UParticleSystemComponent;
 class AMyAudioSubsystemActor;
+
+/**
+ * Actor class designed to serve as puzzle pieces in a game. 
+ * These pieces interact with players and other game systems to contribute to puzzle-solving mechanics.
+ * Plays custom sounds when the piece is correct or wrong.
+ */
+
 UCLASS()
-class PROJECTSAILOR_API AGenericGeometricPuzzlePiece : public AActor
-{
+class PROJECTSAILOR_API AGenericGeometricPuzzlePiece : public AActor {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AGenericGeometricPuzzlePiece();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -27,13 +32,11 @@ public:
 	UStaticMeshComponent* StaticMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UStaticMeshComponent* CubeMesh; // Nuevo componente para el cubo
-
-	// Public property for the figure step
+	UStaticMeshComponent* CubeMesh;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Figure")
 	FString NameFigureStep;
-
-	// Public property for the figure step
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Figure")
 	bool isCorrect;
 
@@ -46,14 +49,10 @@ public:
 	UPROPERTY(EditAnywhere,  Category = "Mushroom")
 	TArray<AMushroomActor*> MushroomActors;
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
-	
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -61,18 +60,16 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UPointLightComponent* PointLight;
-
-	// Reference to the Blueprint
+	
 	UPROPERTY(EditAnywhere, Category = "Blueprints")
 	AActor* BP_InitialPosition;
-
 	
-
+	UFUNCTION()
+	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
+		class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
 	UFUNCTION()
-	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
-
-	UFUNCTION()
-	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
+		class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 };

@@ -1,8 +1,6 @@
 // Property of DaPaRy Games
 
-
 #include "DialogueWidget.h"
-
 
 void UDialogueWidget::UpdateText(const FText& NewText) {
 	if (TextDialogue) {

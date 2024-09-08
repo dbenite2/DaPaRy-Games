@@ -3,19 +3,14 @@
 
 #include "MyBlueprintSubsystemInitializer.h"
 
-void UMyGameInstanceSubsystemInitializer::Initialize(FSubsystemCollectionBase& Collection)
-{
+void UMyGameInstanceSubsystemInitializer::Initialize(FSubsystemCollectionBase& Collection) {
 	const UMyBlueprintSubsystemInitializer* BlueprintSubsystemInitializer = GetDefault<UMyBlueprintSubsystemInitializer>();
-
-	//check if array is empty
-	if(BlueprintSubsystemInitializer->GameInstanceSubsystems.IsEmpty())
-	{
+	
+	if(BlueprintSubsystemInitializer->GameInstanceSubsystems.IsEmpty()) {
 		return;
 	}
-
-	//initialize each subsystems of the array
-	for(TSubclassOf<UGameInstanceSubsystem> Subsystem : BlueprintSubsystemInitializer->GameInstanceSubsystems)
-	{
-		Collection.InitializeDependency(Subsystem);
+	
+	for(TSubclassOf<UGameInstanceSubsystem> Subsystem : BlueprintSubsystemInitializer->GameInstanceSubsystems) {
+		if (Subsystem) Collection.InitializeDependency(Subsystem);
 	}
 }
