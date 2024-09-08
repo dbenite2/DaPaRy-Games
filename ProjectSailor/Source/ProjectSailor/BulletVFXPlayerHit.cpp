@@ -72,12 +72,14 @@ void ABulletVFXPlayerHit::Tick(float DeltaTime) {
 		if (ParticleComponent) {
 			
 			FTimerHandle TimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [ParticleComponent] {
-				ParticleComponent->DeactivateSystem();
-				ParticleComponent->DestroyComponent();
-				
-			}, 0.5f, false); 
-			Destroy();
+			if (TimerHandle.IsValid()) {
+			    GetWorld()->GetTimerManager().SetTimer(TimerHandle, [ParticleComponent] {
+                				ParticleComponent->DeactivateSystem();
+                				ParticleComponent->DestroyComponent();
+                				
+                			}, 0.5f, false); 
+                			Destroy();
+			}
 		}
 	}
 }

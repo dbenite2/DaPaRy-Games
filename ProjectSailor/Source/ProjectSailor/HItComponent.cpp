@@ -64,31 +64,33 @@ void UHItComponent::HitAbility(UCameraComponent* Camera, AActor* Player, ABullet
 
 		if(AActor* HitObject = HitResult.GetActor()) {
 			FTimerHandle HitTimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(HitTimerHandle, [this, Camera, Player, HitObject]() {
-				 if (HitObject->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass())) {
-					 AMyAudioSubsystemActor* AudioSubsystemActor =
-					 	Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(),
-					 		AMyAudioSubsystemActor::StaticClass()));
-
-				 	if (AudioSubsystemActor) AudioSubsystemActor->PlaySFX2("tentaculo1");
-					 
-					 if(AKeyBeach* KeyBeachActor = Cast<AKeyBeach>(HitObject)) {
-						 KeyBeachActor->Interact_Implementation();
-					 }
-				 }
-				
-				 if (IIDamageable* DamageableActor = Cast<IIDamageable>(HitObject)) {
-					 DamageableActor->TakeDamage();
-				 }
-				
-				 if(AMushroomButtonActor* MushroomButton = Cast<AMushroomButtonActor>(HitObject)) {
-					 MushroomButton->SpawnMushroom();
-				 }
-				
-				 if(AButtonSpawnActor* SpawnActorButton = Cast<AButtonSpawnActor>(HitObject)) {
-					 SpawnActorButton->SpawnActor();
-				 }
-		   }, bullet->Lifetime, false);
+			if (HitTimerHandle.IsValid()) {
+			    GetWorld()->GetTimerManager().SetTimer(HitTimerHandle, [this, Camera, Player, HitObject]() {
+                     if (HitObject->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass())) {
+                         AMyAudioSubsystemActor* AudioSubsystemActor =
+                            Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(),
+                                AMyAudioSubsystemActor::StaticClass()));
+        
+                        if (AudioSubsystemActor) AudioSubsystemActor->PlaySFX2("tentaculo1");
+                         
+                         if(AKeyBeach* KeyBeachActor = Cast<AKeyBeach>(HitObject)) {
+                             KeyBeachActor->Interact_Implementation();
+                         }
+                     }
+                    
+                     if (IIDamageable* DamageableActor = Cast<IIDamageable>(HitObject)) {
+                         DamageableActor->TakeDamage();
+                     }
+                    
+                     if(AMushroomButtonActor* MushroomButton = Cast<AMushroomButtonActor>(HitObject)) {
+                         MushroomButton->SpawnMushroom();
+                     }
+                    
+                     if(AButtonSpawnActor* SpawnActorButton = Cast<AButtonSpawnActor>(HitObject)) {
+                         SpawnActorButton->SpawnActor();
+                     }
+                }, bullet->Lifetime, false);
+			}
 		}
 	}
 }
