@@ -42,15 +42,21 @@ void AMushroomButtonActor::Tick(float DeltaTime) {
 }
 
 void AMushroomButtonActor::SpawnMushroom() {
+	AMyAudioSubsystemActor* AudioSubsystemActor =
+		Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
 	if(BP_InitialPosition) {
 		BP_InitialPosition->SetActorLocation(SpawnLocation);
 		BP_InitialPosition->SetActorHiddenInGame(false);
 		BP_InitialPosition->SetActorEnableCollision(true);
 		AMushroomActor* MushroomButton = Cast<AMushroomActor>(BP_InitialPosition);
 		MushroomButton->IsHit = true;
+		if(AudioSubsystemActor)
+		{
+			AudioSubsystemActor->PlaySFX4("mushroomGoingDown");
+		}
+		
 	}
-	AMyAudioSubsystemActor* AudioSubsystemActor =
-		Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+	
 
 	if (AudioSubsystemActor) {
 		AudioSubsystemActor->PlaySFX1("hitAttackMagic2");

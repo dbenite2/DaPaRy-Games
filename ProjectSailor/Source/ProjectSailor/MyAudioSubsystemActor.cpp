@@ -8,7 +8,8 @@ AMyAudioSubsystemActor::AMyAudioSubsystemActor()
 	: MusicComponent(nullptr)
 	, SFX1Component(nullptr)
 	, SFX2Component(nullptr)
-	, SFX3Component(nullptr) {
+	, SFX3Component(nullptr)
+	, SFX4Component(nullptr){
 	
 }
 void AMyAudioSubsystemActor::BeginPlay() {
@@ -21,6 +22,7 @@ void AMyAudioSubsystemActor::InitializeAudioComponents() {
 		SFX1Component =  CreateAudioComponent(this);
 		SFX2Component =  CreateAudioComponent(this);
 	    SFX3Component =  CreateAudioComponent(this);
+		SFX4Component =  CreateAudioComponent(this);
 }
 
 UAudioComponent* AMyAudioSubsystemActor::CreateAudioComponent(UObject* Outer) {
@@ -101,6 +103,22 @@ void AMyAudioSubsystemActor::PlaySFX3(const FString& MusicName)
 	}
 }
 
+void AMyAudioSubsystemActor::PlaySFX4(const FString& MusicName)
+{
+	if (USoundWave** SoundWavePtr = SFXTracks.Find(MusicName))
+	{
+		if (USoundWave* SoundWave = *SoundWavePtr)
+		{
+			if (SFX4Component)
+			{
+				StopSFX4();
+				SFX4Component->SetSound(SoundWave);
+				SFX4Component->Play();
+			}
+		}
+	}
+}
+
 void AMyAudioSubsystemActor::StopMusic()
 {
 	if (MusicComponent) 
@@ -139,6 +157,17 @@ void AMyAudioSubsystemActor::StopSFX3()
 		if(SFX3Component->IsPlaying())
 		{
 			SFX3Component->Stop();
+		}
+	}
+}
+
+void AMyAudioSubsystemActor::StopSFX4()
+{
+	if (SFX4Component )
+	{
+		if(SFX4Component->IsPlaying())
+		{
+			SFX4Component->Stop();
 		}
 	}
 }

@@ -8,6 +8,7 @@
 
 class UParticleSystemComponent;
 class UStaticMeshComponent;
+class AMyAudioSubsystemActor;
 
 /**
  * ABulletVFXPlayerHit represents a bullet visual effects actor in the game,

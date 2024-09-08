@@ -37,18 +37,18 @@ void AGame_Manager::TurnOnPortal(int32 index)
     			{
     				MiArray[i]->LevelStreamerActor->SetActorEnableCollision(ECollisionEnabled::NoCollision);
     
-    				if (MiArray[i]->LevelDone && MiArray[i]->pointLight) // Verifica el puntero pointLight
+    				if (MiArray[i]->LevelDone && MiArray[i]->PointLight) // Verifica el puntero pointLight
     				{
-    					MiArray[i]->pointLight->SetLightColor(FColor::Yellow);
+    					MiArray[i]->PointLight->SetLightColor(FColor::Yellow);
     					MiArray[i]->LevelDone = false;
     				}
     			}
     		}
     
     		// Asegúrate de que el índice y sus propiedades no son nullptr
-    		if (MiArray[index]->pointLight)
+    		if (MiArray[index]->PointLight)
     		{
-    			MiArray[index]->pointLight->SetIntensity(5000.f);
+    			MiArray[index]->PointLight->SetIntensity(5000.f);
     		}
     		if (MiArray[index]->LevelStreamerActor)
     		{

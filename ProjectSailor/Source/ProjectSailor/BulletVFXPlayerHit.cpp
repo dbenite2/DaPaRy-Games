@@ -3,6 +3,7 @@
 
 #include "BulletVFXPlayerHit.h"
 
+#include "MyAudioSubsystemActor.h"
 #include "ProjectSailorCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -44,6 +45,13 @@ void ABulletVFXPlayerHit::BeginPlay() {
 
 	// Set the location of the bullet
 	SetActorLocation(WorldLocation);
+
+	//sound grab
+	AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
+	if (AudioSubsystemActor)
+	{
+		AudioSubsystemActor->PlaySFX2("shootSound");	
+	}
 	
 }
 
