@@ -8,9 +8,11 @@
 #include "Pickable_Object.generated.h"
 
 UCLASS()
-class PROJECTSAILOR_API APickable_Object : public AActor
-{
+class PROJECTSAILOR_API APickable_Object : public AActor {
 	GENERATED_BODY()
+
+	FVector InitialLocation;
+	bool bIsReset;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -41,4 +43,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Test")
 	bool bNotActivatePlatform = false;
 
+	UFUNCTION()
+	void ResetObjectLocation(FVector& Location);
+	
 };

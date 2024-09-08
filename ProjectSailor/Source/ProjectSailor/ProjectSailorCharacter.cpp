@@ -96,7 +96,11 @@ void AProjectSailorCharacter::BeginPlay() {
 
 	// Wait until level cinematic finish
 	if (MoveCompRef) {
-		MoveCompRef->DisableMovement();
+		FString CurrentLevelName = GetWorld()->GetMapName();
+		CurrentLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+		if (CurrentLevelName != FString("RickyTestLevel")) {
+			MoveCompRef->DisableMovement();
+		}
 	}
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectSailorCharacter::StartLevel, 10.0f, false);
 }
@@ -156,6 +160,7 @@ void AProjectSailorCharacter::InteractMethod() {
 
 void AProjectSailorCharacter::GrapAndDragMethodPress() {
 	if(baculoIsActive) {
+		AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
 		if(!IsHolding) {
 			UWorld* World = GetWorld();
 
@@ -167,10 +172,11 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 			// Convert screen position to world position and direction
 			FVector WorldLocation, WorldDirection;
 			PlayerController->DeprojectScreenPositionToWorld(ScreenCenter.X, ScreenCenter.Y, WorldLocation, WorldDirection);
-	
-			// TODO: Set value as a parameter in class
-			// Define the end location of the raycast based on camera direction
-			FVector Start = PlayerController->PlayerCameraManager->GetCameraLocation();
+			
+			FVector CameraLocation = PlayerController->PlayerCameraManager->GetCameraLocation();
+			FVector CameraForwardVector = GetFollowCamera()->GetForwardVector();
+			FVector Start = CameraLocation + CameraForwardVector * GrabRaycastOffset; 
+			
 			FVector End = Start + GetFollowCamera()->GetForwardVector() * 1500;
 			
 			StaffComponent->PlayAnimMontage();
@@ -184,13 +190,16 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 				FCollisionQueryParams(TEXT("Trace"), false, this)
 			);
 			
+			
 			if(bHit) {
 				GrabbedObject = Cast<APickable_Object>(HitResult.GetActor());
 				Key = Cast<AKeyBeach>(HitResult.GetActor());
 				//sound grab
-				AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-				AudioSubsystemActor->PlaySFX1("grab");
+				if (AudioSubsystemActor) {
+					AudioSubsystemActor->PlaySFX1("grab");	
+				}
 				if(GrabbedObject) {
+					GrabbedObject->mesh->SetSimulatePhysics(true);
 					ObjectComponent = HitResult.GetComponent();
 					GrabbedObject->PickedObject();
 					PhysicsHandle->GrabComponentAtLocation(ObjectComponent, EName::None, ObjectComponent->GetComponentLocation());
@@ -205,12 +214,13 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 			}
 		} else {
 			//sound drop
-			AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
-			AudioSubsystemActor->PlaySFX2("drop");
+			if (AudioSubsystemActor) {
+				AudioSubsystemActor->PlaySFX2("drop");	
+			}
 			ObjectComponent->SetPhysicsLinearVelocity(FVector::ZeroVector);
 			ObjectComponent->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
 			if (GrabbedObject) {
-				GrabbedObject->DropObject(); 
+				GrabbedObject->DropObject();
 				GrabbedObject = nullptr;
 				ObjectComponent = nullptr;
 			}
@@ -252,7 +262,7 @@ void AProjectSailorCharacter::GrapAndDragMethodPress() {
 				ParticleComponent->DeactivateSystem();
 				ParticleComponent->DestroyComponent();
 				
-			}, 1.f, false);  // 1.0f es la duración antes de desactivar
+			}, 1.f, false);
 		}
 	}
 }

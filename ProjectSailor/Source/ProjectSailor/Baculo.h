@@ -10,6 +10,10 @@ class AProjectSailorCharacter;
 class UNiagaraComponent;
 class UNiagaraSystem;
 class UNiagaraScript;
+/**
+ * Represents a magic staff ("Baculo") used by a character in the game, capable of triggering animations and particle effects.
+ */
+
 
 UCLASS()
 class PROJECTSAILOR_API ABaculo : public AActor

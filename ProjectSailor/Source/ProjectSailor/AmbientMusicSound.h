@@ -11,6 +11,12 @@
 
 class AMyAudioSubsystemActor;
 class USphereComponent;
+
+/**
+ * This class represents an ambient sound actor that can trigger sound effects
+ * when a player enters or exits its sphere of influence.
+ */
+
 UCLASS()
 class PROJECTSAILOR_API AAmbientMusicSound : public AActor
 {

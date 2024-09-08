@@ -110,7 +110,6 @@ void ABeachDoor::ActivateDoors() {
 		LeftDoorParticle->SetVisibility(true);
 		LeftDoorParticle->ActivateSystem();
 		GameManager->SetCurrentLevelStatus(CurrentLevelName, 0);
-		//sound openDoor
 		AMyAudioSubsystemActor* AudioSubsystemActor = Cast<AMyAudioSubsystemActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMyAudioSubsystemActor::StaticClass()));
 		AudioSubsystemActor->PlaySFX1("stoneDoor");
 	

@@ -10,6 +10,11 @@
 enum ParticleSystemLODMethod : int;
 class UBoxComponent;
 class AMyAudioSubsystemActor;
+
+/**
+ * ABeachDoor is an interactive actor class used to handle the behavior of doors in the game,
+ * including opening and closing animations, sound effects, and particle effects triggered by player interactions.
+ */
 UCLASS()
 class PROJECTSAILOR_API ABeachDoor : public AActor, public IInteractablePressInterface {
 	GENERATED_BODY()
