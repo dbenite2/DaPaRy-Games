@@ -29,9 +29,15 @@ void ALevelStreamerActor::Tick(float DeltaTime)
 void ALevelStreamerActor::OverlapBegins(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                         UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	const ACharacter* MyCharacter = UGameplayStatics::GetPlayerCharacter(this, 0);
-	if (OtherActor == MyCharacter && !LevelToLoadReference.IsNull()) {
-		UGameplayStatics::OpenLevelBySoftObjectPtr(this, LevelToLoadReference);
+
+	if(MyCharacter)
+	{
+		if (OtherActor == MyCharacter && !LevelToLoadReference.IsNull())
+		{
+			UGameplayStatics::OpenLevelBySoftObjectPtr(this, LevelToLoadReference);
+		}
 	}
+	
 }
 
 
