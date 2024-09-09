@@ -33,11 +33,11 @@ void AGame_Manager::TurnOnPortal(int32 index)
     	{
     		for (int i = 0; i < MiArray.Num(); ++i)
     		{
-    			if (MiArray[i] && MiArray[i]->LevelStreamerActor) // Verifica que no sea nullptr
+    			if (MiArray[i] && MiArray[i]->LevelStreamerActor) 
     			{
     				MiArray[i]->LevelStreamerActor->SetActorEnableCollision(ECollisionEnabled::NoCollision);
     
-    				if (MiArray[i]->LevelDone && MiArray[i]->PointLight) // Verifica el puntero pointLight
+    				if (MiArray[i]->LevelDone && MiArray[i]->PointLight) 
     				{
     					MiArray[i]->PointLight->SetLightColor(FColor::Yellow);
     					MiArray[i]->LevelDone = false;
@@ -45,7 +45,7 @@ void AGame_Manager::TurnOnPortal(int32 index)
     			}
     		}
     
-    		// Asegúrate de que el índice y sus propiedades no son nullptr
+
     		if (MiArray[index]->PointLight)
     		{
     			MiArray[index]->PointLight->SetIntensity(5000.f);
